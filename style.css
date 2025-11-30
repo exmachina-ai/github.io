@@ -260,3 +260,40 @@ body {
 .centered-text {
     text-align: center;
 }
+/* LOGO LEFT OF TITLE */
+.header-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
+    margin-top: 40px;
+}
+
+.logo-left {
+    width: 100px;
+    height: auto;
+}
+
+/* Center brand text vertically with logo */
+.brand-block {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: left;
+}
+
+/* BUTTONS INLINE */
+.hero-buttons-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 16px;
+    margin-top: 24px;
+}
+
+.hero-buttons-row a {
+    width: auto;
+    min-width: 180px;
+    text-align: center;
+}
+
