@@ -1,0 +1,252 @@
+:root {
+    --bg-main: #0A0A0A;
+    --bg-card: #131313;
+    --accent: #FF4A0D;
+    --text-main: #E5E5E5;
+    --text-muted: #9DA3AA;
+    --border-soft: #262626;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
+body {
+    background-color: var(--bg-main);
+    color: var(--text-main);
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    line-height: 1.5;
+}
+
+.page {
+    min-height: 100vh;
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 32px 16px 40px;
+}
+
+/* HEADER */
+
+.header {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    margin-bottom: 32px;
+}
+
+.logo-block {
+    flex-shrink: 0;
+}
+
+.logo-img {
+    width: 96px;
+    height: auto;
+    display: block;
+}
+
+.brand-block {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.brand-title {
+    margin: 0;
+    font-size: 32px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+}
+
+.tm {
+    font-size: 0.55em;
+    vertical-align: super;
+    margin-left: 2px;
+}
+
+.brand-subtitle {
+    margin: 0;
+    font-size: 16px;
+    color: var(--text-muted);
+}
+
+/* HERO */
+
+.hero {
+    margin-bottom: 32px;
+}
+
+.hero-intro {
+    font-size: 16px;
+    max-width: 560px;
+    color: var(--text-main);
+}
+
+.manifest {
+    margin: 24px 0;
+    padding: 20px 24px;
+    border-radius: 16px;
+    border: 1px solid var(--accent);
+    background: radial-gradient(circle at top left, rgba(255, 74, 13, 0.2), transparent);
+}
+
+.manifest p {
+    margin: 0 0 12px;
+    font-size: 15px;
+}
+
+.manifest-slogan {
+    margin-top: 8px;
+    font-weight: 600;
+    color: var(--accent);
+}
+
+.hero-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 20px;
+    border-radius: 999px;
+    font-size: 14px;
+    text-decoration: none;
+    cursor: pointer;
+    border: 1px solid transparent;
+    transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease, transform 0.1s ease;
+}
+
+.btn-primary {
+    background-color: var(--accent);
+    color: #000;
+}
+
+.btn-primary:hover {
+    transform: translateY(-1px);
+}
+
+.btn-secondary {
+    background-color: transparent;
+    color: var(--text-main);
+    border-color: var(--border-soft);
+}
+
+.btn-secondary:hover {
+    border-color: var(--accent);
+}
+
+/* FEATURES */
+
+.features {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+    margin: 40px 0 24px;
+}
+
+.feature-card {
+    padding: 16px 16px 18px;
+    border-radius: 14px;
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-soft);
+}
+
+.feature-card h3 {
+    margin: 0 0 8px;
+    font-size: 15px;
+}
+
+.feature-card p {
+    margin: 0;
+    font-size: 13px;
+    color: var(--text-muted);
+}
+
+/* CAPABILITIES */
+
+.capabilities {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+    margin: 8px 0 40px;
+}
+
+.cap-card {
+    padding: 18px 16px 22px;
+    border-radius: 14px;
+    background-color: transparent;
+    border: 1px solid var(--border-soft);
+}
+
+.cap-card h3 {
+    margin: 0 0 10px;
+    font-size: 14px;
+}
+
+.cap-card p {
+    margin: 0;
+    font-size: 13px;
+    color: var(--text-muted);
+}
+
+/* MISSION */
+
+.mission {
+    margin: 16px 0 40px;
+    padding-top: 12px;
+    border-top: 1px solid var(--border-soft);
+}
+
+.mission h2 {
+    margin: 0 0 8px;
+    font-size: 16px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--text-muted);
+}
+
+.mission-text {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--accent);
+}
+
+/* FOOTER */
+
+.footer {
+    border-top: 1px solid var(--border-soft);
+    padding-top: 16px;
+    margin-top: 16px;
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 768px) {
+    .header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .features,
+    .capabilities {
+        grid-template-columns: 1fr;
+    }
+
+    .page {
+        padding: 24px 16px 32px;
+    }
+}
