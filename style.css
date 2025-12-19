@@ -343,3 +343,8 @@ body {
     font-style: italic;
     color: #ccc;
 }
+
+html {
+    scroll-behavior: smooth;
+}
+
