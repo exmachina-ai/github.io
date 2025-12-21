@@ -2,58 +2,139 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>EXMACHINA — Документация</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>EXMACHINA — Инженерный контекст</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
 <div class="page">
 
-<section class="hero">
-    <div class="hero-frame">
+    <!-- HERO -->
+    <section class="hero">
+        <div class="logo">
+            <img src="logo_xai_engineering.png" alt="EXMACHINA Engineering and AI">
+        </div>
 
-        <h1>Документация<span class="tm">™</span></h1>
-        <p class="hero-intro">
-            Инженерный подход EXMACHINA-AI.
+        <h1>Инженерный контекст</h1>
+        <p class="subtitle">
+            HU Drawing Generator — первый практический инструмент<br>
+            в инженерной экосистеме EXMACHINA.
         </p>
+    </section>
 
-        <div class="manifest">
-            <p>Никакого шума. Никаких иллюзий.</p>
-            <p>Только логика, данные и проверяемые выводы.</p>
+    <!-- ABOUT TOOL -->
+    <section class="intro">
+        <h2>HU Drawing Generator</h2>
+        <p>
+            HU Drawing Generator — это инженерный инструмент на базе Excel
+            для автоматической генерации стандартизированных чертежей
+            упаковочных единиц (Handling Units) в КОМПАС-3D.
+        </p>
+        <p>
+            Инструмент решает задачу синхронизации мастер-данных упаковки
+            (PFEP, BOM) и инженерной документации без ручной отрисовки
+            и без расхождений между данными и чертежами.
+        </p>
+    </section>
+
+    <!-- ENGINEERING PROBLEM -->
+    <section class="intro">
+        <h2>Инженерная проблема</h2>
+        <p>
+            В классическом процессе чертежи упаковки создаются вручную,
+            что приводит к рассинхронизации между логистическими данными,
+            BOM, PFEP и фактической инженерной документацией.
+        </p>
+        <p>
+            Ошибки на этом уровне масштабируются:
+            MIX-HU, неверные габариты, устаревшие версии чертежей,
+            ручные правки и потеря времени инженеров.
+        </p>
+    </section>
+
+    <!-- SOLUTION -->
+    <section class="intro">
+        <h2>Инженерное решение</h2>
+        <p>
+            В EXMACHINA мы исходим из принципа:
+            <strong>чертёж не рисуется — он вычисляется</strong>.
+        </p>
+        <p>
+            HU Drawing Generator использует данные как единый источник истины.
+            Вся логика построения управляется параметрами и может быть
+            воспроизведена, проверена и масштабирована.
+        </p>
+    </section>
+
+    <!-- HOW IT WORKS -->
+    <section class="intro">
+        <h2>Как это работает</h2>
+        <p>
+            Excel (HU_DATA) → VBA-логика → API КОМПАС-3D → готовый
+            стандартизированный чертёж.
+        </p>
+        <p>
+            Внешний вид и структура чертежа не «зашиты» жёстко —
+            параметры могут быть адаптированы под требования проекта,
+            завода или стандарта.
+        </p>
+    </section>
+
+    <!-- ROLE IN EXMACHINA -->
+    <section class="intro">
+        <h2>Роль инструмента в EXMACHINA</h2>
+        <p>
+            HU Drawing Generator — это не отдельный макрос и не утилита.
+            Это <strong>первый уровень автоматизации</strong>
+            в инженерной экосистеме EXMACHINA.
+        </p>
+        <p>
+            Он демонстрирует базовый принцип проекта:
+            процессы, данные и инженерные решения
+            должны быть связаны в единую систему,
+            а не существовать изолированно.
+        </p>
+    </section>
+
+    <!-- DOWNLOADS -->
+    <section class="actions">
+        <a href="Draw_HU.rar" class="btn primary" download>
+            Скачать инструмент
+        </a>
+
+        <a href="HU_Drawing_Generator.pdf" class="btn secondary" download>
+            Скачать презентацию
+        </a>
+
+        <p class="subtitle">
+            Инструмент предоставляется бесплатно
+            в ознакомительных и инженерных целях.
+        </p>
+    </section>
+
+    <!-- NAVIGATION -->
+    <section class="actions">
+        <a href="index.html" class="btn secondary">
+            ← На главную
+        </a>
+
+        <a href="https://t.me/exmachina_info_bot" class="btn secondary" target="_blank">
+            Написать боту →
+        </a>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div>
+            EXMACHINA-AI™ · exmachina-ai.ru · © 2025
         </div>
-
-        <div class="docs-content">
-            <h3>Что такое EXMACHINA-AI</h3>
-            <p>
-                Это инженерный слой между логистикой, производством и знаниями.
-                Мы проектируем систему, а не «чат».
-            </p>
-
-            <h3>Knowledge Bots</h3>
-            <p>
-                Бот работает строго в пределах заданного корпуса знаний.
-                Поведение воспроизводимо, источники известны.
-            </p>
-
-            <h3>Почему не SaaS</h3>
-            <p>
-                Каждая система знаний уникальна. Мы не продаём коробку —
-                мы проектируем решение под контекст.
-            </p>
+        <div class="footer-note">
+            Никакого шума. Никаких иллюзий.
         </div>
-
-        <div class="hero-buttons-row">
-            <a href="index.html" class="btn btn-secondary">← На главную</a>
-        </div>
-
-    </div>
-</section>
-
-<footer class="footer">
-    <p>EXMACHINA-AI™ • exmachina-ai.ru</p>
-</footer>
+    </footer>
 
 </div>
+
 </body>
 </html>
