@@ -296,3 +296,21 @@ body {
     min-width: 180px;
     text-align: center;
 }
+
+.btn-secondary {
+    background: linear-gradient(
+        180deg,
+        rgba(255,255,255,0.06),
+        rgba(255,255,255,0.02)
+    );
+    border: 1px solid rgba(255,255,255,0.12);
+    color: #e0e0e0;
+}
+
+.btn-secondary:hover {
+    background: linear-gradient(
+        180deg,
+        rgba(255,255,255,0.10),
+        rgba(255,255,255,0.04)
+    );
+}
