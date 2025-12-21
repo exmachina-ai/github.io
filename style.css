@@ -121,6 +121,9 @@ body {
     margin-bottom: 12px;
     font-size: 16px;
     color: #ffffff;
+    min-height: 44px; /* ← КЛЮЧЕВОЕ */
+    display: flex;
+    align-items: flex-end;
 }
 
 .card p {
