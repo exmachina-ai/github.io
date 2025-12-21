@@ -348,3 +348,30 @@ html {
     scroll-behavior: smooth;
 }
 
+.btn-primary {
+    background: #00e0ff;
+    color: #000;
+    border: none;
+}
+
+.btn-primary:hover {
+    background: #00c7e0;
+}
+
+.cta-row {
+    margin-top: 40px;
+    display: flex;
+    gap: 24px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.cta-link {
+    color: #00e0ff;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.cta-link:hover {
+    text-decoration: underline;
+}
