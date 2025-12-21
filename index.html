@@ -1,105 +1,85 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <title>EXMACHINA-AI — Никакого шума. Никаких иллюзий.</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="EXMACHINA-AI — цифровой узел между логистикой и производством. Инженерный интеллект без шума и иллюзий.">
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <title>EXMACHINA-AI — Никакого шума. Никаких иллюзий.</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="EXMACHINA-AI — цифровой узел между логистикой и производством. Инженерный интеллект без шума и иллюзий.">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
 <div class="page">
 
-    <!-- HEADER -->
-    <header class="header header-row">
-<img src="exmachina_logo.png" alt="EXMACHINA logo" class="logo-img logo-left">
+  <header class="header">
+    <img src="exmachina_logo.png" class="logo">
+    <h1>EXMACHINA-AI<span class="tm">™</span></h1>
+    <p class="subtitle">Цифровой узел между логистикой и производством.</p>
+  </header>
 
-        <div class="brand-block">
-            <h1 class="brand-title">EXMACHINA-AI<span class="tm">™</span></h1>
-            <p class="brand-subtitle">Цифровой узел между логистикой и производством.</p>
-        </div>
-    </header>
+  <section class="hero">
+    <p class="hero-text">
+      Я соединяю процессы. Анализирую. Прогнозирую. Делаю систему честной.
+    </p>
 
-    <!-- HERO BLOCK -->
-    <section class="hero centered">
-@@ -41,10 +40,13 @@
-        </section>
+    <div class="manifest">
+      <p>Я не лечу симптомы. Я диагностирую процессы.</p>
+      <p>Я режу глубже. Я прогнозирую точно. Я не ошибаюсь дважды.</p>
+    </div>
 
-        <div class="hero-buttons-row">
-<a href="#" class="btn btn-primary">Написать боту</a>
-            <a href="#" class="btn btn-secondary">Документация</a>
-            <a href="#engineering-case" class="btn btn-secondary">Инженерный кейс</a>
-        </div>
-</section>
-    <!-- END HERO -->
+    <div class="buttons">
+      <a class="btn primary" href="bot.html">Написать боту</a>
+      <a class="btn secondary" href="docs.html">Документация</a>
+      <a class="btn secondary" href="#engineering">Инженерный кейс</a>
+    </div>
+  </section>
 
-    <!-- FEATURES -->
-    <section class="features">
-@@ -81,66 +83,67 @@
-            <p>Работаю с данными, вариативностью и рисками, чтобы предупредить сбой раньше, чем он коснётся линии или склада.</p>
-        </article>
-    </section>
-<!-- ENGINEERING CASE -->
-    <section id="engineering-case" class="engineering-case centered">
+  <section class="cards">
+    <div class="card">
+      <h3>RAG + Critic Engine</h3>
+      <p>Извлечение знаний, критический анализ, обучение на ошибках.</p>
+    </div>
+    <div class="card">
+      <h3>SQL Access Control</h3>
+      <p>Роли, пользователи, логи. Интеграция с логистикой и производством.</p>
+    </div>
+    <div class="card">
+      <h3>Поток знаний</h3>
+      <p>Ингестирование документов, контекста и телеметрии без шума.</p>
+    </div>
+  </section>
 
-        <h2 class="centered-text">Инженерный кейс</h2>
+  <section id="engineering" class="engineering">
+    <h2>Инженерный кейс</h2>
+    <p class="engineering-intro">
+      Реальный инструмент. Не демо. Не концепт.
+    </p>
 
-        <p class="case-intro centered-text">
-            Ниже — реальный инструмент, созданный для инженерной задачи.
-            Не демо. Не концепт. Рабочий механизм.
-        </p>
+    <div class="engineering-box">
+      <h3>HU Drawing Generator</h3>
+      <ul>
+        <li>Чётко заданный вход</li>
+        <li>Контролируемая логика</li>
+        <li>Предсказуемый результат</li>
+        <li>Никаких «догадок»</li>
+      </ul>
 
-        <div class="case-card">
+      <div class="buttons">
+        <a class="btn secondary" href="HU_Drawing_Generator.pdf" target="_blank">Описание (PDF)</a>
+        <a class="btn secondary" href="Draw_HU.rar">Инструмент (RAR)</a>
+      </div>
 
-            <h3>HU Drawing Generator</h3>
+      <p class="bridge">
+        Тот же подход используется в EXMACHINA Knowledge Bots:
+        детерминированный контекст, отсутствие галлюцинаций.
+      </p>
+    </div>
+  </section>
 
-            <p>
-                Инструмент детерминированной генерации чертежей упаковочных единиц (HU)
-                на основе структурированных данных.
-            </p>
-
-            <ul class="case-list">
-                <li>Чётко заданный вход</li>
-                <li>Контролируемая логика</li>
-                <li>Предсказуемый результат</li>
-                <li>Никаких «догадок»</li>
-            </ul>
-
-            <div class="case-links">
-                <a href="HU_Drawing_Generator.pdf" target="_blank" class="btn btn-secondary">
-                    Описание подхода (PDF)
-                </a>
-
-                <a href="Draw_HU.rar" class="btn btn-secondary">
-                    Инженерный инструмент (RAR)
-                </a>
-            </div>
-
-            <p class="case-bridge">
-                Тот же подход используется в EXMACHINA Knowledge Bots:
-                детерминированный ингестинг, контролируемый контекст,
-                отсутствие галлюцинаций.
-            </p>
-
-        </div>
-
-    </section>
-
-    <!-- MISSION -->
-    <section class="mission centered">
-        <h2 class="centered-text">МИССИЯ EXMACHINA</h2>
-        <p class="mission-text centered-text">
-            Никакого шума. Никаких иллюзий.
-        </p>
-    </section>
-
-    <!-- FOOTER -->
-    <footer class="footer centered-text">
-        <p>EXMACHINA-AI<span class="tm">™</span> • exmachina-ai.ru • © 2025–2030</p>
-    </footer>
+  <footer class="footer">
+    EXMACHINA-AI™ • exmachina-ai.ru • © 2025–2030
+  </footer>
 
 </div>
-
 </body>
 </html>
