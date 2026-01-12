@@ -8,18 +8,41 @@
 }
 
 /* =========================================================
+   COLOR PALETTE (from logo)
+   ========================================================= */
+:root {
+    /* Backgrounds */
+    --bg-main: #052b43;
+    --bg-gradient-top: #07385c;
+    --bg-card: #073251;
+
+    /* Accent */
+    --accent: #d77848;
+    --accent-soft: rgba(215, 120, 72, 0.12);
+    --accent-shadow: rgba(215, 120, 72, 0.6);
+
+    /* Borders */
+    --border-soft: #2c3b4b;
+
+    /* Text */
+    --text-main: #d9dee2;
+    --text-strong: #ffffff;
+    --text-muted: #9aa0a6;
+}
+
+/* =========================================================
    BASE
    ========================================================= */
 body {
     font-family: "Inter", "Roboto", Arial, sans-serif;
-    background: radial-gradient(circle at top, #111417, #0b0d0f);
-    color: #e6e6e6;
+    background: radial-gradient(circle at top, var(--bg-gradient-top), var(--bg-main));
+    color: var(--text-main);
     line-height: 1.6;
 }
 
-/* Базовые ссылки (чтобы не было синего/фиолетового) */
+/* Базовые ссылки */
 a {
-    color: #f05a28;
+    color: var(--accent);
     text-decoration: none;
 }
 
@@ -49,7 +72,7 @@ a:hover {
 }
 
 .header-logo a {
-    color: #e6e6e6;
+    color: var(--text-main);
     font-weight: 600;
     letter-spacing: 1px;
 }
@@ -65,14 +88,14 @@ a:hover {
 }
 
 .main-nav a {
-    color: #c4c7cc;
+    color: var(--text-main);
     font-size: 13px;
     text-transform: uppercase;
     letter-spacing: 1px;
 }
 
 .main-nav a:hover {
-    color: #f05a28;
+    color: var(--accent);
     text-decoration: none;
 }
 
@@ -93,6 +116,7 @@ a:hover {
     font-size: 42px;
     font-weight: 600;
     letter-spacing: 2px;
+    color: var(--text-strong);
 }
 
 .tm {
@@ -102,7 +126,7 @@ a:hover {
 
 .subtitle {
     margin-top: 12px;
-    color: #9aa0a6;
+    color: var(--text-muted);
     font-size: 18px;
 }
 
@@ -111,30 +135,31 @@ a:hover {
     font-size: 20px;
 }
 
+/* Manifesto block на главной */
 .manifesto {
-    border: 1px solid rgba(240, 90, 40, 0.6);
+    border: 1px solid var(--accent);
     border-radius: 14px;
     padding: 24px;
     margin: 40px auto;
     max-width: 620px;
-    background: rgba(240, 90, 40, 0.05);
+    background: var(--accent-soft);
 }
 
 .manifesto p {
     margin: 6px 0;
 }
 
-/* Дополнительные элементы для hero-frame (bot.html) */
+/* HERO-FRAME (bot.html) */
 .hero-frame {
     border-radius: 16px;
-    border: 1px solid #1c1f23;
+    border: 1px solid var(--border-soft);
     padding: 32px 24px;
-    background: rgba(12, 14, 17, 0.9);
+    background: rgba(5, 43, 67, 0.9);
 }
 
 .hero-intro {
     margin-top: 12px;
-    color: #9aa0a6;
+    color: var(--text-muted);
     font-size: 17px;
 }
 
@@ -149,7 +174,7 @@ a:hover {
 
 .text-muted {
     font-size: 14px;
-    color: #8b929a;
+    color: var(--text-muted);
     margin-top: 8px;
 }
 
@@ -170,22 +195,25 @@ a:hover {
     transition: all 0.2s ease;
 }
 
+/* Основная кнопка (оранжевая) */
 .btn.primary {
-    background: #f05a28;
-    color: #0b0d0f;
+    background: var(--accent);
+    color: var(--bg-main);
 }
 
 .btn.primary:hover {
-    box-shadow: 0 0 18px rgba(240, 90, 40, 0.6);
+    box-shadow: 0 0 18px var(--accent-shadow);
 }
 
+/* Вторичная (контурная) */
 .btn.secondary {
-    border: 1px solid rgba(240, 90, 40, 0.5);
-    color: #e6e6e6;
+    border: 1px solid var(--accent);
+    color: var(--text-main);
+    background: transparent;
 }
 
 .btn.secondary:hover {
-    border-color: #f05a28;
+    border-color: var(--accent);
 }
 
 /* Ряд кнопок в hero (bot.html) */
@@ -197,26 +225,25 @@ a:hover {
     gap: 12px;
 }
 
-/* Кнопки загрузки на docs.html */
+/* Кнопки загрузки на docs.html (если нужно отдельно стилизовать) */
 .btn-download {
     display: inline-block;
     padding: 10px 20px;
     border-radius: 24px;
-    border: 1px solid rgba(240, 90, 40, 0.5);
+    border: 1px solid var(--accent);
     font-size: 14px;
     margin: 8px 8px 0 0;
 }
 
 /* =========================================================
-   CARDS GRID (КЛЮЧЕВОЙ БЛОК)
+   CARDS GRID
    ========================================================= */
 .cards {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 24px;
     margin-bottom: 80px;
-
-    align-items: stretch; /* ЖЁСТКАЯ ФИКСАЦИЯ ВЫСОТЫ */
+    align-items: stretch; /* выравнивание высоты */
 }
 
 .cards.secondary {
@@ -227,39 +254,29 @@ a:hover {
    CARD
    ========================================================= */
 .card {
-    background: #111417;
+    background: var(--bg-card);
     padding: 24px;
     border-radius: 14px;
-    border: 1px solid #1c1f23;
-
-    /* КЛЮЧЕВОЕ: карточка как структура */
+    border: 1px solid var(--border-soft);
     display: flex;
     flex-direction: column;
 }
 
-/* ---------------------------------------------------------
-   CARD TITLE
-   --------------------------------------------------------- */
+/* Заголовок карточки */
 .card h3 {
     font-size: 16px;
-    color: #ffffff;
+    color: var(--text-strong);
     margin-bottom: 12px;
-
-    /* Фиксированная зона заголовка */
     min-height: 48px;
     display: flex;
     align-items: flex-end;
 }
 
-/* ---------------------------------------------------------
-   CARD TEXT
-   --------------------------------------------------------- */
+/* Текст карточки */
 .card p {
     font-size: 14px;
-    color: #9aa0a6;
+    color: var(--text-main);
     line-height: 1.5;
-
-    /* Текст заполняет пространство */
     flex-grow: 1;
 }
 
@@ -275,6 +292,7 @@ a:hover {
     font-size: 20px;
     margin-bottom: 32px;
     letter-spacing: 2px;
+    color: var(--text-strong);
 }
 
 .interface-grid {
@@ -287,12 +305,12 @@ a:hover {
 .interface .label {
     display: block;
     font-size: 13px;
-    color: #9aa0a6;
+    color: var(--text-muted);
     margin-bottom: 6px;
 }
 
 .interface a {
-    color: #f05a28;
+    color: var(--accent);
     text-decoration: none;
 }
 
@@ -308,11 +326,11 @@ footer,
     margin-top: 100px;
     text-align: center;
     font-size: 13px;
-    color: #9aa0a6;
+    color: var(--text-muted);
 }
 
 .site-footer a {
-    color: #f05a28;
+    color: var(--accent);
 }
 
 .footer-note {
