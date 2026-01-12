@@ -108,7 +108,8 @@ a:hover {
 }
 
 .logo img {
-    width: 280px;
+    width: 320px;
+    max-width: 80%;
     margin-bottom: 32px;
 }
 
