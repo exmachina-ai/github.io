@@ -16,3 +16,8 @@
     <changefreq>monthly</changefreq>
   </url>
 </urlset>
+    <loc>https://exmachina-ai.ru/dictionary.html</loc>
+    <priority>0.9</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+</urlset>
