@@ -20,7 +20,7 @@
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "НЕКОТОРЫЕ МЕТОДЫ И ПРАВИЛА ПРОЕКТИРОВАНИЯ ПРОЦЕССОВ ВНУТРЕННЕЙ ЛОГИСТИКИ АВТОМОБИЛЬНОГО ПРОИЗВОДСТВА", "author": {"@type": "Organization", "name": "EXMACHINA-AI"}, "publisher": {"@type": "Organization", "name": "EXMACHINA-AI", "url": "https://exmachina-ai.ru"}, "url": "https://exmachina-ai.ru/materials/intralogistics-methodology.html", "datePublished": "2026-05-02", "dateModified": "2026-05-02", "inLanguage": "ru", "keywords": ["внутренняя логистика", "автомобильное производство", "PFEP", "WMS", "HU", "SKU", "line feeding", "аудит", "метод 9 слоёв", "E2E"], "description": "Полная HTML-публикация методологической статьи EXMACHINA-AI по внутренней логистике автомобильного производства."}</script>
   <link rel="stylesheet" href="../style.css">
   <style>
-/* HARD FIX: sticky article navigation */
+* HARD FIX: clean sticky article navigation */
 @media (min-width: 901px) {
   .reader-layout {
     display: grid !important;
@@ -33,9 +33,9 @@
     position: sticky !important;
     top: 72px !important;
     align-self: start !important;
-    height: calc(100vh - 88px) !important;
-    max-height: calc(100vh - 88px) !important;
-    overflow-y: auto !important;
+    height: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
     min-width: 0 !important;
     z-index: 20 !important;
   }
@@ -49,6 +49,32 @@
   .toc.is-sticky {
     position: static !important;
   }
+
+  /* Hide unfinished article search without breaking JS */
+  .reader-aside .article-search,
+  .reader-aside #articleSearchStatus {
+    display: none !important;
+  }
+
+  /* Make TOC visually cleaner and compact */
+  .reader-aside .toc {
+    padding: 16px 18px !important;
+    max-height: none !important;
+    overflow: visible !important;
+  }
+
+  .reader-aside .toc-title {
+    margin-bottom: 10px !important;
+  }
+
+  .reader-aside .toc li + li {
+    margin-top: 7px !important;
+  }
+
+  .reader-aside .toc a {
+    font-size: 0.86rem !important;
+    line-height: 1.42 !important;
+  }
 }
 
 @media (max-width: 900px) {
@@ -61,6 +87,11 @@
     height: auto !important;
     max-height: none !important;
     overflow: visible !important;
+  }
+
+  .reader-aside .article-search,
+  .reader-aside #articleSearchStatus {
+    display: none !important;
   }
 }
 </style>
