@@ -19,6 +19,51 @@
   <meta name="twitter:description" content="Полная HTML-публикация методологической статьи EXMACHINA-AI по внутренней логистике автомобильного производства.">
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "НЕКОТОРЫЕ МЕТОДЫ И ПРАВИЛА ПРОЕКТИРОВАНИЯ ПРОЦЕССОВ ВНУТРЕННЕЙ ЛОГИСТИКИ АВТОМОБИЛЬНОГО ПРОИЗВОДСТВА", "author": {"@type": "Organization", "name": "EXMACHINA-AI"}, "publisher": {"@type": "Organization", "name": "EXMACHINA-AI", "url": "https://exmachina-ai.ru"}, "url": "https://exmachina-ai.ru/materials/intralogistics-methodology.html", "datePublished": "2026-05-02", "dateModified": "2026-05-02", "inLanguage": "ru", "keywords": ["внутренняя логистика", "автомобильное производство", "PFEP", "WMS", "HU", "SKU", "line feeding", "аудит", "метод 9 слоёв", "E2E"], "description": "Полная HTML-публикация методологической статьи EXMACHINA-AI по внутренней логистике автомобильного производства."}</script>
   <link rel="stylesheet" href="../style.css">
+  <style>
+/* HARD FIX: sticky article navigation */
+@media (min-width: 901px) {
+  .reader-layout {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) 300px !important;
+    gap: 32px !important;
+    align-items: start !important;
+  }
+
+  .reader-aside {
+    position: sticky !important;
+    top: 72px !important;
+    align-self: start !important;
+    height: calc(100vh - 88px) !important;
+    max-height: calc(100vh - 88px) !important;
+    overflow-y: auto !important;
+    min-width: 0 !important;
+    z-index: 20 !important;
+  }
+
+  .reader-toc-panel {
+    position: static !important;
+    display: block !important;
+  }
+
+  .reader-aside .toc,
+  .toc.is-sticky {
+    position: static !important;
+  }
+}
+
+@media (max-width: 900px) {
+  .reader-layout {
+    display: block !important;
+  }
+
+  .reader-aside {
+    position: static !important;
+    height: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
+  }
+}
+</style>
 </head>
 <body>
   <div class="progress-bar" aria-hidden="true"><span id="readerProgress"></span></div>
