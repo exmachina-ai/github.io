@@ -140,14 +140,15 @@ mark.hl{background:rgba(230,126,34,.18);color:inherit;padding:0 2px;border-radiu
 .dictionary-note{max-width:1460px;margin:0 auto;padding:14px 24px 0;color:rgba(255,255,255,.42);font-size:.78rem}
 @media(max-width:760px){.dictionary-section{padding:0 20px 44px}}
 @media(max-width:480px){.dictionary-section{padding:0 16px 36px}}
-/* FIX: dictionary card hover must stay neutral and readable */
+/* FIX: dictionary card hover must stay light */
 .dictionary-app-shell .cards .card:hover {
-  background: #f7f7f8 !important;
+  background: #fafafa !important;
   color: var(--text) !important;
   box-shadow: var(--shadow-hover) !important;
   transform: none !important;
 }
 
+/* FIX: keep all text inside hovered dictionary card readable */
 .dictionary-app-shell .cards .card:hover .term h3,
 .dictionary-app-shell .cards .card:hover .term .ru,
 .dictionary-app-shell .cards .card:hover .snip,
@@ -159,7 +160,6 @@ mark.hl{background:rgba(230,126,34,.18);color:inherit;padding:0 2px;border-radiu
 .dictionary-app-shell .cards .card:hover .details-btn {
   color: inherit !important;
 }
-``
 </style>
 </head>
 <body>
