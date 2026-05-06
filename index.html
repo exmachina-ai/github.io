@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#e06820">
+  <title>EXMACHINA-AI — производственная логистика CKD и автоматизация</title>
+  <meta name="description" content="EXMACHINA-AI — инженерный проект по автоматизации производственной логистики CKD: цифровой узел между логистикой и производством. RAG + Critic Engine, контроль доступа, диагностика и прогнозирование.">
+  <link rel="canonical" href="https://exmachina-ai.ru/">
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="shortcut icon" href="/favicon.ico">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="EXMACHINA-AI — производственная логистика CKD и автоматизация">
+  <meta property="og:description" content="Цифровой узел между логистикой и производством. Никакого шума. Никаких иллюзий.">
+  <meta property="og:url" content="https://exmachina-ai.ru/">
+  <meta property="og:site_name" content="EXMACHINA-AI">
+  <meta property="og:image" content="https://exmachina-ai.ru/exmachina_logo.png">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="EXMACHINA-AI — производственная логистика CKD и автоматизация">
+  <meta name="twitter:description" content="Инженерный проект по автоматизации производственной логистики CKD и складской инфраструктуры.">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "EXMACHINA-AI",
+    "url": "https://exmachina-ai.ru",
+    "email": "admin@exmachina-ai.ru",
+    "description": "Инженерный проект по автоматизации производственной логистики CKD и складской инфраструктуры.",
+    "sameAs": [
+      "https://github.com/exmachina-ai"
+    ]
+  }
+  </script>
+
+  <link rel="stylesheet" href="style.css">
+
+  <style>
+    .gear-layer {
+      position: fixed;
+      right: -90px;
+      top: 18vh;
+      z-index: 0;
+      pointer-events: none;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 0;
+    }
+
+    .cog {
+      display: block;
+      will-change: transform;
+      transition: transform 0s linear;
+    }
+
+    .cog-lg {
+      width: 260px;
+      height: 260px;
+    }
+
+    .cog-sm {
+      width: 152px;
+      height: 152px;
+      margin-right: 56px;
+      margin-top: -14px;
+    }
+
+    .cog path {
+      fill: rgba(224, 104, 32, .06);
+      stroke: rgba(224, 104, 32, .16);
+      stroke-width: 0.8;
+      stroke-linejoin: round;
+      fill-rule: evenodd;
+    }
+
+    /* HOME CONTACT LINE */
+    .home-contact-section {
+      width: 100%;
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 28px 24px 48px;
+    }
+
+    .home-contact-line {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      padding: 20px 0;
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .home-contact-line::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: -1px;
+      width: 42px;
+      height: 1px;
+      background: var(--acc);
+    }
+
+    .home-contact-copy {
+      min-width: 0;
+    }
+
+    .home-contact-kicker {
+      display: block;
+      margin-bottom: 6px;
+      font-family: var(--mono);
+      font-size: .66rem;
+      font-weight: 700;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--acc);
+    }
+
+    .home-contact-copy h2 {
+      margin: 0 0 6px;
+      font-size: 1rem;
+      line-height: 1.25;
+      letter-spacing: -.02em;
+      color: var(--text);
+    }
+
+    .home-contact-copy p {
+      max-width: 640px;
+      margin: 0;
+      font-size: .88rem;
+      line-height: 1.6;
+      color: var(--text-3);
+    }
+
+    .home-contact-mail {
+      flex: 0 0 auto;
+      font-size: .92rem;
+      font-weight: 700;
+      color: var(--text-2);
+      white-space: nowrap;
+    }
+
+    .home-contact-mail:hover {
+      color: var(--acc);
+    }
+
+    @media (max-width: 760px) {
+      .gear-layer {
+        right: -130px;
+      }
+
+      .home-contact-line {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 14px;
+      }
+
+      .home-contact-mail {
+        white-space: normal;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .cog-lg {
+        width: 180px;
+        height: 180px;
+      }
+
+      .cog-sm {
+        width: 106px;
+        height: 106px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="gear-layer" aria-hidden="true">
+    <svg class="cog cog-lg" id="cogA" viewBox="0 0 100 100">
+      <path id="cogPathA"></path>
+    </svg>
+    <svg class="cog cog-sm" id="cogB" viewBox="0 0 100 100">
+      <path id="cogPathB"></path>
+    </svg>
+  </div>
+
+  <div class="page">
+    <header class="site-header">
+      <div class="header-inner">
+        <div class="header-logo">
+          <a href="index.html" aria-current="page">EXMACHINA-AI<span class="tm">™</span></a>
+        </div>
+        <nav class="main-nav" aria-label="Основная навигация">
+          <a href="index.html" aria-current="page">Главная</a>
+          <a href="docs.html">Документы</a>
+          <a href="dictionary.html">Справочник</a>
+          <a href="materials.html">Публикации</a>
+        </nav>
+      </div>
+    </header>
+
+    <section class="hero">
+      <div class="logo">
+        <img src="exmachina_logo.png" alt="EXMACHINA-AI логотип проекта автоматизации логистики CKD" width="56" height="56" loading="lazy">
+      </div>
+      <span class="hero-tag">CKD · Интралогистика · Автоматизация</span>
+      <h1>EXMACHINA-AI<span class="tm">™</span> —<br>цифровой узел между<br>логистикой и производством</h1>
+      <div class="hero-sub">
+        <p>Соединяю процессы. Анализирую. Прогнозирую.<br>Делаю систему честной.</p>
+      </div>
+      <div class="manifesto">
+        <p>Не лечу симптомы — диагностирую процессы.</p>
+        <p>Режу глубже. Прогнозирую точно.</p>
+        <p>Никакого шума. Никаких иллюзий.</p>
+      </div>
+      <div class="actions">
+        <a class="btn secondary" href="docs.html">Инженерный контекст</a>
+        <a class="btn secondary" href="dictionary.html">Словарь терминов</a>
+      </div>
+    </section>
+
+    <div class="divider"><hr></div>
+
+    <section class="cards-section">
+      <div class="cards">
+        <article class="card">
+          <span class="card-num">01</span>
+          <h3>RAG + Critic Engine</h3>
+          <p>Самообучающаяся архитектура извлечения знаний. Критический анализ, обучение на ошибках, без генерирования фактов.</p>
+        </article>
+        <article class="card">
+          <span class="card-num">02</span>
+          <h3>SQL Access Control</h3>
+          <p>Контроль доступа, роли и логи. Интеграция с производственными и логистическими данными. Источник истины.</p>
+        </article>
+        <article class="card">
+          <span class="card-num">03</span>
+          <h3>Поток знаний</h3>
+          <p>Инжест документов и контекста. Связь данных и смысла. Поиск без потери контекста и без галлюцинаций.</p>
+        </article>
+        <article class="card">
+          <span class="card-num">04</span>
+          <h3>Синхронизация цепи поставок</h3>
+          <p>Вижу оба потока — материалы и операции — как единый организм. Нахожу рассинхронизации и узкие места.</p>
+        </article>
+        <article class="card">
+          <span class="card-num">05</span>
+          <h3>Диагностика процессов</h3>
+          <p>Разбираю логику решений, схемы снабжения и параметры производства. Показываю причину, а не симптом.</p>
+        </article>
+        <article class="card">
+          <span class="card-num">06</span>
+          <h3>Прогнозирование событий</h3>
+          <p>Работаю с данными и вариативностью. Предупреждаю сбои раньше, чем они доходят до линии или склада.</p>
+        </article>
+      </div>
+    </section>
+
+    <div class="divider"><hr></div>
+
+    <section class="home-contact-section" aria-labelledby="homeContactTitle">
+      <div class="home-contact-line">
+        <div class="home-contact-copy">
+          <span class="home-contact-kicker">Контакт</span>
+          <h2 id="homeContactTitle">Обсудить инженерную задачу</h2>
+          <p>Внутренняя логистика, CKD/SKD, PFEP, WMS, потоки, буферы и автоматизация.</p>
+        </div>
+        <a class="home-contact-mail" href="mailto:admin@exmachina-ai.ru">admin@exmachina-ai.ru</a>
+      </div>
+    </section>
+
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <div>
+          <p>EXMACHINA-AI™ · <a href="https://exmachina-ai.ru">exmachina-ai.ru</a> · © 2026 — Никакого шума. Никаких иллюзий.</p>
+          <p class="footer-note">Почта: <a href="mailto:admin@exmachina-ai.ru">admin@exmachina-ai.ru</a></p>
+        </div>
+        <div class="footer-links">
+          <a href="docs.html">Документы</a>
+          <a href="dictionary.html">Справочник</a>
+          <a href="materials.html">Публикации</a>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    function makeCogPath(cx, cy, R, r, n, hub) {
+      const step = (2 * Math.PI) / n;
+      const tw = step * 0.38;
+      const pts = [];
+      for (let i = 0; i < n; i++) {
+        const a = i * step - Math.PI / 2;
+        pts.push([cx + r * Math.cos(a - step * 0.5 + tw * 0.08), cy + r * Math.sin(a - step * 0.5 + tw * 0.08)]);
+        pts.push([cx + R * Math.cos(a - tw * 0.5), cy + R * Math.sin(a - tw * 0.5)]);
+        pts.push([cx + R * Math.cos(a + tw * 0.5), cy + R * Math.sin(a + tw * 0.5)]);
+        pts.push([cx + r * Math.cos(a + step * 0.5 - tw * 0.08), cy + r * Math.sin(a + step * 0.5 - tw * 0.08)]);
+      }
+      let d = 'M ' + pts.map(p => p[0].toFixed(2) + ',' + p[1].toFixed(2)).join(' L ') + ' Z';
+      const hs = 24;
+      let hole = ' M ' + (cx + hub).toFixed(2) + ',' + cy.toFixed(2);
+      for (let i = 1; i <= hs; i++) {
+        const a = -(i / hs) * 2 * Math.PI;
+        hole += ' L ' + (cx + hub * Math.cos(a)).toFixed(2) + ',' + (cy + hub * Math.sin(a)).toFixed(2);
+      }
+      return d + hole + ' Z';
+    }
+
+    document.getElementById('cogPathA').setAttribute('d', makeCogPath(50, 50, 47, 34, 12, 10));
+    document.getElementById('cogPathB').setAttribute('d', makeCogPath(50, 50, 47, 34, 8, 10));
+
+    const cogA = document.getElementById('cogA');
+    const cogB = document.getElementById('cogB');
+    let rotA = 0;
+    let rotB = 0;
+    let lastY = 0;
+
+    window.addEventListener('scroll', function () {
+      const y = window.scrollY;
+      const d = y - lastY;
+      rotA += d * 0.22;
+      rotB -= d * 0.38;
+      lastY = y;
+      cogA.style.transform = 'rotate(' + rotA + 'deg)';
+      cogB.style.transform = 'rotate(' + rotB + 'deg)';
+    }, { passive: true });
+
+    const cards = document.querySelectorAll('.card');
+    cards.forEach(function (card) {
+      card.style.opacity = '0';
+      card.style.transform = 'translateY(18px)';
+      card.style.transition = 'opacity .5s ease, transform .5s ease';
+    });
+
+    const observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          const index = Array.from(cards).indexOf(entry.target);
+          setTimeout(function () {
+            entry.target.style.opacity = '1';
+            entry.target.style.transform = 'translateY(0)';
+          }, (index % 3) * 80);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+    cards.forEach(function (card) {
+      observer.observe(card);
+    });
+
+    (function () {
+      const hero = document.querySelector('.hero');
+      if (!hero) return;
+      hero.style.opacity = '0';
+      hero.style.transform = 'translateY(12px)';
+      hero.style.transition = 'opacity .7s ease, transform .7s ease';
+      requestAnimationFrame(function () {
+        requestAnimationFrame(function () {
+          hero.style.opacity = '1';
+          hero.style.transform = 'translateY(0)';
+        });
+      });
+    })();
+  </script>
+</body>
+</html>
