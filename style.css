@@ -1493,21 +1493,22 @@ footer a:hover {
     grid-template-columns: 1fr;
   }
 
-  .reader-toc-panel {
+  .reader-aside {
     position: static;
+    max-height: none;
+    overflow: visible;
   }
 }
 
-  .reader-aside {
-  min-width: 0;
-  overflow: visible;
+.reader-toc-panel {
+  position: static;
 }
 
-.reader-toc-panel {
-  position: sticky;
-  top: 84px;
-  align-self: start;
+.reader-aside .toc,
+.toc.is-sticky {
+  position: static;
 }
+
 
 .reader-aside .toc,
 .toc.is-sticky {
