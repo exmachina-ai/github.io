@@ -31,6 +31,31 @@
   --radius:16px;
   --radius-sm:10px;
 }
+/* FIX: keep global header colors stable on dictionary page */
+.site-header .main-nav a {
+  color: rgba(240, 240, 242, 0.42);
+}
+
+.site-header .main-nav a:hover,
+.site-header .main-nav a[aria-current="page"] {
+  color: #f0f0f2;
+}
+
+.site-header .main-nav a {
+  position: relative;
+}
+
+.site-header .main-nav a[aria-current="page"]::after,
+.site-header .main-nav a:hover::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -11px;
+  height: 1px;
+  background: #e06820;
+  opacity: .9;
+}
 *{box-sizing:border-box}.dictionary-app-shell{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:Inter,"Segoe UI",Arial,sans-serif;font-size:15px;line-height:1.5;min-height:100vh}
 .topbar{background:linear-gradient(135deg,var(--graphite) 0%,var(--graphite2) 100%);color:#fff;border-bottom:3px solid var(--accent)}.topbar-inner{max-width:1460px;margin:0 auto;padding:22px 24px 18px;display:grid;gap:14px}
 .topbar-title h1{margin:0;font-size:clamp(1.4rem,2vw,2rem);font-weight:700;letter-spacing:-.02em;line-height:1.12}
