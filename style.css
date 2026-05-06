@@ -1488,15 +1488,30 @@ footer a:hover {
 /* ============================================================
    RESPONSIVE
    ============================================================ */
-@media (max-width: 1100px) {
+@media (max-width: 900px) {
   .reader-layout {
     grid-template-columns: 1fr;
   }
 
-  .reader-aside .toc,
-  .toc.is-sticky {
+  .reader-toc-panel {
     position: static;
   }
+}
+
+  .reader-aside {
+  min-width: 0;
+  overflow: visible;
+}
+
+.reader-toc-panel {
+  position: sticky;
+  top: 84px;
+  align-self: start;
+}
+
+.reader-aside .toc,
+.toc.is-sticky {
+  position: static;
 }
 
 @media (max-width: 980px) {
