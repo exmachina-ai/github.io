@@ -91,6 +91,103 @@
         height: 106px;
       }
     }
+    /* HOME CONTACT STRIP */
+.contact-strip-section {
+  padding-top: 16px;
+  padding-bottom: 48px;
+}
+
+.contact-strip {
+  position: relative;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 28px;
+  align-items: center;
+  border: 1px solid var(--line-2);
+  border-radius: var(--r);
+  background:
+    linear-gradient(135deg, rgba(255,255,255,.035), rgba(255,255,255,.015)),
+    var(--surf);
+  padding: 24px 28px;
+  box-shadow: var(--shadow-soft);
+}
+
+.contact-strip::before {
+  content: '';
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 2px;
+  background: var(--acc);
+  opacity: .85;
+}
+
+.contact-strip__content {
+  min-width: 0;
+}
+
+.contact-strip__kicker,
+.contact-strip__label {
+  display: block;
+  margin-bottom: 6px;
+  font-family: var(--mono);
+  font-size: .66rem;
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--acc);
+  opacity: .82;
+}
+
+.contact-strip h2 {
+  margin: 0 0 8px;
+  font-size: 1.08rem;
+  line-height: 1.25;
+  letter-spacing: -.02em;
+  color: var(--text);
+}
+
+.contact-strip p {
+  max-width: 680px;
+  margin: 0;
+  font-size: .9rem;
+  line-height: 1.65;
+  color: var(--text-3);
+}
+
+.contact-strip__action {
+  min-width: 220px;
+  padding-left: 24px;
+  border-left: 1px solid var(--line);
+}
+
+.contact-strip__action a {
+  display: inline-flex;
+  color: var(--text-2);
+  font-weight: 700;
+  font-size: .94rem;
+}
+
+.contact-strip__action a:hover {
+  color: var(--acc);
+}
+
+@media (max-width: 760px) {
+  .contact-strip {
+    grid-template-columns: 1fr;
+    gap: 18px;
+    padding: 22px 20px;
+  }
+
+  .contact-strip__action {
+    min-width: 0;
+    padding-left: 0;
+    padding-top: 16px;
+    border-left: none;
+    border-top: 1px solid var(--line);
+  }
+}
+
   </style>
 </head>
 <body>
