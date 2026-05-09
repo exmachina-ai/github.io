@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+  (function(m,e,t,r,i,k,a){
+    m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+    m[i].l=1*new Date();
+    for (var j = 0; j < document.scripts.length; j++) {
+      if (document.scripts[j].src === r) { return; }
+    }
+    k=e.createElement(t);
+    a=e.getElementsByTagName(t)[0];
+    k.async=1;
+    k.src=r;
+    a.parentNode.insertBefore(k,a);
+  })(window, document, 'script', 'https://mc.yandex.ru/metrika/tag.js?id=109088195', 'ym');
+
+  ym(109088195, 'init', {
+    ssr: true,
+    clickmap: true,
+    accurateTrackBounce: true,
+    trackLinks: true
+  });
+</script>
+<!-- /Yandex.Metrika counter -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#e06820">
+  <title>Pull это не Kanban, а Kanban ещё не Pull — EXMACHINA-AI</title>
+  <meta name="description" content="Инженерное эссе об архитектуре вытягивающего управления, подмене понятий Pull и Kanban — и о том, почему носитель сигнала не делает систему вытягивающей.">
+  <link rel="canonical" href="https://exmachina-ai.ru/materials/pull-is-not-kanban.html">
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="shortcut icon" href="/favicon.ico">
+
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Pull это не Kanban, а Kanban ещё не Pull — EXMACHINA-AI">
+  <meta property="og:description" content="Инженерное эссе об архитектуре вытягивающего управления и разнице между Pull как системой и Kanban как носителем сигнала.">
+  <meta property="og:url" content="https://exmachina-ai.ru/materials/pull-is-not-kanban.html">
+  <meta property="og:site_name" content="EXMACHINA-AI">
+  <meta property="og:image" content="https://exmachina-ai.ru/exmachina_logo.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Pull это не Kanban, а Kanban ещё не Pull — EXMACHINA-AI">
+  <meta name="twitter:description" content="Инженерное эссе об архитектуре вытягивающего управления и разнице между Pull как системой и Kanban как носителем сигнала.">
+
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Pull это не Kanban, а Kanban ещё не Pull","author":{"@type":"Organization","name":"EXMACHINA-AI"},"publisher":{"@type":"Organization","name":"EXMACHINA-AI","url":"https://exmachina-ai.ru"},"url":"https://exmachina-ai.ru/materials/pull-is-not-kanban.html","datePublished":"2026-05-09","dateModified":"2026-05-09","inLanguage":"ru","keywords":["Pull","Kanban","вытягивающая система","WIP","WMS","TPS","line feeding","automotive","CKD"],"description":"Инженерное эссе об архитектуре вытягивающего управления и разнице между Pull как системой и Kanban как носителем сигнала."}</script>
+
+  <link rel="stylesheet" href="../style.css">
+  <style>
+/* HARD FIX: clean sticky article navigation */
+@media (min-width: 901px) {
+  .reader-layout {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) 300px !important;
+    gap: 32px !important;
+    align-items: start !important;
+  }
+
+  .reader-aside {
+    position: sticky !important;
+    top: 72px !important;
+    align-self: start !important;
+    height: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
+    min-width: 0 !important;
+    z-index: 20 !important;
+  }
+
+  .reader-toc-panel {
+    position: static !important;
+    display: block !important;
+  }
+
+  .reader-aside .toc,
+  .toc.is-sticky {
+    position: static !important;
+  }
+
+  .reader-aside .article-search,
+  .reader-aside #articleSearchStatus {
+    display: none !important;
+  }
+
+  .reader-aside .toc {
+    padding: 16px 18px !important;
+    max-height: none !important;
+    overflow: visible !important;
+  }
+
+  .reader-aside .toc-title {
+    margin-bottom: 10px !important;
+  }
+
+  .reader-aside .toc li + li {
+    margin-top: 7px !important;
+  }
+
+  .reader-aside .toc a {
+    font-size: 0.86rem !important;
+    line-height: 1.42 !important;
+  }
+}
+
+@media (max-width: 900px) {
+  .reader-layout {
+    display: block !important;
+  }
+
+  .reader-aside {
+    position: static !important;
+    height: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
+  }
+
+  .reader-aside .article-search,
+  .reader-aside #articleSearchStatus {
+    display: none !important;
+  }
+}
+  </style>
+</head>
+<body>
+  <noscript>
+  <div>
+    <img src="https://mc.yandex.ru/watch/109088195" style="position:absolute; left:-9999px;" alt="">
+  </div>
+</noscript>
+  <div class="progress-bar" aria-hidden="true"><span id="readerProgress"></span></div>
+  <div class="page">
+    <header class="site-header">
+      <div class="header-inner">
+        <div class="header-logo"><a href="../index.html">EXMACHINA-AI<span class="tm">™</span></a></div>
+        <nav class="main-nav" aria-label="Основная навигация">
+          <a href="../index.html">Главная</a>
+          <a href="../docs.html">Документы</a>
+          <a href="../dictionary.html">Справочник</a>
+          <a href="../materials.html" aria-current="page">Публикации</a>
+        </nav>
+      </div>
+    </header>
+
+    <section class="breadcrumbs">
+      <nav aria-label="Хлебные крошки">
+        <a href="../index.html">Главная</a>
+        <span>•</span>
+        <a href="../materials.html">Публикации</a>
+        <span>•</span>
+        <span aria-current="page">Pull это не Kanban</span>
+      </nav>
+    </section>
+
+    <section class="article-header article-page">
+      <span class="hero-tag">Инженерное эссе · Полная версия · Автомобильное производство</span>
+      <h1 class="article-title">Pull это не Kanban, а Kanban ещё не Pull</h1>
+      <div class="article-lead">
+        <p>Я всегда интересовался развитием производственных систем, равно как и революционными и эволюционными решениями, двигающими отрасль вперёд. На стадии первичных собраний, когда мы пытались выстроить собственную производственную систему для логистики, я понял, что коллеги и я говорим о разном, когда произносим Pull и Kanban. Собственно, это эссе и есть моя попытка расставить все точки на «Ё».</p>
+      </div>
+    </section>
+
+    <section class="article-meta article-page">
+      <div class="meta-grid">
+        <div class="meta-item"><span class="label">Тип</span><div class="value">Инженерное эссе</div></div>
+        <div class="meta-item"><span class="label">Тема</span><div class="value">Pull, Kanban, архитектура потока</div></div>
+        <div class="meta-item"><span class="label">Версия</span><div class="value">v1.0</div></div>
+        <div class="meta-item"><span class="label">Статус</span><div class="value">Полная HTML-публикация</div></div>
+      </div>
+      <div class="meta-row">
+        <span class="badge badge--accent">Pull</span>
+        <span class="badge">Kanban</span>
+        <span class="badge">WIP</span>
+        <span class="badge">WMS</span>
+        <span class="badge">TPS</span>
+        <span class="badge">Line Feeding</span>
+        <span class="badge">Automotive</span>
+        <span class="badge">Архитектура потока</span>
+      </div>
+      <div class="note-block">
+        <h3>Как использовать материал</h3>
+        <p>Это инженерное эссе — текст для сквозного чтения. Для навигации по разделам используй содержание справа. Для уточнения терминов обращайся в словарь.</p>
+      </div>
+    </section>
+
+    <section class="reader-layout page-wide">
+      <div class="reader-main">
+        <section class="article-body article-page" id="readerBody">
+
+          <section id="ot-inzhenera" class="content-section">
+            <h2>От инженера инженерам <a class="section-anchor" href="#ot-inzhenera" aria-label="Ссылка на раздел">§</a></h2>
+            <p>Я всегда интересовался развитием производственных систем, равно как и революционными и эволюционными решениями, двигающими отрасль вперёд. Как и многие, когда-то я познакомился с TPS (Toyota Production System), с её инструментами, методами и решениями. Впечатлило. Но я всегда заставляю себя, если не возникает прямое желание, изучать альтернативы повсеместно предлагаемым решениям. Так я познакомился с ТОС (Теория Ограничения Систем), 6 Sigma, TWI, потом оказалось, что всё это уже объединили и назвали Бережливым Производством (Lean Production/Manufacturing). Очень удобно. Очередь дошла до ТРИЗ (Теория Решения Изобретательских Задач) и, казалось бы, всё понятно — спасибо, я пошёл на конвейер. И действительно, на сборочной станции лучше всего ощущается эффект от вот этих ваших Kaizen и прочего. Будучи бригадиром на производстве, я использовал массу методов и инструментов этой философии. Производительность моей бригады, скажу без ложной скромности, была одной из лучших на заводе... Потом я перешёл в логистику. Из однозначного осталось только то, что производство создаёт ценность, а мой новый отдел просто генерирует затраты. Производство вытесняет на нас процессы, отчитываясь о росте показателей, а логистика стоит в стороне и тихо плачет. Долго так продолжаться не могло — наступил момент, когда нам надо было сесть и договориться. Что для этого нужно? Конечно, собственная производственная система, такая же эффективная, как TPS, но только другая. Оригинальная. На стадии первичных собраний я понял, что мы с коллегами говорим о разном, когда говорим Pull (вытягивающая система) и Kanban. Собственно, это эссе и есть моя попытка расставить все точки на «Ё».</p>
+          </section>
+
+          <section id="vvedenie" class="content-section">
+            <h2>Введение <a class="section-anchor" href="#vvedenie" aria-label="Ссылка на раздел">§</a></h2>
+            <p>На уровне цеха подмена понятий «вытягивающая система» и Kanban стала частым явлением. Линейный руководитель или начальник цеха видит карточки, контейнеры, монитор e-Kanban, адресацию на line-side стеллаже, фиксированные маршруты пополнения — и делает вывод: поток переведён на вытягивающее управление. Для презентации такая логика очень удобна. Для инжиниринга логистики — нет. Суть в том, что она подменяет вопрос о механизме принятия решений вопросом о форме визуализации.</p>
+            <p>Для автомобильной промышленности, особенно если речь идёт о CKD-сборке и сложной внутризаводской логистике, эта ошибка не декоративная, а вполне прикладная. В наших условиях даже недорогой компонент способен остановить линию, а лишний контейнер в точке использования быстро превращается не в защиту потока, а в перегруженный проход, ухудшение эргономики, лишние перемещения и скрытый рост line-side запасов. Поэтому здесь вопрос не в терминах ради терминов, а в том, как именно в рамках системы принимаются решения: по фактическому потреблению или по заранее созданному сценарию, который просто красиво оформлен.</p>
+            <p>Если вы называете систему вытягивающей только потому, что в ней есть карточки, сканирование или электронное табло, вы не просто неточно используете термин — вы закрываете себе доступ к диагностике реальных причин нестабильности. Задайте себе вопрос: кто и на каком основании имеет право запускать пополнение или выпуск.</p>
+            <p>Проблема не в Kanban как таковом. Проблема в том, что его слишком часто принимают за саму систему, тогда как в действительности он может быть лишь носителем сигнала внутри системы — а может быть просто аккуратной надстройкой над самым обычным Push, внешне при этом очень убедительной.</p>
+            <p>Ниже я попробую разобрать эту подмену понятий без заклинаний из книг о TPS и без лишнего уважения к самой форме повествования. Меня не интересует, насколько бережливой выглядит система. Меня интересует — по какой логике она живёт.</p>
+          </section>
+
+          <section id="podmena-ponyatiy" class="content-section">
+            <h2>Подмена понятий: почему? <a class="section-anchor" href="#podmena-ponyatiy" aria-label="Ссылка на раздел">§</a></h2>
+            <p>Первой причиной смело можно назвать визуальную природу Kanban. Карточка, пустой контейнер, штрихкод, электронное табло или созданный WMS запрос легко наблюдаемы — всё это можно показать аудитору, начальнику, сфотографировать или включить в очень важный отчёт. Чуть глубже лежат триггер пополнения, правило авторизации и контур обратной связи. Они не столь заметны: прячутся в логике маршрута, в таймингах сканирования, в параметрах WMS/ERP и в реальном поведении сотрудников.</p>
+            <p>Вторая причина, чуть-чуть провокационная, и потому особенно мной любимая — культ Lean Production и его инструментов. Ответьте себе на вопрос: когда вы внедряли Lean, вы внедряли инженерную архитектуру потока или набор узнаваемых в отрасли инструментов — доски, карточки, 5С, циклические маршруты снабжения, хейджунка, ямазуми...? Когда инструмент становится важнее физики потока, управленческая дискуссия вырождается: карточки напечатаны и маршрут описан, система уже вытягивающая — о чём тут дискутировать?</p>
+            <p>Третья причина — Kanban, генерируемый ERP-системой, и псевдоэлектронный Kanban. Современные системы действительно поддерживают пополнение по сигналу Kanban, но существование функции — это не гарантия корректности конкретно вашей архитектуры. Одна ERP может прямо описывать сценарий, в котором сигнал пополнения возникает после регистрации пустой тары в точке потребления, другая — например Oracle — определяет Kanban как JIT-метод пополнения, основанный на фактическом потреблении, и позволяет настраивать вытягивающие последовательности от точки использования к хранению.<sup class="footnote-ref"><a href="#footnote-1">[1]</a></sup></p>
+            <p>Отдельно хочу выделить любовь управленческого языка к победным формулировкам и его противоположное отношение к инженерным определениям с аналитикой и описанием последствий. На презентации классно смотрится «у нас внедрён Kanban» — звучит красиво, и вопросов ни у кого не возникнет. Вы не увидите на слайде: «была определена точка разделения прогнозируемого и фактического управления потоком»; «мы ограничили WIP» и так далее. Эти фразы не только хуже смотрятся на слайде, но провоцируют неудобные вопросы, на которые без проведённой, действительно сложной и кропотливой работы логистического инжиниринга ответить нельзя.</p>
+          </section>
+
+          <section id="pull-inzheneriya" class="content-section">
+            <h2>С инженерной точки зрения: Pull <a class="section-anchor" href="#pull-inzheneriya" aria-label="Ссылка на раздел">§</a></h2>
+            <p>Взглянули на вывеску, теперь самое время посмотреть, что же там внутри. Вытягивающая система (Pull) — это не карточка, не электронный экран, не лозунг «работаем по потребности» и уж тем более не производственный фольклор о победе Toyota над производственным хаосом силой красивых табличек. В инженерном смысле истоки Pull лежат там, где выпуск, пополнение или запуск следующего действия разрешаются только при определённом состоянии системы, непосредственно связанном с потреблением нижестоящего процесса. Именно поэтому вытягивающая система — это прежде всего механизм ограничения WIP, а не синоним Kanban, не синоним производства под заказ и не литературное обозначение потока, который кому-то показался достаточно бережливым.</p>
+            <p>Если говорить без церемоний, спроектировать вытягивающее управление можно только в том случае, если вы способны ответить хотя бы на несколько неприятных, но абсолютно обязательных вопросов:</p>
+            <ul class="definition-list">
+              <li>Что именно является событием-триггером пополнения — пустой контейнер, сменное задание, минимальный уровень запаса?</li>
+              <li>Кто инициирует сигнал — оператор, POU, событие в WMS?</li>
+              <li>Где проходит точка разделения потоков — граница, после которой система перестаёт жить по прогнозу и начинает жить по расходу?</li>
+              <li>Как замыкается обратная связь между потреблением, сигналом, подбором, транспортом и фактом восстановления запаса?</li>
+              <li>Чем и как ограничены WIP и запасы?</li>
+              <li>Может ли вышестоящий процесс начать работу без разрешения от нижестоящего?</li>
+            </ul>
+            <p>Могу предложить очень простой, почти грубый, но зато честный чек-лист. Он не претендует на полноту методологии, но вполне годится для того, чтобы быстро снять налёт романтики с любой, якобы вытягивающей системы:</p>
+            <ul class="definition-list">
+              <li>Сигнал возникает только после физического потребления или хотя бы события, напрямую связанного с ним?</li>
+              <li>Существует ли реальный контур обратной связи между POU и пополнением?</li>
+              <li>Ограничен ли WIP так, чтобы вышестоящий процесс не мог бесконтрольно разгонять систему?</li>
+            </ul>
+            <p>Если на любой из этих вопросов вы отвечаете уклончиво, если чувствуете желание сослаться на «особенности участка», «гибкость системы» и прочие исключения — значит, скорее всего, у вас не Pull. Чек-лист, конечно, не заменяет диагностику, но очень быстро снимает иллюзии.</p>
+            <p>Правильно спроектированная вытягивающая система отличается не тем, что в ней присутствует носитель сигнала, а тем, что в ней явно определена логика управления запасами и пополнением: не только сам факт заказа, но и размер партии, число POU, допустимые исключения, пределы ручного вмешательства, критерии перехода в аварийный режим, допустимая задержка сигнала и реакция системы на эту задержку. Там, где эти правила не заданы, не проверены и не защищены от переписывания «по ситуации», любая система быстро скатывается в диспетчеризацию — причём именно в тот момент, когда так хочется продолжать называть её вытягивающей. Здесь, если говорить честно, спор не в терминах, а о дисциплине проектирования. Компромиссов здесь, на мой взгляд, быть не может: если вы говорите Pull, я слышу «архитектура принятия решений».</p>
+          </section>
+
+          <section id="kanban-inzheneriya" class="content-section">
+            <h2>С инженерной точки зрения: Kanban <a class="section-anchor" href="#kanban-inzheneriya" aria-label="Ссылка на раздел">§</a></h2>
+            <p>Если с Pull, как с архитектурой принятия решений, мы уже разобрались, то с Kanban стоит поступить так же — без лишней мистики и без попыток приписать ему больше, чем он в действительности делает. С инженерной точки зрения Kanban — это не логика управления потоком, а носитель сигнала: средство, при помощи которого системе передаётся разрешение на пополнение, выпуск, перемещение или иное, заранее определённое действие. В классическом варианте это карточка, привязанная к стандартной таре, но по существу носителем сигнала может быть и пустой контейнер, и штрихкод, и RFID, и транзакция в WMS — любой другой однозначный маркер, который возникает в нужный момент и несёт в себе не информацию о движении, а право на следующее действие. Именно поэтому определять тип системы по виду носителя — занятие довольно бессмысленное. Вид носителя ровным счётом ничего не говорит о природе материального потока.</p>
+            <p>В этой точке обычно и начинается путаница, потому что один и тот же физический или цифровой сигнал как объект может жить внутри совершенно разных логик. Тот же штрихкод способен быть частью реально вытягивающей системы, если он появляется строго после триггера потребления и запускает конкретное разрешение на пополнение, — а может с тем же успехом оказаться частью обычного Push, если его печатают под сменный план, волну комплектования или маршрутное задание, после чего он всего лишь сопровождает материал по пути уже принятого решения.</p>
+            <p>В исходной логике TPS Kanban не существует сам по себе как символ зрелости производственной или логистической системы — он описывается как инструмент, указывающий, какие детали, где, когда и в каком количестве требуются. Его работа предполагает дисциплину транспортировки, стандартизацию процессов, устранение избыточных запасов и подчинение более широкой системе правил, вне которой сам носитель сигнала довольно быстро превращается в формальность. Поэтому попытка вырвать Kanban из контекста и объявить его самостоятельным доказательством наличия Pull выглядит примерно так же убедительно, как попытка назвать конвейер производственной системой только потому, что на площадке есть ПТК или движущаяся лента. Инструмент важен, но только внутри той логики, ради которой он вообще был создан.</p>
+            <p>Отсюда и следует формулировка, которую полезно произносить вслух всякий раз, когда кто-то с серьёзным видом сообщает, что «у нас есть Kanban»: <em><strong>Kanban есть средство сигнала, но не доказательство вытягивающей архитектуры управления потоком.</strong></em> Если вы дальше хотите вести эту беседу в разрезе логистического инжиниринга — обсуждать стоит не наличие Kanban, а то, какое именно действие он запускает и в какой момент он возникает.</p>
+          </section>
+
+          <section id="praktika-automotive" class="content-section">
+            <h2>Практика automotive <a class="section-anchor" href="#praktika-automotive" aria-label="Ссылка на раздел">§</a></h2>
+            <p>Если до этого момента обсуждение Pull и Kanban могло показаться спором о терминах, то в автомобильном производстве он материализуется в физические проблемы. Именно здесь абстрактный спор заканчивается и начинается инженерия материального потока, потому что ошибку в архитектуре нельзя диагностировать словарём, который её описывает, — необходимо диагностировать поведение системы.</p>
+            <p>Начнём с самого привычного: подачи материала со склада на линию через line-side супермаркет. В automotive это нормальная, а зачастую неизбежная конструкция — когда запас вариативных, крупногабаритных или наоборот мелких материалов метизной группы размещают на фасаде производственной станции, после чего организуют его циклическое пополнение. Ошибка возникает в тот момент, когда склад начинает комплектовать такой супермаркет не по факту потребления, а по сменному заданию, «на всякий случай — вчера ведь по этому артикулу стояли». Если линия не разрешает пополнение своим реальным потреблением, а лишь получает заранее подготовленный материал — перед нами Push. Именно в таких конфигурациях особенно хорошо видно, насколько опасно путать управление потоком с администрированием запаса.</p>
+            <p>Следующая типовая точка сбоя — сам маршрут снабжения. Любой, кто реально занимался line-feeding, знает, что количество Kanban, размер партии, время цикла рейса и число единиц техники нельзя проектировать раздельно, потому что в реальном потоке это одна и та же система, просто рассмотренная с разных сторон. Если карточки рассчитаны без учёта фактического цикла маршрута и без проверки загрузки рейсов, узким местом очень быстро становится не склад и не линия, а сама транспортная схема. Здесь особенно полезно помнить: если устойчивость потока обеспечивается не логикой сигнала, а постоянным ручным выравниванием маршрута — система снабжения линии спроектирована заведомо декоративной.</p>
+            <p>В JIT/JIS-секвенировании ошибка проявляется ещё нагляднее, потому что внешне система почти всегда выглядит убедительно. С инженерной точки зрения секвенирование допустимо только в пределах чётко ограниченного окна заморозки последовательности и только при надёжной обратной связи от конкретной точки использования. Как только задания на подбор, kit-тележки или ярлыки начинают формироваться слишком рано, система фактически перестаёт жить по разрешению снизу и начинает жить по административно замороженному плану. Дальше происходит то, что и должно произойти: любое изменение производственной последовательности, остановка линии или иное нарушение первоначального сценария — и поток вынужден перестраиваться не за счёт Pull-архитектуры, а за счёт ручной корректировки, которая быстро становится хронической болезнью. Этот пример особенно репрезентативен с точки зрения подмены Pull заранее выпущенным планом.</p>
+            <p>Наконец, точка ввода материала в производственный поток (POU) — едва ли вы найдёте лучшее место для проверки того, существует ли Pull в принципе. Если пополнение запускается только после регистрации пустой тары или иного фактического события расхода, поток хотя бы в этой точке действительно привязан к потреблению. Если же материал пополняется по расписанию, а регистрация пустой тары выполняется задним числом или автоматически по факту возврата на склад — никакого вытягивания здесь нет. POU в этом смысле очень удобное место для проверки, потому что плохо терпит самообман: здесь особенно быстро становится видно, что именно запускает движение материала.</p>
+            <p>Во всех примерах ошибка одна и та же, просто упакована по-разному. Назревает резонный вопрос: сколько система готова заплатить за имитацию вытягивания?</p>
+          </section>
+
+          <section id="simptomatika" class="content-section">
+            <h2>Симптоматика <a class="section-anchor" href="#simptomatika" aria-label="Ссылка на раздел">§</a></h2>
+            <p>Если после всех разговоров о Pull и Kanban вам по-прежнему хочется смотреть на карточки, экраны и прочую визуальную атрибутику — это ваше право. Но поток гораздо честнее презентации и довольно быстро показывает реальные ограничения системы. Неправильная архитектура не может прятаться вечно. Она проявляет наблюдаемые симптомы, а нередко ещё и измеримые. Если задача действительно состоит в том, чтобы понять, работает система или только производит впечатление работающей, — смотреть надо не на форму сигнала, а на поведение потока.</p>
+            <p><strong>Первый симптом — аварийные рейсы.</strong> В этот момент надо спрашивать себя не о наличии Kanban. Спросите себя: каково реальное время реакции системы?</p>
+            <p><strong>Второй симптом — система перестала описывать физическую реальность.</strong> Накопление разрыва между потоком и его цифровым двойником обычно происходит из-за ложных регистраций пустой тары, досрочного закрытия транзакций, ручных корректировок и всех тех «временных решений», которыми вы пытаетесь компенсировать слабость архитектуры.</p>
+            <p><strong>Третий симптом — скрытые bottleneck.</strong> Избыточные line-side запасы, ранняя комплектация, страховые буферы и дополнительная тара действительно могут на некоторое время создать впечатление стабильной работы. Но инженерная задача как раз и состоит в том, чтобы не путать запас с пропускной способностью. Узкие места никуда не денутся — они просто временно скроются за объёмом WIP. Именно здесь особенно полезны не лозунги про «бережливость», а реальные инструменты вроде анализа WIP, эффекта очереди и Закона Литтла.</p>
+            <p><strong>Четвёртый симптом — разрушение организации рабочего места.</strong> Избытком материала перегружаются станции и проходы, ухудшается доступ к материалу, растёт риск повреждений. Очень быстро это перестаёт быть только логистической проблемой и начинает влиять на производство — а когда речь заходит о проблемах производства, внутреннюю логистику начинают воспринимать как вторичную сервисную функцию.</p>
+            <p><strong>Пятый симптом — постепенная утрата доверия к системе.</strong> Когда последовательность перестаёт поддерживаться системой и начинает работать в рамках ручной диспетчеризации, буферы создаются после каждого сбоя. Это увеличивает WIP, снижает достоверность данных, провоцирует очередной сбой и создаёт новый буфер. В результате завод привыкает жить в режиме постоянной коррекции как в нормальном состоянии системы.</p>
+            <p>Мне кажется, такая симптоматика довольно хорошо показывает, что спор о Pull — это не спор о терминах и не идеологическая дискуссия вокруг Kanban. Здесь речь о зрелости инженерного мышления. Ложная вытягивающая система почти всегда выглядит убедительно снаружи: визуализация присутствует, цифровой след имеется, карточки работают, отчёты обновляются. Но реальный поток при этом ежедневно приходится спасать буквально руками. Особенно неудобно для любителей считать это вопросом вкуса или «локальной специфики» — подобные вещи вполне поддаются диагностике.</p>
+          </section>
+
+          <section id="vyvody" class="content-section">
+            <h2>Выводы <a class="section-anchor" href="#vyvody" aria-label="Ссылка на раздел">§</a></h2>
+            <p>Возвращаясь к исходному тезису, ради которого, собственно, и был написан этот текст, скажу совсем прямо: проблема не в Kanban и не в том, что кто-то однажды напечатал карточки, повесил экран или настроил сканирование. Проблема начинается в тот момент, когда весь этот уважаемый реквизит принимают за доказательство вытягивающего управления. Kanban может быть полезным, удобным и вполне рабочим инструментом, но он не заменяет архитектуру потока и не делает систему вытягивающей одним только фактом своего существования.</p>
+            <p>Но здесь, на мой взгляд, важно сделать ещё один шаг и не впасть в другую крайность — в наивную веру, будто весь automotive должен когда-нибудь стать «чистым Pull», если только мы достаточно искренне этого захотим. Нет, не станет. И не должен. Сквозной, однородный, идеологически безупречный Pull на уровне всего автомобильного потока — это скорее красивая абстракция, чем реальная инженерная задача. На работающем производстве всегда будут участки, где Pull работает и оправдан, участки, где он возможен только в определённых пределах, и процессы, где честная смешанная система управления окажется гораздо умнее, устойчивее и профессиональнее, чем очередная попытка натянуть лозунг на физику потока. Поэтому стремиться надо не к самому слову Pull, а к пониманию того, где он вообще уместен, где его можно реально построить, а где вместо инженерии начинается декоративная вера в метод.</p>
+          </section>
+
+          <section id="footnotes" class="content-section">
+            <h2>Примечания <a class="section-anchor" href="#footnotes" aria-label="Ссылка на раздел">§</a></h2>
+            <ol>
+              <li id="footnote-1"><p><strong>[1]</strong> Данные на основе: Microsoft Learn. Replenishment with withdrawal kanbans — Dynamics 365 Supply Chain Management; Oracle Cloud SCM. Define Pull Sequences and Generate Kanban Cards. Release 25C.</p></li>
+            </ol>
+          </section>
+
+        </section>
+      </div>
+
+      <aside class="reader-aside" aria-label="Навигация по статье">
+        <button class="toc-toggle" id="tocToggle" type="button" aria-expanded="true" aria-controls="readerTocPanel">Содержание статьи</button>
+        <div id="readerTocPanel" class="reader-toc-panel">
+          <div class="article-search mt-12">
+            <input id="articleSearchInput" type="search" placeholder="Найти в статье" aria-label="Найти в статье">
+            <button class="reader-search-btn" id="articleSearchClear" type="button">Очистить</button>
+          </div>
+          <p class="meta-note mt-12" id="articleSearchStatus">Поиск по текущей статье</p>
+          <div class="toc is-sticky mt-12">
+            <span class="toc-title">Содержание</span>
+            <ol>
+              <li><a href="#ot-inzhenera">От инженера инженерам</a></li>
+              <li><a href="#vvedenie">Введение</a></li>
+              <li><a href="#podmena-ponyatiy">Подмена понятий: почему?</a></li>
+              <li><a href="#pull-inzheneriya">С инженерной точки зрения: Pull</a></li>
+              <li><a href="#kanban-inzheneriya">С инженерной точки зрения: Kanban</a></li>
+              <li><a href="#praktika-automotive">Практика automotive</a></li>
+              <li><a href="#simptomatika">Симптоматика</a></li>
+              <li><a href="#vyvody">Выводы</a></li>
+              <li><a href="#footnotes">Примечания</a></li>
+            </ol>
+          </div>
+        </div>
+      </aside>
+    </section>
+
+    <section class="related-section article-page">
+      <h2>Связанные материалы</h2>
+      <div class="related-grid">
+        <article class="related-card">
+          <span class="meta-kicker">Каталог</span>
+          <h3>Публикации EXMACHINA-AI</h3>
+          <p>Возврат в каталог инженерных материалов, исследований и методологических публикаций.</p>
+          <div class="actions mt-8"><a class="btn secondary" href="../materials.html">Открыть каталог</a></div>
+        </article>
+        <article class="related-card">
+          <span class="meta-kicker">Методологическая статья</span>
+          <h3>Методология проектирования процессов внутренней логистики</h3>
+          <p>Метод 9 слоёв: E2E-проектирование от терминологии и входных параметров до интеграции с операционными системами.</p>
+          <div class="actions mt-8"><a class="btn secondary" href="intralogistics-methodology.html">Читать статью</a></div>
+        </article>
+        <article class="related-card">
+          <span class="meta-kicker">Справочный инструмент</span>
+          <h3>Словарь логистических терминов</h3>
+          <p>Интерактивный справочник по HU, SKU, PFEP, line feeding, replenishment, WMS, CKD и другим объектам анализа.</p>
+          <div class="actions mt-8"><a class="btn secondary" href="../dictionary.html">Открыть словарь</a></div>
+        </article>
+      </div>
+    </section>
+
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <div>
+          <p>EXMACHINA-AI™ · <a href="https://exmachina-ai.ru">exmachina-ai.ru</a> · © 2026 — Никакого шума. Никаких иллюзий.</p>
+          <p class="footer-note">Почта: <a href="mailto:admin@exmachina-ai.ru">admin@exmachina-ai.ru</a></p>
+        </div>
+        <div class="footer-links">
+          <a href="../index.html">Главная</a>
+          <a href="../materials.html">Публикации</a>
+          <a href="../dictionary.html">Справочник</a>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <div class="back-to-top" id="backToTop"><a class="btn secondary" href="#top">Наверх ↑</a></div>
+
+  <script>
+    (function() {
+      const progress = document.getElementById('readerProgress');
+      const tocToggle = document.getElementById('tocToggle');
+      const tocPanel = document.getElementById('readerTocPanel');
+      const backToTop = document.getElementById('backToTop');
+      const readerBody = document.getElementById('readerBody');
+      const searchInput = document.getElementById('articleSearchInput');
+      const searchClear = document.getElementById('articleSearchClear');
+      const searchStatus = document.getElementById('articleSearchStatus');
+      const tocLinks = Array.from(document.querySelectorAll('.toc a'));
+      const sectionTargets = tocLinks.map(link => document.querySelector(link.getAttribute('href'))).filter(Boolean);
+
+      function updateProgress() {
+        const total = readerBody.offsetHeight - window.innerHeight;
+        const scrolled = Math.min(Math.max(window.scrollY - (readerBody.offsetTop - 80), 0), Math.max(total, 1));
+        const pct = Math.min(100, Math.max(0, (scrolled / Math.max(total, 1)) * 100));
+        progress.style.width = pct + '%';
+        if (window.scrollY > 600) backToTop.classList.add('is-visible');
+        else backToTop.classList.remove('is-visible');
+      }
+
+      window.addEventListener('scroll', updateProgress, { passive: true });
+      updateProgress();
+
+      if (tocToggle && tocPanel) {
+        tocToggle.addEventListener('click', function() {
+          const expanded = tocToggle.getAttribute('aria-expanded') === 'true';
+          tocToggle.setAttribute('aria-expanded', String(!expanded));
+          tocPanel.classList.toggle('hidden', expanded);
+        });
+        if (window.innerWidth <= 760) {
+          tocPanel.classList.add('hidden');
+          tocToggle.setAttribute('aria-expanded', 'false');
+        }
+      }
+
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            tocLinks.forEach(l => l.classList.remove('is-active'));
+            const id = '#' + entry.target.id;
+            const link = tocLinks.find(l => l.getAttribute('href') === id);
+            if (link) link.classList.add('is-active');
+          }
+        });
+      }, { rootMargin: '-20% 0px -65% 0px', threshold: 0 });
+      sectionTargets.forEach(t => io.observe(t));
+
+      const originalHTML = readerBody.innerHTML;
+      function clearSearch(resetInput) {
+        readerBody.innerHTML = originalHTML;
+        searchStatus.textContent = 'Поиск по текущей статье';
+        if (resetInput) searchInput.value = '';
+      }
+      function escapeRegExp(s) { return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); }
+      function doSearch() {
+        const q = searchInput.value.trim();
+        if (!q) { clearSearch(false); return; }
+        const re = new RegExp(escapeRegExp(q), 'gi');
+        let count = 0;
+        const walker = document.createTreeWalker(readerBody, NodeFilter.SHOW_TEXT, null);
+        const nodes = [];
+        while (walker.nextNode()) nodes.push(walker.currentNode);
+        nodes.forEach(node => {
+          if (!node.nodeValue || !re.test(node.nodeValue)) return;
+          re.lastIndex = 0;
+          const frag = document.createDocumentFragment();
+          let last = 0;
+          node.nodeValue.replace(re, function(match, offset) {
+            const before = node.nodeValue.slice(last, offset);
+            if (before) frag.appendChild(document.createTextNode(before));
+            const mark = document.createElement('mark');
+            mark.className = 'reader-hit';
+            mark.textContent = match;
+            frag.appendChild(mark);
+            last = offset + match.length;
+            count += 1;
+          });
+          const after = node.nodeValue.slice(last);
+          if (after) frag.appendChild(document.createTextNode(after));
+          node.parentNode.replaceChild(frag, node);
+        });
+        searchStatus.textContent = count ? ('Найдено совпадений: ' + count) : 'Совпадений не найдено';
+      }
+      searchInput.addEventListener('change', doSearch);
+      searchInput.addEventListener('keydown', function(e) { if (e.key === 'Enter') doSearch(); });
+      searchClear.addEventListener('click', function() { clearSearch(true); });
+    })();
+  </script>
+</body>
+</html>
