@@ -99,63 +99,6 @@
       .cog-sm { width: 106px; height: 106px; }
     }
 
-    /* ---- Метка статуса внутри карточки ---- */
-    .card-status {
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      font-family: var(--mono);
-      font-size: .64rem;
-      font-weight: 700;
-      letter-spacing: .09em;
-      text-transform: uppercase;
-      padding: 4px 9px;
-      border-radius: var(--r-pill);
-      border: 1px solid;
-      align-self: start;
-      margin-top: 4px;
-    }
-
-    .card-status::before {
-      content: '';
-      display: block;
-      width: 5px;
-      height: 5px;
-      border-radius: 50%;
-    }
-
-    .card-status--live {
-      color: #8febb1;
-      border-color: rgba(112, 211, 139, 0.28);
-      background: rgba(112, 211, 139, 0.07);
-    }
-
-    .card-status--live::before { background: #70d38b; }
-
-    .card-status--grow {
-      color: #f0c67e;
-      border-color: rgba(240, 179, 90, 0.28);
-      background: rgba(240, 179, 90, 0.07);
-    }
-
-    .card-status--grow::before {
-      background: #f0b35a;
-      animation: blink 1.6s ease-in-out infinite;
-    }
-
-    .card-status--wip {
-      color: var(--text-4);
-      border-color: var(--line-2);
-      background: rgba(255,255,255,.03);
-    }
-
-    .card-status--wip::before { background: rgba(255,255,255,.28); }
-
-    @keyframes blink {
-      0%, 100% { opacity: 1; }
-      50% { opacity: .3; }
-    }
-
     /* ---- Блок «В разработке» ---- */
     .system-section-head {
       padding: 40px 24px 10px;
@@ -245,6 +188,7 @@
         <nav class="main-nav" aria-label="Основная навигация">
           <a href="index.html" aria-current="page">Главная</a>
           <a href="docs.html">Документы</a>
+          <a href="learning.html">Обучение</a>
           <a href="dictionary.html">Справочник</a>
           <a href="materials.html">Публикации</a>
         </nav>
@@ -296,6 +240,9 @@
           <p>Разбор ключевых концепций методологии: вариативность и распределения,
              Push/Pull/Канбан, выбор концепта снабжения линии.
              Формулы, инженерные примеры, встроенные калькуляторы.</p>
+          <div class="actions mt-8">
+            <a class="btn secondary" href="learning.html">Открыть модули</a>
+          </div>
           <span class="card-status card-status--grow">Пополняется</span>
         </article>
 
@@ -394,7 +341,9 @@
           <p class="footer-note footer-contact">Вопросы и предложения: <a href="mailto:admin@exmachina-ai.ru">admin@exmachina-ai.ru</a></p>
         </div>
         <div class="footer-links">
+          <a href="index.html">Главная</a>
           <a href="docs.html">Документы</a>
+          <a href="learning.html">Обучение</a>
           <a href="dictionary.html">Справочник</a>
           <a href="materials.html">Публикации</a>
         </div>
