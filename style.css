@@ -777,6 +777,74 @@ button.reader-search-btn:hover {
 }
 
 /* ============================================================
+   STATUS BADGES
+   ============================================================ */
+.card-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-family: var(--mono);
+  font-size: .64rem;
+  font-weight: 700;
+  letter-spacing: .09em;
+  text-transform: uppercase;
+  padding: 4px 9px;
+  border-radius: var(--r-pill);
+  border: 1px solid;
+  align-self: start;
+  margin-top: 4px;
+}
+
+.card-status::before {
+  content: '';
+  display: block;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+}
+
+.card-status--live {
+  color: #8febb1;
+  border-color: rgba(112, 211, 139, 0.28);
+  background: rgba(112, 211, 139, 0.07);
+}
+
+.card-status--live::before {
+  background: #70d38b;
+}
+
+.card-status--grow {
+  color: #f0c67e;
+  border-color: rgba(240, 179, 90, 0.28);
+  background: rgba(240, 179, 90, 0.07);
+}
+
+.card-status--grow::before {
+  background: #f0b35a;
+  animation: blink 1.6s ease-in-out infinite;
+}
+
+.card-status--wip {
+  color: var(--text-4);
+  border-color: var(--line-2);
+  background: rgba(255,255,255,.03);
+}
+
+.card-status--wip::before {
+  background: rgba(255,255,255,.28);
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: .3; }
+}
+
+.card > .card-status {
+  margin-top: auto;
+  padding-top: 10px;
+}
+
+/* ============================================================
    INTERFACE / CONTACT BOX
    ============================================================ */
 .iface-section {
@@ -1407,6 +1475,139 @@ button.reader-search-btn:hover {
   margin-top: 0 !important;
 }
 
+/* ============================================================
+   LEARNING TOOLS
+   ============================================================ */
+.tool-panel {
+  margin: 28px 0;
+  padding: 20px;
+  border: 1px solid var(--line-2);
+  border-radius: var(--r);
+  background: var(--surf);
+  box-shadow: var(--shadow-soft);
+}
+
+.tool-head {
+  display: grid;
+  gap: 6px;
+  margin-bottom: 18px;
+}
+
+.tool-head h3 {
+  margin: 0 !important;
+}
+
+.tool-head p {
+  color: var(--text-3);
+  font-size: .92rem;
+  line-height: 1.7;
+}
+
+.tool-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 220px;
+  gap: 14px;
+  align-items: end;
+}
+
+.tool-field {
+  display: grid;
+  gap: 7px;
+}
+
+.tool-field label {
+  font-family: var(--mono);
+  font-size: .68rem;
+  font-weight: 700;
+  letter-spacing: .10em;
+  text-transform: uppercase;
+  color: var(--text-4);
+}
+
+.tool-field textarea,
+.tool-field input,
+.tool-field select {
+  width: 100%;
+  border: 1px solid var(--line-2);
+  border-radius: var(--r-sm);
+  background: var(--surf-2);
+  color: var(--text);
+  outline: none;
+}
+
+.tool-field textarea {
+  min-height: 118px;
+  resize: vertical;
+  padding: 12px 14px;
+  font-family: var(--mono);
+  font-size: .9rem;
+  line-height: 1.55;
+}
+
+.tool-field input,
+.tool-field select {
+  min-height: 42px;
+  padding: 9px 12px;
+}
+
+.tool-field textarea:focus,
+.tool-field input:focus,
+.tool-field select:focus {
+  border-color: var(--acc);
+}
+
+.tool-results {
+  margin-top: 18px;
+  display: grid;
+  gap: 14px;
+}
+
+.metric-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.metric-card {
+  min-width: 0;
+  padding: 12px;
+  border: 1px solid var(--line-2);
+  border-radius: var(--r-sm);
+  background: var(--surf-2);
+}
+
+.metric-card .label {
+  display: block;
+  margin-bottom: 6px;
+  font-family: var(--mono);
+  font-size: .64rem;
+  font-weight: 700;
+  letter-spacing: .10em;
+  text-transform: uppercase;
+  color: var(--text-4);
+}
+
+.metric-card .value {
+  color: var(--text);
+  font-family: var(--mono);
+  font-size: 1.02rem;
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+
+.tool-diagnosis {
+  padding: 16px 18px;
+  border: 1px solid var(--line-2);
+  border-left: 3px solid var(--acc);
+  border-radius: var(--r);
+  background: var(--surf-2);
+  color: var(--text-2);
+}
+
+.tool-diagnosis p {
+  color: var(--text-2);
+}
+
 mark.reader-hit {
   background: rgba(224,104,32,.22);
   color: inherit;
@@ -1566,6 +1767,10 @@ footer a:hover {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
+  .metric-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
   .article-page {
     max-width: 720px;
   }
@@ -1629,7 +1834,8 @@ footer a:hover {
   .related-grid,
   .materials-list,
   .iface-grid,
-  .interface-grid {
+  .interface-grid,
+  .tool-grid {
     grid-template-columns: 1fr;
   }
 
@@ -1743,7 +1949,8 @@ footer a:hover {
   }
 
   .passport-grid,
-  .meta-grid {
+  .meta-grid,
+  .metric-grid {
     grid-template-columns: 1fr;
   }
 
