@@ -26,6 +26,9 @@
     <changefreq>weekly</changefreq>
   </url>
   <url>
+    <loc>https://exmachina-ai.ru/license.html</loc>
+  </url>
+  <url>
     <loc>https://exmachina-ai.ru/learning/module-01-distribution-variability.html</loc>
     <priority>0.8</priority>
     <changefreq>monthly</changefreq>
