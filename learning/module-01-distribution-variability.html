@@ -414,6 +414,7 @@
           <a href="../learning.html">Обучение</a>
           <a href="../dictionary.html">Справочник</a>
           <a href="../materials.html">Публикации</a>
+          <a href="../privacy.html">Политика</a>
           <a href="../license.html">Лицензия</a>
         </div>
       </div>
@@ -563,6 +564,44 @@
       unit.addEventListener('input', calculate);
       coverage.addEventListener('change', calculate);
       calculate();
+    })();
+  </script>
+
+
+  <div class="cookie-notice" id="cookieNotice" role="dialog" aria-live="polite" aria-label="Уведомление об использовании cookies">
+    <p>
+      Сайт использует cookies и Яндекс.Метрику для анализа посещаемости и улучшения материалов.
+      Продолжая пользоваться сайтом, вы соглашаетесь с использованием cookies.
+      Подробнее — в <a href="../privacy.html">Политике обработки данных</a>.
+    </p>
+    <button class="btn secondary cookie-notice__btn" type="button" id="cookieNoticeAccept">Понятно</button>
+  </div>
+
+  <script>
+    (function () {
+      var key = 'exmachina_cookie_notice_accepted';
+      var notice = document.getElementById('cookieNotice');
+      var accept = document.getElementById('cookieNoticeAccept');
+
+      if (!notice || !accept) return;
+
+      try {
+        if (localStorage.getItem(key) === 'true') {
+          notice.classList.add('is-hidden');
+          return;
+        }
+      } catch (e) {}
+
+      notice.classList.add('is-visible');
+
+      accept.addEventListener('click', function () {
+        notice.classList.remove('is-visible');
+        notice.classList.add('is-hidden');
+
+        try {
+          localStorage.setItem(key, 'true');
+        } catch (e) {}
+      });
     })();
   </script>
 </body>

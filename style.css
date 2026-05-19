@@ -777,6 +777,70 @@ button.reader-search-btn:hover {
 }
 
 /* ============================================================
+   COOKIE NOTICE
+   ============================================================ */
+
+.cookie-notice {
+  position: fixed;
+  left: 24px;
+  right: 24px;
+  bottom: 24px;
+  z-index: 500;
+  max-width: 760px;
+  margin: 0 auto;
+  display: none;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 16px 18px;
+  border: 1px solid var(--line-2);
+  border-radius: var(--r);
+  background: rgba(19, 19, 22, 0.96);
+  box-shadow: var(--shadow-panel);
+  backdrop-filter: blur(16px);
+}
+
+.cookie-notice.is-visible {
+  display: flex;
+}
+
+.cookie-notice.is-hidden {
+  display: none;
+}
+
+.cookie-notice p {
+  margin: 0;
+  color: var(--text-3);
+  font-size: .84rem;
+  line-height: 1.55;
+}
+
+.cookie-notice a {
+  color: var(--acc);
+  font-weight: 700;
+}
+
+.cookie-notice__btn {
+  flex: 0 0 auto;
+  min-height: 38px;
+  padding: 8px 14px;
+}
+
+@media (max-width: 760px) {
+  .cookie-notice {
+    left: 16px;
+    right: 16px;
+    bottom: 16px;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .cookie-notice__btn {
+    width: 100%;
+  }
+}
+
+/* ============================================================
    STATUS BADGES
    ============================================================ */
 .card-status {
