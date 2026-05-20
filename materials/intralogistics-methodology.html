@@ -559,7 +559,7 @@
         searchStatus.textContent = 'Поиск по текущей статье';
         if (resetInput) searchInput.value = '';
       }
-      function escapeRegExp(s) { return s.replace(/[.*+?^${}()|[\]\]/g, '\$&'); }
+      function escapeRegExp(s) { return s.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&'); }
       function doSearch() {
         const q = searchInput.value.trim();
         if (!q) { clearSearch(); return; }
