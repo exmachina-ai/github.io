@@ -37,6 +37,11 @@
     <changefreq>monthly</changefreq>
   </url>
   <url>
+    <loc>https://exmachina-ai.ru/learning/module-02-push-pull-kanban.html</loc>
+    <priority>0.8</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
     <loc>https://exmachina-ai.ru/materials/intralogistics-methodology.html</loc>
     <priority>0.8</priority>
     <changefreq>monthly</changefreq>
