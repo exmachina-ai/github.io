@@ -27,50 +27,84 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#e06820">
-  <title>Документы EXMACHINA-AI — HU Drawing Generator и инженерные инструменты</title>
-  <meta name="description" content="HU Drawing Generator — инженерный инструмент EXMACHINA-AI для автоматической генерации стандартизированных чертежей упаковки на базе Excel и КОМПАС-3D.">
+  <title>Документы и инструменты EXMACHINA-AI — калькуляторы, шаблоны и инженерные материалы</title>
+  <meta name="description" content="Каталог документов и инструментов EXMACHINA-AI: встроенные HTML-калькуляторы, Excel/VBA-инструменты, PDF-материалы и обучающие модули по внутренней логистике автомобильного производства.">
   <link rel="canonical" href="https://exmachina-ai.ru/docs.html">
   <link rel="icon" href="/favicon.ico" sizes="any">
   <link rel="shortcut icon" href="/favicon.ico">
 
-  <meta property="og:type" content="article">
-  <meta property="og:title" content="HU Drawing Generator — инженерный контекст EXMACHINA-AI">
-  <meta property="og:description" content="Инженерный инструмент на базе Excel и КОМПАС-3D для генерации стандартизированных чертежей упаковки.">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Документы и инструменты EXMACHINA-AI">
+  <meta property="og:description" content="Каталог инженерных инструментов, встроенных калькуляторов, шаблонов и материалов по внутренней логистике автомобильного производства.">
   <meta property="og:url" content="https://exmachina-ai.ru/docs.html">
   <meta property="og:site_name" content="EXMACHINA-AI">
-  <meta property="og:image" content="https://exmachina-ai.ru/logo_xai_engineering.png">
+  <meta property="og:image" content="https://exmachina-ai.ru/exmachina_logo.png">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="HU Drawing Generator — инженерный контекст EXMACHINA-AI">
-  <meta name="twitter:description" content="Инструмент EXMACHINA-AI для автоматизации инженерной документации и логистики CKD.">
+  <meta name="twitter:title" content="Документы и инструменты EXMACHINA-AI">
+  <meta name="twitter:description" content="Инженерные калькуляторы, Excel/VBA-инструменты, шаблоны и обучающие материалы EXMACHINA-AI.">
 
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
-    "@type": "SoftwareApplication",
-    "name": "HU Drawing Generator",
-    "operatingSystem": "Windows",
-    "applicationCategory": "EngineeringApplication",
-    "description": "Инженерный инструмент на базе Excel и КОМПАС-3D для автоматической генерации стандартизированных чертежей упаковки и обработки данных PFEP/BOM.",
-    "author": {
-      "@type": "Organization",
-      "name": "EXMACHINA-AI"
-    },
+    "@type": "CollectionPage",
+    "name": "Документы и инструменты EXMACHINA-AI",
+    "url": "https://exmachina-ai.ru/docs.html",
+    "description": "Каталог инженерных инструментов, встроенных HTML-калькуляторов, Excel/VBA-решений, PDF-материалов и обучающих модулей по внутренней логистике автомобильного производства.",
     "publisher": {
       "@type": "Organization",
-      "name": "EXMACHINA-AI"
+      "name": "EXMACHINA-AI",
+      "url": "https://exmachina-ai.ru"
     },
-    "url": "https://exmachina-ai.ru/docs.html",
-    "downloadUrl": "https://exmachina-ai.ru/assets/Draw_HU.rar",
-    "softwareVersion": "1.0",
-    "offers": {
-      "@type": "Offer",
-      "price": "0",
-      "priceCurrency": "RUB"
-    }
+    "hasPart": [
+      {
+        "@type": "SoftwareApplication",
+        "name": "Distribution / Percentile Diagnostic",
+        "applicationCategory": "EngineeringApplication",
+        "operatingSystem": "Web",
+        "url": "https://exmachina-ai.ru/learning/module-01-distribution-variability.html#average-error-diagnostic"
+      },
+      {
+        "@type": "SoftwareApplication",
+        "name": "Kanban Loop Calculator",
+        "applicationCategory": "EngineeringApplication",
+        "operatingSystem": "Web",
+        "url": "https://exmachina-ai.ru/learning/module-02-push-pull-kanban.html#kanban-loop-calculator"
+      },
+      {
+        "@type": "SoftwareApplication",
+        "name": "HU Drawing Generator",
+        "applicationCategory": "EngineeringApplication",
+        "operatingSystem": "Windows",
+        "url": "https://exmachina-ai.ru/docs.html#hu-drawing-generator",
+        "downloadUrl": "https://exmachina-ai.ru/assets/Draw_HU.rar"
+      }
+    ]
   }
   </script>
 
   <link rel="stylesheet" href="style.css">
+  <style>
+    .docs-section {
+      width: 100%;
+      max-width: var(--max);
+      margin-left: auto;
+      margin-right: auto;
+      padding: 24px;
+    }
+
+    .docs-section + .docs-section {
+      margin-top: 16px;
+    }
+
+    .docs-section h2 {
+      margin-bottom: 14px;
+    }
+
+    .tool-card-note {
+      color: var(--text-3);
+      font-size: .9rem;
+    }
+  </style>
 </head>
 <body>
   <noscript>
@@ -107,12 +141,13 @@
         <img src="logo_xai_engineering.png" alt="EXMACHINA-AI инженерная экосистема логотип" width="56" height="56" loading="lazy">
       </div>
 
-      <span class="hero-tag">Документы · Инструменты · Инженерный контекст</span>
+      <span class="hero-tag">Документы · Инструменты · Инженерные материалы</span>
 
-      <h1 class="page-title">Инженерный контекст: HU Drawing Generator</h1>
+      <h1 class="page-title">Документы и инструменты EXMACHINA-AI</h1>
 
       <div class="page-lead">
-        <p>HU Drawing Generator — первый практический инструмент в инженерной экосистеме EXMACHINA. Не презентация ради презентации, а рабочий инструмент для синхронизации мастер-данных и инженерной документации.</p>
+        <p>Каталог практических инструментов и материалов по внутренней логистике автомобильного производства. Здесь собраны встроенные HTML-калькуляторы из обучающих модулей, скачиваемые Excel/VBA-инструменты и PDF-материалы проекта.</p>
+        <p>Инструменты не отделены от методологии: каждый калькулятор связан с модулем, в котором объясняется логика расчёта, ограничения применения и инженерный контекст.</p>
       </div>
     </section>
 
@@ -120,61 +155,129 @@
       <div class="meta-grid">
         <div class="meta-item">
           <span class="label">Тип</span>
-          <div class="value">Инженерный инструмент</div>
+          <div class="value">Каталог инструментов</div>
         </div>
         <div class="meta-item">
-          <span class="label">Платформа</span>
-          <div class="value">Excel + VBA + КОМПАС-3D</div>
+          <span class="label">Форматы</span>
+          <div class="value">HTML / Excel / VBA / PDF</div>
         </div>
         <div class="meta-item">
           <span class="label">Статус</span>
-          <div class="value">Доступен для ознакомления</div>
+          <div class="value">Развивается</div>
         </div>
         <div class="meta-item">
           <span class="label">Контекст</span>
-          <div class="value">PFEP / BOM / Handling Units</div>
+          <div class="value">E2E-методология / 9 слоёв</div>
         </div>
       </div>
     </section>
 
-    <section class="intro">
-      <h2>HU Drawing Generator</h2>
-      <p>HU Drawing Generator — это инженерный инструмент на базе Excel для автоматической генерации стандартизированных чертежей упаковки (Handling Units) из массива данных PFEP и BOM.</p>
-      <p>Инструмент решает задачу синхронизации мастер-данных упаковки (PFEP, BOM) и инженерной документации без ручной переделки и проверки версий.</p>
+    <section id="html-tools" class="docs-section">
+      <h2>Встроенные HTML-инструменты</h2>
+      <p>Эти инструменты встроены прямо в обучающие модули. Такой формат выбран намеренно: расчёт должен выполняться рядом с объяснением метода, формулы и ограничений применения.</p>
+
+      <div class="materials-list">
+        <article class="material-card">
+          <div class="material-meta">
+            <span class="card-type">HTML-инструмент</span>
+            <span class="card-status card-status--live">Доступен</span>
+          </div>
+          <h3>Distribution / Percentile Diagnostic</h3>
+          <p>Диагностика ошибки среднего: сравнение среднего, медианы, P90/P95, максимума и доли наблюдений, не покрываемых расчётом по среднему.</p>
+          <p class="tool-card-note">Связанный модуль: Модуль 1 — Распределения, вариативность и ошибка среднего.</p>
+          <div class="material-meta">
+            <span class="badge">Модуль 1</span>
+            <span class="badge">Слой 2</span>
+            <span class="badge">Вариативность</span>
+            <span class="badge">P90 / P95</span>
+          </div>
+          <div class="actions mt-8">
+            <a class="btn primary" href="learning/module-01-distribution-variability.html#average-error-diagnostic">Открыть инструмент</a>
+            <a class="btn secondary" href="learning/module-01-distribution-variability.html">Открыть модуль</a>
+          </div>
+        </article>
+
+        <article class="material-card">
+          <div class="material-meta">
+            <span class="card-type">HTML-инструмент</span>
+            <span class="card-status card-status--live">Доступен</span>
+          </div>
+          <h3>Kanban Loop Calculator</h3>
+          <p>Базовая проверка петли Kanban: расчёт количества карточек/контейнеров и WIP-cap по среднему потреблению, P90 и P95 с учётом lead time, размера контейнера и коэффициента покрытия.</p>
+          <p class="tool-card-note">Связанный модуль: Модуль 2 — Push, Pull и Kanban. Логика авторизации движения.</p>
+          <div class="material-meta">
+            <span class="badge">Модуль 2</span>
+            <span class="badge">Слой 6</span>
+            <span class="badge">Kanban</span>
+            <span class="badge">WIP-cap</span>
+          </div>
+          <div class="actions mt-8">
+            <a class="btn primary" href="learning/module-02-push-pull-kanban.html#kanban-loop-calculator">Открыть инструмент</a>
+            <a class="btn secondary" href="learning/module-02-push-pull-kanban.html">Открыть модуль</a>
+          </div>
+        </article>
+      </div>
     </section>
 
-    <section class="intro">
-      <h2>Инженерная проблема</h2>
-      <p>В классическом процессе чертежи упаковки создаются вручную, что приводит к рассинхронизации между логистическими данными и инженерной документацией.</p>
-      <p>Ошибки на этом уровне масштабируются: MIX-HU, неверные габариты, устаревшие версии чертежей, ручные правки в разных местах разными людьми.</p>
+    <section id="downloadable-tools" class="docs-section">
+      <h2>Скачиваемые Excel / VBA инструменты</h2>
+      <p>Эти инструменты предназначены для локального инженерного применения: расчётов, подготовки данных, генерации документации или автоматизации повторяемых операций.</p>
+
+      <div class="materials-list">
+        <article id="hu-drawing-generator" class="material-card">
+          <div class="material-meta">
+            <span class="card-type">Excel + VBA + КОМПАС-3D</span>
+            <span class="card-status card-status--live">Доступен для ознакомления</span>
+          </div>
+          <h3>HU Drawing Generator</h3>
+          <p>Инструмент для автоматической генерации стандартизированных чертежей упаковки Handling Units из массива данных PFEP и BOM. Демонстрирует принцип EXMACHINA-AI: чертёж не рисуется вручную, а вычисляется из данных.</p>
+          <div class="material-meta">
+            <span class="badge">Excel</span>
+            <span class="badge">VBA</span>
+            <span class="badge">КОМПАС-3D</span>
+            <span class="badge">PFEP / BOM</span>
+            <span class="badge">HU</span>
+          </div>
+          <div class="actions mt-8">
+            <a href="assets/Draw_HU.rar" class="btn primary" download>Скачать инструмент</a>
+            <a href="assets/HU_Drawing_Generator.pdf" class="btn secondary" download>Скачать презентацию PDF</a>
+          </div>
+          <p class="status-note">Инструмент предоставляется бесплатно в ознакомительных и инженерных целях.</p>
+        </article>
+      </div>
     </section>
 
-    <section class="intro">
-      <h2>Инженерное решение</h2>
-      <p>В EXMACHINA мы исходим из принципа: <strong>чертёж не рисуется — он вычисляется</strong>.</p>
-      <p>HU Drawing Generator использует данные как единый источник истины. Вся логика построения управляется параметрами, не жёсткой формой.</p>
+    <section id="pdf-materials" class="docs-section">
+      <h2>PDF и методологические материалы</h2>
+      <p>В этот раздел будут добавляться PDF-версии методологии, презентации, шаблоны и материалы, которые удобно использовать вне сайта.</p>
+
+      <div class="materials-list">
+        <article class="material-card">
+          <div class="material-meta">
+            <span class="card-type">PDF</span>
+            <span class="card-status card-status--live">Доступен</span>
+          </div>
+          <h3>HU Drawing Generator — презентация PDF</h3>
+          <p>Краткая презентация инструмента и его роли в связке PFEP / BOM / Handling Units.</p>
+          <div class="actions mt-8">
+            <a href="assets/HU_Drawing_Generator.pdf" class="btn secondary" download>Скачать PDF</a>
+          </div>
+        </article>
+      </div>
     </section>
 
-    <section class="intro">
-      <h2>Как это работает</h2>
-      <p>Excel (HU_DATA) → VBA-логика → API КОМПАС-3D → готовый стандартизированный чертёж.</p>
-      <p>Внешний вид и структура чертежа не «зашиты» жёстко — параметры могут быть адаптированы под требования конкретного проекта.</p>
-    </section>
-
-    <section class="intro">
-      <h2>Роль инструмента в EXMACHINA</h2>
-      <p>HU Drawing Generator — это не отдельный макрос и не утилита. Это <strong>первый уровень автоматизации</strong> в инженерной цепи EXMACHINA-AI.</p>
-      <p>Он демонстрирует базовый принцип проекта: процессы, данные и инженерные решения должны быть связаны детерминированной логикой, а не ручной работой.</p>
-    </section>
-
-    <section class="article-footer-cta">
-      <div class="actions">
-        <a href="assets/Draw_HU.rar" class="btn primary" download>Скачать инструмент (Draw_HU.rar)</a>
-        <a href="assets/HU_Drawing_Generator.pdf" class="btn secondary" download>Скачать презентацию (PDF)</a>
+    <section id="catalog-logic" class="docs-section">
+      <h2>Как пользоваться каталогом</h2>
+      <p>Если нужен быстрый расчёт — открывайте инструмент из каталога. Если нужен инженерный контекст — переходите в связанный модуль. Каждый встроенный калькулятор находится внутри модуля не случайно: формулы без понимания ограничений легко превращаются в источник ошибочных проектных решений.</p>
+      <ul>
+        <li>Для анализа распределения потребления используйте Distribution / Percentile Diagnostic в Модуле 1.</li>
+        <li>Для базовой проверки петли Kanban используйте Kanban Loop Calculator в Модуле 2.</li>
+        <li>Для подготовки чертежей упаковки используйте HU Drawing Generator как скачиваемый Excel/VBA-инструмент.</li>
+      </ul>
+      <div class="actions mt-8">
         <a href="dictionary.html" class="btn secondary">Открыть словарь терминов</a>
         <a href="index.html" class="btn secondary">← На главную</a>
       </div>
-      <p class="meta-note">Инструмент предоставляется бесплатно в ознакомительных и инженерных целях.</p>
     </section>
 
     <footer class="site-footer">
