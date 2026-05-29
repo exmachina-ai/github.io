@@ -663,6 +663,22 @@ button.reader-search-btn:hover {
   overflow: hidden;
 }
 
+.material-card {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+}
+
+.material-card > .actions {
+  margin-top: auto;
+  padding-top: 16px;
+  align-items: flex-start;
+}
+
+.material-card > .actions .btn {
+  min-width: 160px;
+}
+
 .card::before,
 .material-card::before,
 .related-card::before {
