@@ -187,7 +187,7 @@
 
 .selector-results {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: 1fr;
   gap: 14px;
   margin-top: 18px;
 }
@@ -211,6 +211,49 @@
   margin-top: 8px;
 }
 
+.selector-result-list {
+  display: grid;
+  gap: 10px;
+}
+
+.concept-result {
+  border: 1px solid var(--line-2);
+  border-radius: var(--r-sm);
+  background: rgba(255,255,255,.025);
+  padding: 12px 14px;
+}
+
+.concept-result__head {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.concept-result__name {
+  color: var(--text);
+  font-weight: 800;
+}
+
+.concept-result__status {
+  border: 1px solid var(--line-2);
+  border-radius: 999px;
+  padding: 3px 8px;
+  color: var(--text-3);
+  font-size: .75rem;
+  font-weight: 700;
+}
+
+.concept-result p {
+  margin: 0;
+}
+
+.concept-tags {
+  margin-top: 8px;
+}
+
 .concept-chip {
   display: inline-block;
   margin: 4px 6px 4px 0;
@@ -221,14 +264,75 @@
   font-size: .82rem;
 }
 
+.policy-spectrum {
+  display: grid;
+  gap: 12px;
+  margin-top: 18px;
+}
+
+.policy-spectrum__caption {
+  margin: 0 0 2px;
+  color: var(--text-3);
+  font-size: .9rem;
+  text-align: center;
+}
+
+.policy-card {
+  display: grid;
+  grid-template-columns: minmax(140px, .8fr) repeat(3, minmax(0, 1fr));
+  gap: 0;
+  overflow: hidden;
+  border: 1px solid var(--line-2);
+  border-radius: var(--r-sm);
+  background: rgba(255,255,255,.025);
+}
+
+.policy-card__title,
+.policy-card__cell {
+  padding: 14px;
+}
+
+.policy-card__title {
+  color: var(--text);
+  font-weight: 800;
+  background: rgba(255,255,255,.035);
+}
+
+.policy-card__cell {
+  border-left: 1px solid var(--line-2);
+}
+
+.policy-card__label {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--acc);
+  font-size: .72rem;
+  font-weight: 800;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+
+.policy-card__cell p {
+  margin: 0;
+  color: var(--text-3);
+}
+
 .selector-next {
   margin-top: 16px;
 }
 
 @media (max-width: 760px) {
-  .selector-grid,
-  .selector-results {
+  .selector-grid {
     grid-template-columns: 1fr;
+  }
+
+  .policy-card {
+    grid-template-columns: 1fr;
+  }
+
+  .policy-card__cell {
+    border-left: 0;
+    border-top: 1px solid var(--line-2);
   }
 }
   </style>
@@ -357,50 +461,83 @@
         <section id="supply-policy-spectrum" class="content-section">
           <h2>Спектр политик снабжения <a class="section-anchor" href="#supply-policy-spectrum" aria-label="Ссылка на раздел">§</a></h2>
           <p>Политики снабжения образуют спектр решений — от простых по инфраструктуре до наиболее требовательных к данным, IT-сигналам, подготовке материала и дисциплине исполнения. Таблица ниже — не иерархия от хорошего к плохому или наоборот, а описание разных профилей применимости.</p>
-          <div class="table-wrap">
-            <table>
-              <caption>Таблица 1 — Политики снабжения.</caption>
-              <thead>
-                <tr>
-                  <th>Политика</th>
-                  <th>Работает в условиях</th>
-                  <th>Ломается при условии</th>
-                  <th>Цена ошибки</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>Линейное хранение (Line Stocking)</td>
-                  <td>Runner, малое число вариантов, большой BOL-capacity.</td>
-                  <td>Резкий рост номенклатуры, малый BOL-capacity, дорогие/хрупкие детали.</td>
-                  <td>Низкая. Нарушения 5S, рост потерь от лишних перемещений.</td>
-                </tr>
-                <tr>
-                  <td>Pull-пополнение через Kanban (Boxed Supply)</td>
-                  <td>Repeater, есть супермаркет, работает Milk Run.</td>
-                  <td>Нестабильный спрос, отсутствует WIP-cap, Milk Run не выполняется по расписанию.</td>
-                  <td>Средняя. Постепенный рост дефицитов, скрытых за аварийными рейсами снабжения.</td>
-                </tr>
-                <tr>
-                  <td>Внутреннее секвенирование (Sequencing)</td>
-                  <td>Большое количество вариантов SKU на одной станции, стабильный производственный план.</td>
-                  <td>Sequence break, частые изменения производственной последовательности, отсутствие процедуры восстановления последовательности.</td>
-                  <td>Высокая. Ошибка последовательности — это почти всегда дефект или простой.</td>
-                </tr>
-                <tr>
-                  <td>Поставка в последовательности (JIS)</td>
-                  <td>Крупные или дорогие модули, стабильная последовательность, короткое и управляемое Last Mile-плечо, устойчивый EDI/MES-сигнал.</td>
-                  <td>Удаленное расположение поставщика, нестабильное секвенирование, отсутствие соответствующей IT-инфраструктуры для EDI.</td>
-                  <td>Очень высокая. Одна деталь может остановить линию.</td>
-                </tr>
-                <tr>
-                  <td>Комплектование (Kitting)</td>
-                  <td>Среднегабаритные или вариативные компоненты, достаточный ресурс пикеров, понятная зона комплектации, IT-поддержка задания и проверки состава комплекта.</td>
-                  <td>Детали высокой оборачиваемости: затраты на kitting превышают эффект от линейного хранения.</td>
-                  <td>Средняя. Наполняемость кита может варьироваться по количеству и номенклатуре.</td>
-                </tr>
-              </tbody>
-            </table>
+          <div class="policy-spectrum" role="list" aria-label="Таблица 1 — Политики снабжения">
+            <p class="policy-spectrum__caption">Таблица 1 — Политики снабжения.</p>
+            <article class="policy-card" role="listitem">
+              <div class="policy-card__title">Линейное хранение (Line Stocking)</div>
+              <div class="policy-card__cell">
+                <span class="policy-card__label">Работает в условиях</span>
+                <p>Runner, малое число вариантов, большой BOL-capacity.</p>
+              </div>
+              <div class="policy-card__cell">
+                <span class="policy-card__label">Ломается при условии</span>
+                <p>Резкий рост номенклатуры, малый BOL-capacity, дорогие/хрупкие детали.</p>
+              </div>
+              <div class="policy-card__cell">
+                <span class="policy-card__label">Цена ошибки</span>
+                <p>Низкая. Нарушения 5S, рост потерь от лишних перемещений.</p>
+              </div>
+            </article>
+            <article class="policy-card" role="listitem">
+              <div class="policy-card__title">Pull-пополнение через Kanban (Boxed Supply)</div>
+              <div class="policy-card__cell">
+                <span class="policy-card__label">Работает в условиях</span>
+                <p>Repeater, есть супермаркет, работает Milk Run.</p>
+              </div>
+              <div class="policy-card__cell">
+                <span class="policy-card__label">Ломается при условии</span>
+                <p>Нестабильный спрос, отсутствует WIP-cap, Milk Run не выполняется по расписанию.</p>
+              </div>
+              <div class="policy-card__cell">
+                <span class="policy-card__label">Цена ошибки</span>
+                <p>Средняя. Постепенный рост дефицитов, скрытых за аварийными рейсами снабжения.</p>
+              </div>
+            </article>
+            <article class="policy-card" role="listitem">
+              <div class="policy-card__title">Внутреннее секвенирование (Sequencing)</div>
+              <div class="policy-card__cell">
+                <span class="policy-card__label">Работает в условиях</span>
+                <p>Большое количество вариантов SKU на одной станции, стабильный производственный план.</p>
+              </div>
+              <div class="policy-card__cell">
+                <span class="policy-card__label">Ломается при условии</span>
+                <p>Sequence break, частые изменения производственной последовательности, отсутствие процедуры восстановления последовательности.</p>
+              </div>
+              <div class="policy-card__cell">
+                <span class="policy-card__label">Цена ошибки</span>
+                <p>Высокая. Ошибка последовательности — это почти всегда дефект или простой.</p>
+              </div>
+            </article>
+            <article class="policy-card" role="listitem">
+              <div class="policy-card__title">Поставка в последовательности (JIS)</div>
+              <div class="policy-card__cell">
+                <span class="policy-card__label">Работает в условиях</span>
+                <p>Крупные или дорогие модули, стабильная последовательность, короткое и управляемое Last Mile-плечо, устойчивый EDI/MES-сигнал.</p>
+              </div>
+              <div class="policy-card__cell">
+                <span class="policy-card__label">Ломается при условии</span>
+                <p>Удаленное расположение поставщика, нестабильное секвенирование, отсутствие соответствующей IT-инфраструктуры для EDI.</p>
+              </div>
+              <div class="policy-card__cell">
+                <span class="policy-card__label">Цена ошибки</span>
+                <p>Очень высокая. Одна деталь может остановить линию.</p>
+              </div>
+            </article>
+            <article class="policy-card" role="listitem">
+              <div class="policy-card__title">Комплектование (Kitting)</div>
+              <div class="policy-card__cell">
+                <span class="policy-card__label">Работает в условиях</span>
+                <p>Среднегабаритные или вариативные компоненты, достаточный ресурс пикеров, понятная зона комплектации, IT-поддержка задания и проверки состава комплекта.</p>
+              </div>
+              <div class="policy-card__cell">
+                <span class="policy-card__label">Ломается при условии</span>
+                <p>Детали высокой оборачиваемости: затраты на kitting превышают эффект от линейного хранения.</p>
+              </div>
+              <div class="policy-card__cell">
+                <span class="policy-card__label">Цена ошибки</span>
+                <p>Средняя. Наполняемость кита может варьироваться по количеству и номенклатуре.</p>
+              </div>
+            </article>
           </div>
           <p>Гибридная политика предусматривает применение разных методов для разных артикулов или классов артикулов на одной сборочной линии. Это не компромисс и не «переходный период», а нормальное инженерное решение для производства с широкой номенклатурой SKU.</p>
         </section>
@@ -810,17 +947,24 @@
         return result.concept.name + ' допустим: ' + result.positive.join('; ') + '.';
       }
 
+      function statusLabel(kind) {
+        if (kind === 'allowed') return 'допустим';
+        if (kind === 'conditional') return 'возможен при условиях';
+        return 'не рекомендуется';
+      }
+
       function renderList(node, items, emptyText) {
         if (!items.length) {
           node.innerHTML = '<p class="meta-note">' + emptyText + '</p>';
           return;
         }
-        node.innerHTML = '<ul>' + items.map(function (item) {
+        const kind = node.dataset.selectorResult;
+        node.innerHTML = '<div class="selector-result-list">' + items.map(function (item) {
           const chips = item.positive.concat(item.limits).slice(0, 4).map(function (tag) {
             return '<span class="concept-chip">' + tag + '</span>';
           }).join('');
-          return '<li><strong>' + item.concept.name + '</strong><br>' + sentence(item) + '<br>' + chips + '</li>';
-        }).join('') + '</ul>';
+          return '<article class="concept-result"><div class="concept-result__head"><span class="concept-result__name">' + item.concept.name + '</span><span class="concept-result__status">' + statusLabel(kind) + '</span></div><p>' + sentence(item) + '</p><div class="concept-tags">' + chips + '</div></article>';
+        }).join('') + '</div>';
       }
 
       function calculate() {
