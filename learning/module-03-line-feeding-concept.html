@@ -1,0 +1,895 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+  (function(m,e,t,r,i,k,a){
+    m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+    m[i].l=1*new Date();
+    for (var j = 0; j < document.scripts.length; j++) {
+      if (document.scripts[j].src === r) { return; }
+    }
+    k=e.createElement(t);
+    a=e.getElementsByTagName(t)[0];
+    k.async=1;
+    k.src=r;
+    a.parentNode.insertBefore(k,a);
+  })(window, document, 'script', 'https://mc.yandex.ru/metrika/tag.js?id=109088195', 'ym');
+
+  ym(109088195, 'init', {
+    ssr: true,
+    clickmap: true,
+    accurateTrackBounce: true,
+    trackLinks: true
+  });
+</script>
+<!-- /Yandex.Metrika counter -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#e06820">
+  <title>Выбор концепта снабжения линии — Модуль 3 EXMACHINA-AI</title>
+  <meta name="description" content="Обучающий модуль EXMACHINA-AI о выборе концепта снабжения линии: Line Stocking, Kanban / Boxed Supply, Sequencing, JIS и Kitting на основе PFEP, BOL, вариативности, sequence и инфраструктуры.">
+  <link rel="canonical" href="https://exmachina-ai.ru/learning/module-03-line-feeding-concept.html">
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="shortcut icon" href="/favicon.ico">
+
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Выбор концепта снабжения линии">
+  <meta property="og:description" content="Как выбирать Line Stocking, Kanban / Boxed Supply, Sequencing, JIS и Kitting на уровне артикула или класса артикулов.">
+  <meta property="og:url" content="https://exmachina-ai.ru/learning/module-03-line-feeding-concept.html">
+  <meta property="og:site_name" content="EXMACHINA-AI">
+  <meta property="og:image" content="https://exmachina-ai.ru/exmachina_logo.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Выбор концепта снабжения линии">
+  <meta name="twitter:description" content="Модуль 3 учебной траектории EXMACHINA-AI по методологии 9 слоёв.">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "LearningResource",
+    "name": "Выбор концепта снабжения линии",
+    "url": "https://exmachina-ai.ru/learning/module-03-line-feeding-concept.html",
+    "learningResourceType": "Обучающий модуль",
+    "inLanguage": "ru",
+    "publisher": {
+      "@type": "Organization",
+      "name": "EXMACHINA-AI",
+      "url": "https://exmachina-ai.ru"
+    }
+  }
+  </script>
+
+  <link rel="stylesheet" href="../style.css">
+  <style>
+/* HARD FIX: clean sticky article navigation */
+@media (min-width: 901px) {
+  .reader-layout {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) 300px !important;
+    gap: 32px !important;
+    align-items: start !important;
+  }
+
+  .reader-aside {
+    position: sticky !important;
+    top: 72px !important;
+    align-self: start !important;
+    height: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
+    min-width: 0 !important;
+    z-index: 20 !important;
+  }
+
+  .reader-toc-panel {
+    position: static !important;
+    display: block !important;
+  }
+
+  .reader-aside .toc,
+  .toc.is-sticky {
+    position: static !important;
+  }
+
+  .reader-aside .article-search,
+  .reader-aside #articleSearchStatus {
+    display: none !important;
+  }
+
+  .reader-aside .toc {
+    padding: 16px 18px !important;
+    max-height: none !important;
+    overflow: visible !important;
+  }
+
+  .reader-aside .toc-title {
+    margin-bottom: 10px !important;
+  }
+
+  .reader-aside .toc li + li {
+    margin-top: 7px !important;
+  }
+
+  .reader-aside .toc a {
+    font-size: 0.86rem !important;
+    line-height: 1.42 !important;
+  }
+}
+
+@media (max-width: 900px) {
+  .reader-layout {
+    display: block !important;
+  }
+
+  .reader-aside {
+    position: static !important;
+    height: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
+  }
+
+  .reader-aside .article-search,
+  .reader-aside #articleSearchStatus {
+    display: none !important;
+  }
+}
+
+.matrix-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 12px 0 18px;
+  color: var(--text-3);
+  font-size: .9rem;
+}
+
+.matrix-legend span {
+  border: 1px solid var(--line-2);
+  border-radius: var(--r-sm);
+  background: var(--surf-2);
+  padding: 6px 10px;
+}
+
+.decision-matrix td:not(:first-child),
+.decision-matrix th:not(:first-child) {
+  text-align: center;
+}
+
+.matrix-mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 30px;
+  min-height: 30px;
+  border-radius: 999px;
+  border: 1px solid var(--line-2);
+  color: var(--text);
+  font-weight: 800;
+}
+
+.matrix-mark.is-plus {
+  color: var(--acc);
+}
+
+.matrix-mark.is-mid {
+  color: var(--text-2);
+}
+
+.matrix-mark.is-minus {
+  color: var(--text-4);
+}
+
+.selector-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.selector-results {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  margin-top: 18px;
+}
+
+.selector-card {
+  border: 1px solid var(--line-2);
+  border-radius: var(--r-sm);
+  background: var(--surf-2);
+  padding: 14px 16px;
+}
+
+.selector-card h3 {
+  margin-top: 0;
+}
+
+.selector-card ul {
+  margin-bottom: 0;
+}
+
+.selector-card li + li {
+  margin-top: 8px;
+}
+
+.concept-chip {
+  display: inline-block;
+  margin: 4px 6px 4px 0;
+  padding: 4px 8px;
+  border: 1px solid var(--line-2);
+  border-radius: 999px;
+  color: var(--text-2);
+  font-size: .82rem;
+}
+
+.selector-next {
+  margin-top: 16px;
+}
+
+@media (max-width: 760px) {
+  .selector-grid,
+  .selector-results {
+    grid-template-columns: 1fr;
+  }
+}
+  </style>
+</head>
+<body>
+  <noscript>
+  <div>
+    <img src="https://mc.yandex.ru/watch/109088195" style="position:absolute; left:-9999px;" alt="">
+  </div>
+</noscript>
+  <div class="progress-bar" aria-hidden="true"><span id="readerProgress"></span></div>
+  <div class="page">
+    <header class="site-header">
+      <div class="header-inner">
+        <div class="header-logo">
+          <a href="../index.html">EXMACHINA-AI<span class="tm">™</span></a>
+        </div>
+        <nav class="main-nav" aria-label="Основная навигация">
+          <a href="../index.html">Главная</a>
+          <a href="../docs.html">Документы</a>
+          <a href="../learning.html" aria-current="page">Обучение</a>
+          <a href="../dictionary.html">Справочник</a>
+          <a href="../materials.html">Публикации</a>
+        </nav>
+      </div>
+    </header>
+
+    <section class="breadcrumbs">
+      <nav aria-label="Хлебные крошки">
+        <a href="../index.html">Главная</a>
+        <span>•</span>
+        <a href="../learning.html">Обучение</a>
+        <span>•</span>
+        <span aria-current="page">Модуль 3</span>
+      </nav>
+    </section>
+
+    <article>
+      <header class="article-header article-page">
+        <span class="hero-tag">Методология E2E · Слой 6 · Модуль 3</span>
+        <h1 class="article-title">Выбор концепта снабжения линии</h1>
+        <div class="article-lead">
+          <p>Обучающий модуль о том, почему концепт снабжения нельзя выбирать для линии целиком, как проверять применимость Line Stocking, Kanban / Boxed Supply, Sequencing, JIS и Kitting на уровне артикула или класса артикулов, и какие предусловия должны быть выполнены до расчёта маршрутов, буферов и ресурсов.</p>
+        </div>
+      </header>
+
+      <section class="article-meta article-page">
+        <div class="passport-grid">
+          <div class="passport-item">
+            <span class="label">Статус</span>
+            <span class="value">Доступен</span>
+          </div>
+          <div class="passport-item">
+            <span class="label">Слой</span>
+            <span class="value">Слой 6 · Снабжение линии</span>
+          </div>
+          <div class="passport-item">
+            <span class="label">Фокус</span>
+            <span class="value">Выбор концепта снабжения линии</span>
+          </div>
+          <div class="passport-item">
+            <span class="label">Инструмент</span>
+            <span class="value">Decision Matrix / Concept Selector</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="reader-layout page-wide">
+        <div class="reader-main">
+      <main class="article-body article-page" id="readerBody">
+        <section id="ot-inzhenera" class="content-section">
+          <p class="meta-note">От инженера инженерам</p>
+          <p>Наверное, все мы согласимся, что значительная часть успеха решения инженерной задачи зависит от того, насколько правильно она поставлена: какие ограничения известны, какие данные доступны, в каком формате должен быть представлен результат и на каком уровне вообще принимается решение. По своему опыту скажу, что в 95% случаев я не получаю и не получал задачи в таком формате. Затрудняет ли это работу? Безусловно. Растягивает ли сроки? Конечно. Именно это во многом подтолкнуло меня к созданию «скелета» проектирования материального потока — Методологии 9 слоёв и дополнительных обучающих модулей, которые расставлены в этом потоке как инженерные ориентиры.</p>
+        </section>
+
+        <section id="engineering-problem" class="content-section">
+          <h2>Инженерная проблема <a class="section-anchor" href="#engineering-problem" aria-label="Ссылка на раздел">§</a></h2>
+          <p>Вам повезло, если на этапе проектирования системы снабжения линии вы не получали задание в духе: «Необходимо выбрать концепт подачи материала». Обычно следом возникает первый рабочий вопрос: «Что внедряем: Kitting, Kanban, Sequencing?». Кому-то это может показаться правильным, и я лично знаю несколько таких людей, но на самом деле вопрос поставлен не на том уровне. Проблема не в том, что инженер не знает методов, а в том, что решение пытаются принять для линии целиком, хотя рабочий выбор всегда должен делаться на уровне конкретного артикула.</p>
+          <p>Вот что происходит на практике: принимается решение «внедряем Kanban», начинают с высокооборачиваемого крепежа и артикулов метизной группы, получают удовлетворительный результат. При попытке распространить это решение на вариативные компоненты интерьера появляются переполненные стеллажи у линии, остановки вследствие долгого поиска материала нужного варианта, а дефицит по редко используемым исполнениям не прекращается. В итоге все закрывается аварийными рейсами пополнения. Каждую смену. Ежедневно.</p>
+          <p>Это системная ошибка проектирования, а не ошибка исполнения. Kanban может быть правильным методом для одних деталей и неприемлемым для других. То, что на бумаге называется «системой снабжения», на деле превращается в набор несвязанных исключений, которые сотрудник склада обслуживает через мессенджер.</p>
+        </section>
+
+        <section id="intuitive-approach" class="content-section">
+          <h2>Интуитивный подход <a class="section-anchor" href="#intuitive-approach" aria-label="Ссылка на раздел">§</a></h2>
+          <p>Интуитивный выбор концепта, обычно, опирается на три механизма: прецедент (раньше использовали стеллажи, и все работало), тренд (все внедряют, значит и нам надо) и упрощение (kitting для «сложных» деталей, остальное через DTL). Все три механизма работают только в условиях, в которых они сформировались: прецедент — при небольшой и стабильной номенклатуре, тренд — когда деталь действительно подходит под сигнальную логику, упрощение — когда «сложные» и «простые» детали можно четко разделить.</p>
+          <p>Современная сборочная линия часто разрушает все три условия одновременно. Смешанная модельная сборочная линия (Mixed Model Assembly Line, MMAL) создает переменный спрос с высокой амплитудой. Сегодня на станции нужны три детали А001, завтра — одна А001 и две В002, послезавтра — только В002. Номенклатура, используемая на одной станции, исчисляется десятками SKU, а площадь у линии по-прежнему ограничена физически.</p>
+          <ul>
+            <li>Первое — смешение трех уровней принятия решения, разобранных в Модуле 2. Push/Pull — это уровень триггера, только первый из трех уровней.</li>
+            <li>Второе — подмена логики управления носителем сигнала. Kanban — носитель сигнала, а не логика управления.</li>
+            <li>Третье — игнорирование физических ограничений: площади у BOL, пропускной способности маршрута, IT-инфраструктуры и доступности человеческого ресурса.</li>
+          </ul>
+        </section>
+
+        <section id="key-concepts" class="content-section">
+          <h2>Ключевые понятия <a class="section-anchor" href="#key-concepts" aria-label="Ссылка на раздел">§</a></h2>
+          <p>Выбор концепта снабжения начинается не с названия метода, а с границ, данных и физических условий, в которых этот метод должен работать. В рамках Слоя 6 ключевыми становятся BOL, супермаркет, PFEP, структура потребления и устойчивость производственной последовательности.</p>
+        </section>
+
+        <section id="bol" class="content-section">
+          <h2>Где проходит граница линии <a class="section-anchor" href="#bol" aria-label="Ссылка на раздел">§</a></h2>
+          <p>BOL (Border of Line — граница линии) — это физическая зона передачи материала от логистики к сборке. Условно всё, что находится со стороны линии после BOL, относится к зоне работы оператора сборки; всё, что находится до BOL, относится к зоне ответственности логистики. Концепт снабжения описывает то, что происходит на пути от склада или супермаркета до BOL, и то, в каком виде деталь оказывается правее этой границы.</p>
+          <p>Площадь BOL является жёстким физическим ограничением, нельзя выбрать концепт, который требует больше места, чем доступно в точке использования. Поэтому BOL-capacity должна входить в перечень обязательных параметров и определяться до выбора метода снабжения.</p>
+        </section>
+
+        <section id="supermarket-buffer" class="content-section">
+          <h2>Супермаркет как промежуточный буфер <a class="section-anchor" href="#supermarket-buffer" aria-label="Ссылка на раздел">§</a></h2>
+          <p>Супермаркет не является складом в обычном смысле и не сводится к стеллажу у линии. Это управляемый буфер с фиксированным объемом, из которого материал изымается для снабжения линии по факту потребления. Его место в потоке — между складом и BOL.</p>
+          <p>Он выполняет несколько основных функций: поглощает вариативность входящего потока, служит точкой переупаковки из тары поставщика в тару линии и может быть исходной точкой для внутренней Pull-системы. Для устойчивого секвенирования обычно требуется промежуточная зона подготовки или буфер, выполняющий функцию супермаркета.</p>
+        </section>
+
+        <section id="minimum-data" class="content-section">
+          <h2>Минимальный набор данных для выбора концепта <a class="section-anchor" href="#minimum-data" aria-label="Ссылка на раздел">§</a></h2>
+          <p>В рамках этого модуля и Методологии 9 слоёв выбор концепта снабжения рассматривается как вычисляемое инженерное решение, а не как экспертная оценка «по опыту». Для того чтобы выполнить расчет, необходимы данные. Минимальный набор выглядит так:</p>
+          <ul>
+            <li>Почасовое и суточное потребление по каждому артикулу с учетом различных сценариев mix-последовательности производства.</li>
+            <li>Габариты и масса грузовых единиц (HU).</li>
+            <li>Число SKU для каждой станции с учётом опциональности, цвета, исполнения и привязки к точке использования.</li>
+            <li>Доступная площадь BOL у точки использования.</li>
+            <li>Стабильность производственной последовательности, особенно критично для секвенирования и JIS.</li>
+            <li>Lead Time от сигнала пополнения до поступления детали к BOL.</li>
+            <li>Необходимость привязки детали к VIN.</li>
+          </ul>
+          <p>Документ или регистр данных, в котором эти и другие параметры собраны в разрезе каждого артикула, называется PFEP (Plan for Every Part, план для каждой детали).</p>
+        </section>
+
+        <section id="supply-policy-spectrum" class="content-section">
+          <h2>Спектр политик снабжения <a class="section-anchor" href="#supply-policy-spectrum" aria-label="Ссылка на раздел">§</a></h2>
+          <p>Политики снабжения образуют спектр решений — от простых по инфраструктуре до наиболее требовательных к данным, IT-сигналам, подготовке материала и дисциплине исполнения. Таблица ниже — не иерархия от хорошего к плохому или наоборот, а описание разных профилей применимости.</p>
+          <div class="table-wrap">
+            <table>
+              <caption>Таблица 1 — Политики снабжения.</caption>
+              <thead>
+                <tr>
+                  <th>Политика</th>
+                  <th>Работает в условиях</th>
+                  <th>Ломается при условии</th>
+                  <th>Цена ошибки</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Линейное хранение (Line Stocking)</td>
+                  <td>Runner, малое число вариантов, большой BOL-capacity.</td>
+                  <td>Резкий рост номенклатуры, малый BOL-capacity, дорогие/хрупкие детали.</td>
+                  <td>Низкая. Нарушения 5S, рост потерь от лишних перемещений.</td>
+                </tr>
+                <tr>
+                  <td>Pull-пополнение через Kanban (Boxed Supply)</td>
+                  <td>Repeater, есть супермаркет, работает Milk Run.</td>
+                  <td>Нестабильный спрос, отсутствует WIP-cap, Milk Run не выполняется по расписанию.</td>
+                  <td>Средняя. Постепенный рост дефицитов, скрытых за аварийными рейсами снабжения.</td>
+                </tr>
+                <tr>
+                  <td>Внутреннее секвенирование (Sequencing)</td>
+                  <td>Большое количество вариантов SKU на одной станции, стабильный производственный план.</td>
+                  <td>Sequence break, частые изменения производственной последовательности, отсутствие процедуры восстановления последовательности.</td>
+                  <td>Высокая. Ошибка последовательности — это почти всегда дефект или простой.</td>
+                </tr>
+                <tr>
+                  <td>Поставка в последовательности (JIS)</td>
+                  <td>Крупные или дорогие модули, стабильная последовательность, короткое и управляемое Last Mile-плечо, устойчивый EDI/MES-сигнал.</td>
+                  <td>Удаленное расположение поставщика, нестабильное секвенирование, отсутствие соответствующей IT-инфраструктуры для EDI.</td>
+                  <td>Очень высокая. Одна деталь может остановить линию.</td>
+                </tr>
+                <tr>
+                  <td>Комплектование (Kitting)</td>
+                  <td>Среднегабаритные или вариативные компоненты, достаточный ресурс пикеров, понятная зона комплектации, IT-поддержка задания и проверки состава комплекта.</td>
+                  <td>Детали высокой оборачиваемости: затраты на kitting превышают эффект от линейного хранения.</td>
+                  <td>Средняя. Наполняемость кита может варьироваться по количеству и номенклатуре.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p>Гибридная политика предусматривает применение разных методов для разных артикулов или классов артикулов на одной сборочной линии. Это не компромисс и не «переходный период», а нормальное инженерное решение для производства с широкой номенклатурой SKU.</p>
+        </section>
+
+        <section id="decision-matrix" class="content-section">
+          <h2>Decision Matrix <a class="section-anchor" href="#decision-matrix" aria-label="Ссылка на раздел">§</a></h2>
+          <p>Матрица показывает первичный профиль применимости концептов. Она помогает увидеть, какие условия усиливают концепт, какие требуют дополнительных предусловий, а какие делают решение рискованным.</p>
+          <div class="matrix-legend" aria-label="Легенда матрицы">
+            <span><strong>+</strong> подходит</span>
+            <span><strong>±</strong> возможно при дополнительных условиях</span>
+            <span><strong>−</strong> не рекомендуется</span>
+          </div>
+          <div class="table-wrap">
+            <table class="decision-matrix">
+              <thead>
+                <tr>
+                  <th>Условие</th>
+                  <th>Line Stocking</th>
+                  <th>Kanban / Boxed Supply</th>
+                  <th>Sequencing</th>
+                  <th>JIS</th>
+                  <th>Kitting</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>High-runner, стабильное потребление</td><td><span class="matrix-mark is-plus">+</span></td><td><span class="matrix-mark is-plus">+</span></td><td><span class="matrix-mark is-minus">−</span></td><td><span class="matrix-mark is-minus">−</span></td><td><span class="matrix-mark is-mid">±</span></td></tr>
+                <tr><td>Repeater, известная структура отклонений</td><td><span class="matrix-mark is-mid">±</span></td><td><span class="matrix-mark is-plus">+</span></td><td><span class="matrix-mark is-mid">±</span></td><td><span class="matrix-mark is-minus">−</span></td><td><span class="matrix-mark is-mid">±</span></td></tr>
+                <tr><td>Высокая вариативность потребления</td><td><span class="matrix-mark is-minus">−</span></td><td><span class="matrix-mark is-mid">±</span></td><td><span class="matrix-mark is-plus">+</span></td><td><span class="matrix-mark is-mid">±</span></td><td><span class="matrix-mark is-plus">+</span></td></tr>
+                <tr><td>Много вариантов SKU у точки использования</td><td><span class="matrix-mark is-minus">−</span></td><td><span class="matrix-mark is-mid">±</span></td><td><span class="matrix-mark is-plus">+</span></td><td><span class="matrix-mark is-plus">+</span></td><td><span class="matrix-mark is-plus">+</span></td></tr>
+                <tr><td>Ограниченная BOL-capacity</td><td><span class="matrix-mark is-minus">−</span></td><td><span class="matrix-mark is-mid">±</span></td><td><span class="matrix-mark is-plus">+</span></td><td><span class="matrix-mark is-plus">+</span></td><td><span class="matrix-mark is-plus">+</span></td></tr>
+                <tr><td>HU можно подать напрямую</td><td><span class="matrix-mark is-plus">+</span></td><td><span class="matrix-mark is-plus">+</span></td><td><span class="matrix-mark is-mid">±</span></td><td><span class="matrix-mark is-mid">±</span></td><td><span class="matrix-mark is-minus">−</span></td></tr>
+                <tr><td>HU требует переупаковки</td><td><span class="matrix-mark is-mid">±</span></td><td><span class="matrix-mark is-plus">+</span></td><td><span class="matrix-mark is-plus">+</span></td><td><span class="matrix-mark is-mid">±</span></td><td><span class="matrix-mark is-plus">+</span></td></tr>
+                <tr><td>Требуется VIN-привязка</td><td><span class="matrix-mark is-minus">−</span></td><td><span class="matrix-mark is-minus">−</span></td><td><span class="matrix-mark is-plus">+</span></td><td><span class="matrix-mark is-plus">+</span></td><td><span class="matrix-mark is-plus">+</span></td></tr>
+                <tr><td>Требуется sequence-подача</td><td><span class="matrix-mark is-minus">−</span></td><td><span class="matrix-mark is-minus">−</span></td><td><span class="matrix-mark is-plus">+</span></td><td><span class="matrix-mark is-plus">+</span></td><td><span class="matrix-mark is-mid">±</span></td></tr>
+                <tr><td>Sequence нестабилен в горизонте подготовки</td><td><span class="matrix-mark is-mid">±</span></td><td><span class="matrix-mark is-mid">±</span></td><td><span class="matrix-mark is-minus">−</span></td><td><span class="matrix-mark is-minus">−</span></td><td><span class="matrix-mark is-mid">±</span></td></tr>
+                <tr><td>Есть супермаркет / зона подготовки</td><td><span class="matrix-mark is-mid">±</span></td><td><span class="matrix-mark is-plus">+</span></td><td><span class="matrix-mark is-plus">+</span></td><td><span class="matrix-mark is-mid">±</span></td><td><span class="matrix-mark is-plus">+</span></td></tr>
+                <tr><td>Есть MES / WMS / broadcast / EDI-сигнал</td><td><span class="matrix-mark is-mid">±</span></td><td><span class="matrix-mark is-plus">+</span></td><td><span class="matrix-mark is-plus">+</span></td><td><span class="matrix-mark is-plus">+</span></td><td><span class="matrix-mark is-plus">+</span></td></tr>
+                <tr><td>Возможен WIP-cap</td><td><span class="matrix-mark is-mid">±</span></td><td><span class="matrix-mark is-plus">+</span></td><td><span class="matrix-mark is-mid">±</span></td><td><span class="matrix-mark is-mid">±</span></td><td><span class="matrix-mark is-mid">±</span></td></tr>
+                <tr><td>Есть ресурс на подготовку / kitting / sequencing</td><td><span class="matrix-mark is-minus">−</span></td><td><span class="matrix-mark is-mid">±</span></td><td><span class="matrix-mark is-plus">+</span></td><td><span class="matrix-mark is-plus">+</span></td><td><span class="matrix-mark is-plus">+</span></td></tr>
+                <tr><td>Высокая цена ошибки подачи</td><td><span class="matrix-mark is-minus">−</span></td><td><span class="matrix-mark is-mid">±</span></td><td><span class="matrix-mark is-plus">+</span></td><td><span class="matrix-mark is-plus">+</span></td><td><span class="matrix-mark is-plus">+</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="callout">
+            <p>Матрица не заменяет инженерный расчёт. Она показывает первичный профиль применимости концептов и помогает отсечь решения, которые конфликтуют с физическими, информационными или организационными предусловиями.</p>
+          </div>
+        </section>
+
+        <section id="applicability-limits" class="content-section">
+          <h2>Ограничения применимости политик <a class="section-anchor" href="#applicability-limits" aria-label="Ссылка на раздел">§</a></h2>
+          <p><strong>Машинокомплекты с длительным внешним сроком поставки.</strong> Когда компоненты идут морем с горизонтом 6–10 недель, Pull-сигнал не может управлять внешним заказом: фактическое потребление на линии возникает слишком поздно, чтобы повлиять на уже сформированную поставку. Поэтому внешний контур работает по плану, а Pull может применяться только внутри завода — например, в контуре «супермаркет → линия» или «зона подготовки → BOL».</p>
+          <p><strong>Мелкосерийная или опытная сборка.</strong> При единичном производстве, опытной сборке или изготовлении прототипов вариативность настолько высока, а повторяемость потребления настолько низка, что большинство сигнальных логик теряет смысл.</p>
+          <p><strong>Отсутствие IT-инфраструктуры.</strong> JIS-поставка, секвенирование и комплектование по VIN требуют устойчивого broadcast-сигнала от MES или другой системы управления производственной последовательностью. Без такого сигнала эти концепции переходят в ручной режим.</p>
+          <p><strong>Ранний этап жизненного цикла продукта.</strong> В первые месяцы выпуска BOM часто меняется, потребление нестабильно, конструкция и состав опций ещё корректируются. Внедрять сложные концепции в этот момент преждевременно.</p>
+        </section>
+
+        <section id="missing-prerequisites" class="content-section">
+          <h2>Что делать, если предусловия не выполняются <a class="section-anchor" href="#missing-prerequisites" aria-label="Ссылка на раздел">§</a></h2>
+          <p>Когда ключевые предусловия не выполняются, обычно возникает искушение впасть в одну из двух крайностей: махнуть рукой и упростить систему до примитивной схемы либо упрямо внедрять выбранное решение, закрывая глаза на реальность. Оба варианта одинаково плохи: первый теряет управляемость, второй создаёт красивую, но неработоспособную конструкцию.</p>
+          <p>Верный путь — открыто назвать предусловие, которое сейчас отсутствует, и принять осознанное решение: либо устранить разрыв, либо выбрать другой концепт, для которого это предусловие не является обязательным. Каждое невыполненное предусловие не просто создаёт помеху, а очерчивает границу, внутри которой нужно искать работоспособный вариант.</p>
+        </section>
+
+        <section id="typical-errors" class="content-section">
+          <h2>Типовые ошибки и ловушки <a class="section-anchor" href="#typical-errors" aria-label="Ссылка на раздел">§</a></h2>
+          <p>Первая ловушка — Kanban, за которым не стоит подлинный вытягивающий сигнал. На производственной площадке это проявляется почти мгновенно: количество карточек не совпадает с фактическим объемом незавершенного производства, а при остановке последующего участка предыдущий продолжает работать. Почти всегда рядом обнаруживается параллельное расписание — в Excel или в рабочем мессенджере.</p>
+          <p>Вторая ошибка — попытка применить единую политику снабжения ко всей линии, не различая артикулы по характеру потребления. Диагностика проста: проверить, существует ли классификация деталей по объёму потребления, вариативности, габаритам, BOL-capacity, VIN-привязке и требованиям к последовательности.</p>
+          <p>Третья ловушка — выстраивание последовательности или поставка точно в последовательность без стабильной производственной очерёдности в пределах горизонта подготовки и доставки. Здесь симптомы самые наглядные: рост числа sequence break, переполненный буфер повторного секвенирования и операторы, которые вручную «выдёргивают» нужный вариант.</p>
+          <p>Четвёртая ошибка — комплектование ходовых, массовых деталей без отдельного обоснования. Она проявляется в том, что комплектовщики тратят основную часть смены на одни и те же позиции, время подготовки наборов растёт, а общий уровень складских запасов не снижается.</p>
+          <p>Пятая ловушка — проектирование транспортных маршрутов до выбора логики пополнения. Такт рейса тягача должен быть следствием политики пополнения, формата подачи, объёма грузовой единицы и требуемого Lead Time, а не наоборот.</p>
+          <p>Шестая ошибка — несоответствие точности данных в PFEP требованиям выбранного концепта. Чем сложнее концепт, тем выше требования к точности PFEP: для JIS, sequencing и комплектования по VIN недостаточно знать только артикул и среднее потребление, нужны упаковка, кратность, габариты, точка использования, статус, вариантность и правила привязки к VIN.</p>
+          <p>Отдельного внимания заслуживает ошибка сравнения концептов в неравных условиях. Корректный вывод возникает только тогда, когда все альтернативы рассматриваются при едином наборе входных параметров.</p>
+        </section>
+
+        <section id="concept-selector" class="content-section tool-panel" aria-labelledby="concept-selector-title">
+          <div class="tool-head">
+            <div>
+              <span class="hero-tag">Диагностический инструмент</span>
+              <h2 id="concept-selector-title">Селектор концепта снабжения линии <a class="section-anchor" href="#concept-selector" aria-label="Ссылка на раздел">§</a></h2>
+            </div>
+            <p>Это диагностический инструмент предварительной проверки применимости концептов. Он не выбирает решение вместо инженера и не заменяет PFEP-расчёт, а показывает, какие концепты допустимы при заданных условиях, какие требуют дополнительных предусловий, а какие несут высокий риск ошибки.</p>
+          </div>
+
+          <div class="callout">
+            <p>Concept Selector не считает площадь, количество Kanban-карточек, транспорт, FTE, стоимость, трудоёмкость, размер буфера в штуках или HU. Эти расчёты относятся к соседним модулям и будущим инструментам.</p>
+          </div>
+
+          <div class="selector-grid">
+            <label class="tool-field"><span>Класс потребления артикула</span><select data-selector-field="demandClass"><option value="runner">runner</option><option value="repeater" selected>repeater</option><option value="stranger">stranger</option></select></label>
+            <label class="tool-field"><span>Вариативность потребления</span><select data-selector-field="variability"><option value="low">низкая</option><option value="medium" selected>средняя</option><option value="high">высокая</option></select></label>
+            <label class="tool-field"><span>Число вариантов SKU у точки использования</span><select data-selector-field="skuVariants"><option value="low">низкое</option><option value="medium" selected>среднее</option><option value="high">высокое</option></select></label>
+            <label class="tool-field"><span>Доступная BOL-capacity</span><select data-selector-field="bolCapacity"><option value="enough">достаточная</option><option value="limited" selected>ограниченная</option><option value="critical">критически ограниченная</option></select></label>
+            <label class="tool-field"><span>Пригодность HU для прямой подачи</span><select data-selector-field="huDirect"><option value="direct">можно подать напрямую</option><option value="repack" selected>требуется переупаковка</option><option value="impossible">невозможно подать напрямую</option></select></label>
+            <label class="tool-field"><span>Нужна ли VIN-привязка</span><select data-selector-field="vinRequired"><option value="no" selected>нет</option><option value="yes">да</option></select></label>
+            <label class="tool-field"><span>Требуется ли подача в sequence</span><select data-selector-field="sequenceRequired"><option value="no" selected>нет</option><option value="desired">желательно</option><option value="mandatory">обязательно</option></select></label>
+            <label class="tool-field"><span>Стабильность sequence в горизонте подготовки</span><select data-selector-field="sequenceStability"><option value="stable">стабильна</option><option value="partial">частично стабильна</option><option value="unstable">нестабильна</option><option value="na" selected>не применимо</option></select></label>
+            <label class="tool-field"><span>Есть ли MES / WMS / broadcast / EDI-сигнал</span><select data-selector-field="itSignal"><option value="no">нет</option><option value="partial" selected>частично</option><option value="yes">да</option></select></label>
+            <label class="tool-field"><span>Есть ли супермаркет или зона подготовки</span><select data-selector-field="prepZone"><option value="no">нет</option><option value="yes" selected>да</option></select></label>
+            <label class="tool-field"><span>Возможен ли WIP-cap</span><select data-selector-field="wipCap"><option value="no">нет</option><option value="yes" selected>да</option></select></label>
+            <label class="tool-field"><span>Есть ли ресурс на kitting / sequencing</span><select data-selector-field="prepResource"><option value="no">нет</option><option value="limited" selected>ограничен</option><option value="yes">да</option></select></label>
+            <label class="tool-field"><span>Допустимая цена ошибки подачи</span><select data-selector-field="errorCost"><option value="low">низкая</option><option value="medium" selected>средняя</option><option value="high">высокая</option></select></label>
+          </div>
+
+          <div class="selector-results" aria-live="polite">
+            <div class="selector-card">
+              <h3>Допустимые концепты</h3>
+              <div data-selector-result="allowed"></div>
+            </div>
+            <div class="selector-card">
+              <h3>Возможны при условиях</h3>
+              <div data-selector-result="conditional"></div>
+            </div>
+            <div class="selector-card">
+              <h3>Не рекомендуются</h3>
+              <div data-selector-result="blocked"></div>
+            </div>
+          </div>
+
+          <div class="selector-card selector-next">
+            <h3>Что проверить дальше</h3>
+            <ul data-selector-result="next"></ul>
+          </div>
+        </section>
+
+        <section id="what-to-calculate-next" class="content-section">
+          <h2>Что считать дальше <a class="section-anchor" href="#what-to-calculate-next" aria-label="Ссылка на раздел">§</a></h2>
+          <p>Селектор не рассчитывает площадь, Kanban-петлю, транспорт и трудоёмкость. Он определяет допустимый набор концептов и показывает, какие расчёты нужно выполнить дальше.</p>
+          <ul>
+            <li><a href="module-01-distribution-variability.html">Модуль 1 — распределение и P90/P95</a>.</li>
+            <li><a href="module-02-push-pull-kanban.html#kanban-loop-calculator">Модуль 2 — Kanban Loop Calculator</a>.</li>
+            <li>Модуль 4 — HU Capacity Calculator, когда будет опубликован.</li>
+            <li>Модуль 5 — Supermarket Area Calculator, когда будет опубликован.</li>
+            <li>Модуль 6 — Tugger Train Calculator, когда будет опубликован.</li>
+            <li>Модуль 7 — Buffer Size Calculator, когда будет опубликован.</li>
+          </ul>
+        </section>
+
+        <section id="related-terms" class="content-section">
+          <h2>Связанные термины <a class="section-anchor" href="#related-terms" aria-label="Ссылка на раздел">§</a></h2>
+          <p>Ключевые понятия модуля связаны со справочником терминов EXMACHINA-AI.</p>
+          <ul>
+            <li><a href="../dictionary.html">BOL</a></li>
+            <li><a href="../dictionary.html">PFEP</a></li>
+            <li><a href="../dictionary.html">HU</a></li>
+            <li><a href="../dictionary.html">SKU</a></li>
+            <li><a href="../dictionary.html">Line Stocking</a></li>
+            <li><a href="../dictionary.html">Kanban</a></li>
+            <li><a href="../dictionary.html">WIP-cap</a></li>
+            <li><a href="../dictionary.html">Supermarket</a></li>
+            <li><a href="../dictionary.html">Sequencing</a></li>
+            <li><a href="../dictionary.html">JIS</a></li>
+            <li><a href="../dictionary.html">Kitting</a></li>
+            <li><a href="../dictionary.html">Lead Time</a></li>
+            <li><a href="../dictionary.html">VIN</a></li>
+            <li><a href="../dictionary.html">MES</a></li>
+            <li><a href="../dictionary.html">WMS</a></li>
+            <li><a href="../dictionary.html">EDI</a></li>
+            <li><a href="../dictionary.html">Broadcast</a></li>
+            <li><a href="../dictionary.html">Decoupling point</a></li>
+          </ul>
+        </section>
+
+        <section id="conclusions" class="content-section">
+          <h2>Вывод <a class="section-anchor" href="#conclusions" aria-label="Ссылка на раздел">§</a></h2>
+          <p>Слой 6 методологии это не про «выбрать метод», а про изменение уровня вопроса, когда перестают спрашивать «какой концепт лучше» и начинают спрашивать «при каких условиях каждый из концептов вообще может работать, и где он начнет разрушаться».</p>
+          <p>Первый тектонический сдвиг касается привязки. Концепт снабжения — не свойство линии: он не выбирается для цеха целиком, как цвет стен или разметка производственных станций. Концепт снабжения — это свойство артикула, а точнее класса артикулов.</p>
+          <p>Второй сдвиг — переворот в восприятии самих концептов. На слайдах они выглядят как набор преимуществ: быстрее, точнее, дешевле. В реальности каждый концепт — это прежде всего набор предусловий. Если они не выполнены — концепт не работает, как бы элегантно он ни выглядел в презентации.</p>
+          <p>Третье следствие: решение принимается не интуицией и не бенчмаркингом, а данными. PFEP перестаёт быть бюрократическим документом и становится таблицей входных условий, без которой дерево решений просто не может быть просчитано.</p>
+          <p>И наконец, порядок шагов. Маршруты транспорта не проектируются до того, как выбрана логика пополнения, — они являются ее следствием. Цепочка всегда одна: PFEP → классификация артикула или класса артикулов → концепт снабжения, включающий триггер, подготовку и формат представления у BOL → сигнальная система → маршрут и его расписание.</p>
+          <div class="callout">
+            <p>Для полного понимания модуля желательно предварительно ознакомиться с понятием вариативности потребления (Модуль 1) и логикой Push/Pull/WIP-cap (Модуль 2).</p>
+          </div>
+        </section>
+      </main>
+        </div>
+
+        <aside class="reader-aside" aria-label="Навигация по модулю">
+          <button class="toc-toggle" id="tocToggle" type="button" aria-expanded="true" aria-controls="readerTocPanel">Содержание модуля</button>
+          <div id="readerTocPanel" class="reader-toc-panel">
+            <div class="toc is-sticky mt-12">
+              <span class="toc-title">Содержание</span>
+              <ol>
+                <li><a href="#ot-inzhenera">От инженера инженерам</a></li>
+                <li><a href="#engineering-problem">Инженерная проблема</a></li>
+                <li><a href="#intuitive-approach">Интуитивный подход</a></li>
+                <li><a href="#key-concepts">Ключевые понятия</a></li>
+                <li><a href="#bol">BOL</a></li>
+                <li><a href="#supermarket-buffer">Супермаркет</a></li>
+                <li><a href="#minimum-data">Минимальные данные</a></li>
+                <li><a href="#supply-policy-spectrum">Спектр политик</a></li>
+                <li><a href="#decision-matrix">Decision Matrix</a></li>
+                <li><a href="#applicability-limits">Границы применимости</a></li>
+                <li><a href="#missing-prerequisites">Предусловия</a></li>
+                <li><a href="#typical-errors">Типовые ошибки</a></li>
+                <li><a href="#concept-selector">Concept Selector</a></li>
+                <li><a href="#what-to-calculate-next">Что считать дальше</a></li>
+                <li><a href="#related-terms">Связанные термины</a></li>
+                <li><a href="#conclusions">Вывод</a></li>
+              </ol>
+            </div>
+          </div>
+        </aside>
+      </section>
+    </article>
+
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <div>
+          <p>EXMACHINA-AI™ · <a href="https://exmachina-ai.ru">exmachina-ai.ru</a> · © 2026 — Никакого шума. Никаких иллюзий.</p>
+          <p class="footer-note">Почта: <a href="mailto:admin@exmachina-ai.ru">admin@exmachina-ai.ru</a></p>
+          <p class="footer-note">
+            Материалы сайта доступны по лицензии
+            <a href="../license.html">CC BY-SA 4.0</a>.
+            Атрибуция: EXMACHINA-AI, Administrator.
+          </p>
+        </div>
+        <div class="footer-links">
+          <a href="../index.html">Главная</a>
+          <a href="../docs.html">Документы</a>
+          <a href="../learning.html">Обучение</a>
+          <a href="../dictionary.html">Справочник</a>
+          <a href="../materials.html">Публикации</a>
+          <a href="../privacy.html">Политика</a>
+          <a href="../license.html">Лицензия</a>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <div class="back-to-top" id="backToTop"><a class="btn secondary" href="#top">Наверх ↑</a></div>
+
+  <script>
+    (function() {
+      const progress = document.getElementById('readerProgress');
+      const tocToggle = document.getElementById('tocToggle');
+      const tocPanel = document.getElementById('readerTocPanel');
+      const backToTop = document.getElementById('backToTop');
+      const readerBody = document.getElementById('readerBody');
+      const tocLinks = Array.from(document.querySelectorAll('.toc a'));
+      const sectionTargets = tocLinks.map(link => document.querySelector(link.getAttribute('href'))).filter(Boolean);
+
+      function updateProgress() {
+        const total = readerBody.offsetHeight - window.innerHeight;
+        const scrolled = Math.min(Math.max(window.scrollY - (readerBody.offsetTop - 80), 0), Math.max(total, 1));
+        const pct = Math.min(100, Math.max(0, (scrolled / Math.max(total, 1)) * 100));
+        progress.style.width = pct + '%';
+        if (window.scrollY > 600) backToTop.classList.add('is-visible');
+        else backToTop.classList.remove('is-visible');
+      }
+
+      window.addEventListener('scroll', updateProgress, { passive: true });
+      updateProgress();
+
+      if (tocToggle && tocPanel) {
+        tocToggle.addEventListener('click', function() {
+          const expanded = tocToggle.getAttribute('aria-expanded') === 'true';
+          tocToggle.setAttribute('aria-expanded', String(!expanded));
+          tocPanel.classList.toggle('hidden', expanded);
+        });
+        if (window.innerWidth <= 760) {
+          tocPanel.classList.add('hidden');
+          tocToggle.setAttribute('aria-expanded', 'false');
+        }
+      }
+
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            tocLinks.forEach(l => l.classList.remove('is-active'));
+            const id = '#' + entry.target.id;
+            const link = tocLinks.find(l => l.getAttribute('href') === id);
+            if (link) link.classList.add('is-active');
+          }
+        });
+      }, { rootMargin: '-20% 0px -65% 0px', threshold: 0 });
+      sectionTargets.forEach(t => io.observe(t));
+    })();
+  </script>
+
+  <script>
+    (function () {
+      const panel = document.getElementById('concept-selector');
+      if (!panel) return;
+
+      const fields = {};
+      panel.querySelectorAll('[data-selector-field]').forEach(function (node) {
+        fields[node.dataset.selectorField] = node;
+      });
+
+      const resultNodes = {};
+      panel.querySelectorAll('[data-selector-result]').forEach(function (node) {
+        resultNodes[node.dataset.selectorResult] = node;
+      });
+
+      const concepts = [
+        { key: 'lineStocking', name: 'Line Stocking' },
+        { key: 'kanban', name: 'Kanban / Boxed Supply' },
+        { key: 'sequencing', name: 'Sequencing' },
+        { key: 'jis', name: 'JIS' },
+        { key: 'kitting', name: 'Kitting' }
+      ];
+
+      function value(name) {
+        return fields[name].value;
+      }
+
+      function push(target, text) {
+        target.push(text);
+      }
+
+      function evaluateConcept(concept) {
+        const positive = [];
+        const limits = [];
+        const blockers = [];
+        const missing = [];
+
+        if (concept.key === 'lineStocking') {
+          if (value('demandClass') === 'runner') push(positive, 'артикул относится к runner');
+          if (value('variability') === 'low') push(positive, 'низкая вариативность потребления');
+          if (value('bolCapacity') === 'enough') push(positive, 'BOL-capacity достаточна');
+          if (value('huDirect') === 'direct') push(positive, 'HU можно подать напрямую');
+          if (value('errorCost') !== 'high') push(positive, 'цена ошибки низкая или средняя');
+          if (value('variability') === 'medium') push(limits, 'средняя вариативность требует проверки запаса у BOL');
+          if (value('skuVariants') === 'medium') push(limits, 'среднее число вариантов SKU требует ограничения номенклатуры у точки использования');
+          if (value('bolCapacity') === 'limited') push(limits, 'BOL-capacity ограничена');
+          if (value('bolCapacity') === 'critical') push(blockers, 'BOL-capacity критически ограничена');
+          if (value('skuVariants') === 'high') push(blockers, 'количество вариантов SKU у точки использования высокое');
+          if (value('vinRequired') === 'yes') push(blockers, 'VIN-привязка обязательна');
+          if (value('sequenceRequired') === 'mandatory') push(blockers, 'sequence-подача обязательна');
+          if (value('huDirect') === 'impossible') push(blockers, 'HU невозможно подать напрямую');
+        }
+
+        if (concept.key === 'kanban') {
+          if (['runner', 'repeater'].includes(value('demandClass'))) push(positive, 'потребление относится к runner или repeater');
+          if (value('variability') !== 'high') push(positive, 'вариативность низкая или средняя');
+          if (value('prepZone') === 'yes') push(positive, 'есть супермаркет или зона подготовки');
+          if (value('wipCap') === 'yes') push(positive, 'возможен WIP-cap');
+          if (['direct', 'repack'].includes(value('huDirect'))) push(positive, 'HU можно подать напрямую или переупаковать');
+          if (value('variability') === 'high') push(limits, 'высокая вариативность требует расчёта по P90/P95');
+          if (value('itSignal') === 'partial') push(limits, 'IT-сигнал доступен частично');
+          if (value('bolCapacity') === 'limited') push(limits, 'BOL-capacity ограничена');
+          if (value('wipCap') === 'no') push(blockers, 'невозможен WIP-cap');
+          if (value('prepZone') === 'no') push(blockers, 'нет супермаркета или зоны подготовки');
+          if (value('sequenceRequired') === 'mandatory') push(blockers, 'sequence-подача обязательна');
+          if (value('vinRequired') === 'yes') push(blockers, 'VIN-привязка обязательна без дополнительного контроля');
+          if (value('prepZone') === 'no') push(missing, 'точка пополнения / зона подготовки');
+          if (value('wipCap') === 'no') push(missing, 'явный WIP-cap');
+        }
+
+        if (concept.key === 'sequencing') {
+          if (value('skuVariants') === 'high') push(positive, 'много вариантов SKU у точки использования');
+          if (['desired', 'mandatory'].includes(value('sequenceRequired'))) push(positive, 'sequence-подача желательна или обязательна');
+          if (value('prepZone') === 'yes') push(positive, 'есть зона подготовки');
+          if (value('itSignal') === 'yes') push(positive, 'есть устойчивый MES/WMS/broadcast-сигнал');
+          if (value('prepResource') === 'yes') push(positive, 'есть ресурс на подготовку');
+          if (['limited', 'critical'].includes(value('bolCapacity'))) push(positive, 'BOL-capacity ограничена');
+          if (value('errorCost') !== 'low') push(positive, 'цена ошибки средняя или высокая');
+          if (value('sequenceStability') === 'partial') push(limits, 'sequence частично стабильна');
+          if (value('itSignal') === 'partial') push(limits, 'IT-сигнал доступен частично');
+          if (value('prepResource') === 'limited') push(limits, 'ресурс на подготовку ограничен');
+          if (value('sequenceStability') === 'unstable') push(blockers, 'sequence нестабильна в горизонте подготовки');
+          if (value('prepZone') === 'no') push(blockers, 'нет зоны подготовки');
+          if (value('itSignal') === 'no') push(blockers, 'нет IT-сигнала');
+          if (value('prepResource') === 'no') push(blockers, 'нет ресурса на подготовку');
+          if (value('sequenceRequired') === 'no' && value('skuVariants') !== 'high') push(blockers, 'sequence не требуется и высокой вариантности нет');
+        }
+
+        if (concept.key === 'jis') {
+          if (value('vinRequired') === 'yes') push(positive, 'VIN-привязка нужна');
+          if (value('sequenceRequired') === 'mandatory') push(positive, 'sequence-подача обязательна');
+          if (value('sequenceStability') === 'stable') push(positive, 'sequence стабильна');
+          if (value('itSignal') === 'yes') push(positive, 'есть устойчивый MES/broadcast/EDI-сигнал');
+          if (value('errorCost') === 'high') push(positive, 'цена ошибки высокая');
+          if (value('sequenceStability') === 'partial') push(limits, 'sequence частично стабильна');
+          if (value('itSignal') === 'partial') push(limits, 'IT-сигнал доступен частично');
+          if (value('itSignal') === 'no') push(blockers, 'нет IT-сигнала');
+          if (value('sequenceStability') === 'unstable') push(blockers, 'sequence нестабильна');
+          if (value('vinRequired') === 'no' && value('sequenceRequired') === 'no') push(blockers, 'нет VIN-привязки и sequence не требуется');
+          if (value('prepZone') === 'no') push(blockers, 'нет зоны подготовки или внешнего JIS-контура');
+        }
+
+        if (concept.key === 'kitting') {
+          if (value('skuVariants') === 'high') push(positive, 'высокое число вариантов SKU');
+          if (['limited', 'critical'].includes(value('bolCapacity'))) push(positive, 'BOL-capacity ограничена');
+          if (value('vinRequired') === 'yes') push(positive, 'нужна VIN-привязка');
+          if (value('prepResource') === 'yes') push(positive, 'есть ресурс на подготовку');
+          if (value('prepZone') === 'yes') push(positive, 'есть зона подготовки');
+          if (['repack', 'impossible'].includes(value('huDirect'))) push(positive, 'прямая подача HU затруднена');
+          if (value('demandClass') === 'runner') push(limits, 'runner требует отдельного обоснования для kitting');
+          if (value('prepResource') === 'limited') push(limits, 'ресурс подготовки ограничен');
+          if (value('itSignal') === 'partial') push(limits, 'IT-сигнал доступен частично');
+          if (value('errorCost') === 'high' && value('itSignal') !== 'yes') push(limits, 'высокая цена ошибки требует контроля состава');
+          if (value('prepResource') === 'no') push(blockers, 'нет ресурса на подготовку');
+          if (value('prepZone') === 'no') push(blockers, 'нет зоны подготовки');
+          if (value('demandClass') === 'runner' && value('bolCapacity') === 'enough' && value('huDirect') === 'direct' && value('vinRequired') === 'no') push(blockers, 'runner с достаточной BOL-capacity и прямой HU-подачей не требует kitting');
+        }
+
+        return { concept, positive, limits, blockers, missing };
+      }
+
+      function sentence(result) {
+        if (result.blockers.length) {
+          return result.concept.name + ' не рекомендуется: ' + result.blockers.join('; ') + '.';
+        }
+        if (result.limits.length) {
+          return result.concept.name + ' возможен при условиях: ' + result.limits.join('; ') + '.';
+        }
+        return result.concept.name + ' допустим: ' + result.positive.join('; ') + '.';
+      }
+
+      function renderList(node, items, emptyText) {
+        if (!items.length) {
+          node.innerHTML = '<p class="meta-note">' + emptyText + '</p>';
+          return;
+        }
+        node.innerHTML = '<ul>' + items.map(function (item) {
+          const chips = item.positive.concat(item.limits).slice(0, 4).map(function (tag) {
+            return '<span class="concept-chip">' + tag + '</span>';
+          }).join('');
+          return '<li><strong>' + item.concept.name + '</strong><br>' + sentence(item) + '<br>' + chips + '</li>';
+        }).join('') + '</ul>';
+      }
+
+      function calculate() {
+        const evaluated = concepts.map(evaluateConcept);
+        const allowed = evaluated.filter(function (item) { return !item.blockers.length && !item.limits.length && item.positive.length; });
+        const conditional = evaluated.filter(function (item) { return !item.blockers.length && (item.limits.length || !item.positive.length); });
+        const blocked = evaluated.filter(function (item) { return item.blockers.length; });
+
+        renderList(resultNodes.allowed, allowed, 'Нет концептов без условий. Проверьте ограничения и предусловия.');
+        renderList(resultNodes.conditional, conditional, 'Нет концептов в условной зоне.');
+        renderList(resultNodes.blocked, blocked, 'Нет концептов с жёсткими блокерами.');
+
+        const nextChecks = [
+          'точность PFEP по упаковке, габаритам и точке использования',
+          'стабильность производственной последовательности',
+          'доступную BOL-capacity',
+          'наличие зоны подготовки или супермаркета',
+          'Lead Time от сигнала до BOL',
+          'наличие WIP-cap',
+          'требования к VIN-привязке и контролю состава',
+          'доступность IT-сигнала MES / WMS / broadcast / EDI'
+        ];
+        resultNodes.next.innerHTML = nextChecks.map(function (item) { return '<li>' + item + '</li>'; }).join('');
+      }
+
+      Object.keys(fields).forEach(function (key) {
+        fields[key].addEventListener('change', calculate);
+        fields[key].addEventListener('input', calculate);
+      });
+
+      calculate();
+    })();
+  </script>
+
+  <div class="cookie-notice" id="cookieNotice" role="dialog" aria-live="polite" aria-label="Уведомление об использовании cookies">
+    <p>
+      Сайт использует cookies и Яндекс.Метрику для анализа посещаемости и улучшения материалов.
+      Продолжая пользоваться сайтом, вы соглашаетесь с использованием cookies.
+      Подробнее — в <a href="../privacy.html">Политике обработки данных</a>.
+    </p>
+    <button class="btn secondary cookie-notice__btn" type="button" id="cookieNoticeAccept">Понятно</button>
+  </div>
+
+  <script>
+    (function () {
+      var key = 'exmachina_cookie_notice_accepted';
+      var notice = document.getElementById('cookieNotice');
+      var accept = document.getElementById('cookieNoticeAccept');
+
+      if (!notice || !accept) return;
+
+      try {
+        if (localStorage.getItem(key) === 'true') {
+          notice.classList.add('is-hidden');
+          return;
+        }
+      } catch (e) {}
+
+      notice.classList.add('is-visible');
+
+      accept.addEventListener('click', function () {
+        notice.classList.remove('is-visible');
+        notice.classList.add('is-hidden');
+
+        try {
+          localStorage.setItem(key, 'true');
+        } catch (e) {}
+      });
+    })();
+  </script>
+</body>
+</html>
