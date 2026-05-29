@@ -42,6 +42,11 @@
     <changefreq>monthly</changefreq>
   </url>
   <url>
+    <loc>https://exmachina-ai.ru/learning/module-03-line-feeding-concept.html</loc>
+    <priority>0.8</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
     <loc>https://exmachina-ai.ru/materials/intralogistics-methodology.html</loc>
     <priority>0.8</priority>
     <changefreq>monthly</changefreq>
