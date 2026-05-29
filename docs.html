@@ -111,6 +111,37 @@
       color: var(--text-3);
       font-size: .9rem;
     }
+
+    .tools-card-grid .material-card {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .tools-card-grid .tool-card-description {
+      min-height: 118px;
+    }
+
+    .tools-card-grid .tool-card-note {
+      min-height: 76px;
+    }
+
+    .tools-card-grid .tool-card-badges {
+      min-height: 78px;
+      align-content: flex-start;
+    }
+
+    .tools-card-grid .actions {
+      margin-top: auto !important;
+      padding-top: 14px;
+    }
+
+    @media (max-width: 980px) {
+      .tools-card-grid .tool-card-description,
+      .tools-card-grid .tool-card-note,
+      .tools-card-grid .tool-card-badges {
+        min-height: 0;
+      }
+    }
   </style>
 </head>
 <body>
@@ -183,16 +214,16 @@
       <h2>Встроенные HTML-инструменты</h2>
       <p>Эти инструменты встроены прямо в обучающие модули. Такой формат выбран намеренно: расчёт должен выполняться рядом с объяснением метода, формулы и ограничений применения.</p>
 
-      <div class="materials-list">
+      <div class="materials-list tools-card-grid">
         <article class="material-card">
           <div class="material-meta">
             <span class="card-type">HTML-инструмент</span>
             <span class="card-status card-status--live">Доступен</span>
           </div>
           <h3>Distribution / Percentile Diagnostic</h3>
-          <p>Диагностика ошибки среднего: сравнение среднего, медианы, P90/P95, максимума и доли наблюдений, не покрываемых расчётом по среднему.</p>
+          <p class="tool-card-description">Диагностика ошибки среднего: сравнение среднего, медианы, P90/P95, максимума и доли наблюдений, не покрываемых расчётом по среднему.</p>
           <p class="tool-card-note">Связанный модуль: Модуль 1 — Распределения, вариативность и ошибка среднего.</p>
-          <div class="material-meta">
+          <div class="material-meta tool-card-badges">
             <span class="badge">Модуль 1</span>
             <span class="badge">Слой 2</span>
             <span class="badge">Вариативность</span>
@@ -210,9 +241,9 @@
             <span class="card-status card-status--live">Доступен</span>
           </div>
           <h3>Kanban Loop Calculator</h3>
-          <p>Базовая проверка петли Kanban: расчёт количества карточек/контейнеров и WIP-cap по среднему потреблению, P90 и P95 с учётом lead time, размера контейнера и коэффициента покрытия.</p>
+          <p class="tool-card-description">Базовая проверка петли Kanban: расчёт количества карточек/контейнеров и WIP-cap по среднему потреблению, P90 и P95 с учётом lead time, размера контейнера и коэффициента покрытия.</p>
           <p class="tool-card-note">Связанный модуль: Модуль 2 — Push, Pull и Kanban. Логика авторизации движения.</p>
-          <div class="material-meta">
+          <div class="material-meta tool-card-badges">
             <span class="badge">Модуль 2</span>
             <span class="badge">Слой 6</span>
             <span class="badge">Kanban</span>
@@ -230,9 +261,9 @@
             <span class="card-status card-status--live">Доступен</span>
           </div>
           <h3>Line Feeding Concept Selector</h3>
-          <p>Диагностический инструмент для предварительной проверки применимости Line Stocking, Kanban / Boxed Supply, Sequencing, JIS и Kitting по условиям PFEP, BOL, вариативности, sequence и IT-инфраструктуры.</p>
+          <p class="tool-card-description">Диагностический инструмент для предварительной проверки применимости Line Stocking, Kanban / Boxed Supply, Sequencing, JIS и Kitting по условиям PFEP, BOL, вариативности, sequence и IT-инфраструктуры.</p>
           <p class="tool-card-note">Связанный модуль: Модуль 3 — Выбор концепта снабжения линии.</p>
-          <div class="material-meta">
+          <div class="material-meta tool-card-badges">
             <span class="badge">Модуль 3</span>
             <span class="badge">Слой 6</span>
             <span class="badge">Line Feeding</span>
