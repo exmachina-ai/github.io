@@ -818,185 +818,456 @@
 
   <script>
     (function () {
-      const panel = document.getElementById('concept-selector');
-      if (!panel) return;
+  const panel = document.getElementById('concept-selector');
+  if (!panel) return;
 
-      const fields = {};
-      panel.querySelectorAll('[data-selector-field]').forEach(function (node) {
-        fields[node.dataset.selectorField] = node;
+  const fields = {};
+  panel.querySelectorAll('[data-selector-field]').forEach(function (node) {
+    fields[node.dataset.selectorField] = node;
+  });
+
+  const resultNodes = {};
+  panel.querySelectorAll('[data-selector-result]').forEach(function (node) {
+    resultNodes[node.dataset.selectorResult] = node;
+  });
+
+  const concepts = [
+    { key: 'lineStocking', name: 'Line Stocking' },
+    { key: 'kanban',       name: 'Kanban / Boxed Supply' },
+    { key: 'sequencing',   name: 'Sequencing' },
+    { key: 'jis',          name: 'JIS' },
+    { key: 'kitting',      name: 'Kitting' }
+  ];
+
+  // Ссылки на расчётные модули для допустимых / условных концептов
+  const conceptLinks = {
+    lineStocking: null,
+    kanban:       'module-02-push-pull-kanban.html#kanban-loop-calculator',
+    sequencing:   null,
+    jis:          null,
+    kitting:      null
+  };
+
+  function value(name) {
+    return fields[name].value;
+  }
+
+  function push(target, text) {
+    target.push(text);
+  }
+
+  // ─────────────────────────────────────────────
+  // T-04: валидатор противоречивых комбинаций
+  // ─────────────────────────────────────────────
+  function validateInputs() {
+    const conflicts = [];
+    if (value('sequenceRequired') !== 'no' && value('sequenceStability') === 'unstable') {
+      conflicts.push('Sequence-подача требуется, но sequence нестабильна — уточните входные данные.');
+    }
+    if (value('vinRequired') === 'yes' && value('sequenceRequired') === 'no' && value('itSignal') === 'no') {
+      conflicts.push('VIN-привязка требуется, но IT-сигнал отсутствует — подача по VIN без MES/WMS невозможна.');
+    }
+    if (value('wipCap') === 'yes' && value('prepZone') === 'no') {
+      conflicts.push('WIP-cap возможен, но зона подготовки / супермаркет отсутствует — WIP-cap негде применить.');
+    }
+    return conflicts;
+  }
+
+  // ─────────────────────────────────────────────
+  // T-11: управление видимостью sequenceStability
+  // ─────────────────────────────────────────────
+  function syncSequenceStabilityVisibility() {
+    const seqReq = value('sequenceRequired');
+    const stabilityField = fields['sequenceStability'].closest('label');
+    if (seqReq === 'no') {
+      stabilityField.style.display = 'none';
+      fields['sequenceStability'].value = 'na';
+    } else {
+      stabilityField.style.display = '';
+    }
+  }
+
+  // ─────────────────────────────────────────────
+  // T-10: преднастройка полей по классу потребления
+  // ─────────────────────────────────────────────
+  var userOverride = {};
+
+  var presets = {
+    runner:   { variability: 'low',  bolCapacity: 'enough'  },
+    repeater: { variability: 'medium' },
+    stranger: { variability: 'high', bolCapacity: 'limited' }
+  };
+
+  function applyPreset(demandClass) {
+    var preset = presets[demandClass] || {};
+    Object.keys(preset).forEach(function (key) {
+      if (!userOverride[key]) {
+        fields[key].value = preset[key];
+      }
+    });
+  }
+
+  // ─────────────────────────────────────────────
+  // Оценка концептов
+  // ─────────────────────────────────────────────
+  function evaluateConcept(concept) {
+    const positive = [];
+    const limits   = [];
+    const blockers = [];
+    const missing  = [];
+
+    // T-05: sequence-зависимые ветки только если sequence релевантен
+    const seqRelevant = value('sequenceRequired') !== 'no';
+
+    if (concept.key === 'lineStocking') {
+      if (value('demandClass') === 'runner') push(positive, 'артикул относится к runner');
+      if (value('variability') === 'low') push(positive, 'низкая вариативность потребления');
+      if (value('bolCapacity') === 'enough') push(positive, 'BOL-capacity достаточна');
+      if (value('huDirect') === 'direct') push(positive, 'HU можно подать напрямую');
+      if (value('errorCost') !== 'high') push(positive, 'цена ошибки низкая или средняя');
+
+      if (value('variability') === 'medium') push(limits, 'средняя вариативность — требуется проверка запаса у BOL');
+      if (value('skuVariants') === 'medium') push(limits, 'среднее число SKU — нужно ограничить номенклатуру у точки использования');
+      if (value('bolCapacity') === 'limited') push(limits, 'BOL-capacity ограничена');
+
+      if (value('bolCapacity') === 'critical') push(blockers, 'BOL-capacity критически ограничена');
+      if (value('skuVariants') === 'high') push(blockers, 'высокое число вариантов SKU у точки использования');
+      if (value('vinRequired') === 'yes') push(blockers, 'VIN-привязка обязательна');
+      if (seqRelevant && value('sequenceRequired') === 'mandatory') push(blockers, 'sequence-подача обязательна');
+      if (value('huDirect') === 'impossible') push(blockers, 'HU невозможно подать напрямую');
+    }
+
+    if (concept.key === 'kanban') {
+      if (['runner', 'repeater'].includes(value('demandClass'))) push(positive, 'потребление относится к runner или repeater');
+      if (value('variability') !== 'high') push(positive, 'вариативность низкая или средняя');
+      if (value('prepZone') === 'yes') push(positive, 'есть супермаркет или зона подготовки');
+      if (value('wipCap') === 'yes') push(positive, 'возможен WIP-cap');
+      if (['direct', 'repack'].includes(value('huDirect'))) push(positive, 'HU можно подать напрямую или переупаковать');
+
+      if (value('variability') === 'high') push(limits, 'высокая вариативность — расчёт буфера по P90/P95');
+      if (value('itSignal') === 'partial') push(limits, 'IT-сигнал доступен частично');
+      if (value('bolCapacity') === 'limited') push(limits, 'BOL-capacity ограничена');
+
+      if (value('wipCap') === 'no') push(blockers, 'невозможен WIP-cap');
+      if (value('prepZone') === 'no') push(blockers, 'нет супермаркета или зоны подготовки');
+      if (seqRelevant && value('sequenceRequired') === 'mandatory') push(blockers, 'sequence-подача обязательна');
+      if (value('vinRequired') === 'yes') push(blockers, 'VIN-привязка обязательна без дополнительного контроля');
+
+      if (value('prepZone') === 'no') push(missing, 'точка пополнения / зона подготовки');
+      if (value('wipCap') === 'no') push(missing, 'явный WIP-cap');
+    }
+
+    if (concept.key === 'sequencing') {
+      // T-02: отсутствие оснований — это лимит, не блокер
+      if (value('skuVariants') !== 'high' && !seqRelevant) {
+        push(limits, 'sequence не требуется и вариантность не высокая — концепт нецелесообразен');
+      } else {
+        if (value('skuVariants') === 'high') push(positive, 'высокое число вариантов SKU у точки использования');
+        if (seqRelevant) push(positive, 'sequence-подача требуется или желательна');
+        if (value('prepZone') === 'yes') push(positive, 'есть зона подготовки');
+        if (value('itSignal') === 'yes') push(positive, 'есть устойчивый MES/WMS/broadcast-сигнал');
+        if (value('prepResource') === 'yes') push(positive, 'есть ресурс на подготовку');
+        if (['limited', 'critical'].includes(value('bolCapacity'))) push(positive, 'BOL-capacity ограничена');
+        if (value('errorCost') !== 'low') push(positive, 'цена ошибки средняя или высокая');
+
+        if (seqRelevant && value('sequenceStability') === 'partial') push(limits, 'sequence частично стабильна — нужна процедура восстановления');
+        if (value('itSignal') === 'partial') push(limits, 'IT-сигнал доступен частично');
+        if (value('prepResource') === 'limited') push(limits, 'ресурс на подготовку ограничен');
+
+        if (seqRelevant && value('sequenceStability') === 'unstable') push(blockers, 'sequence нестабильна в горизонте подготовки');
+        if (value('prepZone') === 'no') push(blockers, 'нет зоны подготовки');
+        if (value('itSignal') === 'no') push(blockers, 'нет IT-сигнала');
+        if (value('prepResource') === 'no') push(blockers, 'нет ресурса на подготовку');
+      }
+    }
+
+    if (concept.key === 'jis') {
+      // T-03: JIS требует релевантности sequence и внешнего контура
+      if (!seqRelevant && value('vinRequired') === 'no') {
+        push(limits, 'нет VIN-привязки и sequence не требуется — JIS нецелесообразен');
+      } else {
+        if (value('vinRequired') === 'yes') push(positive, 'VIN-привязка нужна');
+        if (seqRelevant && value('sequenceRequired') === 'mandatory') push(positive, 'sequence-подача обязательна');
+        if (seqRelevant && value('sequenceStability') === 'stable') push(positive, 'sequence стабильна');
+        if (value('itSignal') === 'yes') push(positive, 'есть устойчивый MES/broadcast/EDI-сигнал');
+        if (value('errorCost') === 'high') push(positive, 'цена ошибки высокая');
+
+        if (seqRelevant && value('sequenceStability') === 'partial') push(limits, 'sequence частично стабильна');
+        if (value('itSignal') === 'partial') push(limits, 'IT-сигнал доступен частично');
+
+        if (value('itSignal') === 'no') push(blockers, 'нет IT-сигнала (EDI/MES обязателен для JIS)');
+        if (seqRelevant && value('sequenceStability') === 'unstable') push(blockers, 'sequence нестабильна');
+        if (value('prepZone') === 'no') push(blockers, 'нет зоны подготовки или внешнего JIS-контура');
+      }
+    }
+
+    if (concept.key === 'kitting') {
+      if (value('skuVariants') === 'high') push(positive, 'высокое число вариантов SKU');
+      if (['limited', 'critical'].includes(value('bolCapacity'))) push(positive, 'BOL-capacity ограничена');
+      if (value('vinRequired') === 'yes') push(positive, 'нужна VIN-привязка');
+      if (value('prepResource') === 'yes') push(positive, 'есть ресурс на подготовку');
+      if (value('prepZone') === 'yes') push(positive, 'есть зона подготовки');
+      if (['repack', 'impossible'].includes(value('huDirect'))) push(positive, 'прямая подача HU затруднена');
+
+      if (value('demandClass') === 'runner') push(limits, 'runner — kitting требует отдельного обоснования');
+      if (value('prepResource') === 'limited') push(limits, 'ресурс подготовки ограничен');
+      if (value('itSignal') === 'partial') push(limits, 'IT-сигнал доступен частично');
+      if (value('errorCost') === 'high' && value('itSignal') !== 'yes') push(limits, 'высокая цена ошибки — необходим контроль состава кита');
+
+      if (value('prepResource') === 'no') push(blockers, 'нет ресурса на подготовку');
+      if (value('prepZone') === 'no') push(blockers, 'нет зоны подготовки');
+      if (
+        value('demandClass') === 'runner' &&
+        value('bolCapacity') === 'enough' &&
+        value('huDirect') === 'direct' &&
+        value('vinRequired') === 'no'
+      ) push(blockers, 'runner + достаточная BOL-capacity + прямая HU-подача: kitting нецелесообразен');
+    }
+
+    return { concept, positive, limits, blockers, missing };
+  }
+
+  // ─────────────────────────────────────────────
+  // Формирование текста-резюме карточки
+  // ─────────────────────────────────────────────
+  function sentence(result) {
+    if (result.blockers.length) {
+      return result.concept.name + ' не рекомендуется: ' + result.blockers.join('; ') + '.';
+    }
+    if (result.limits.length && !result.positive.length) {
+      return result.concept.name + ': ' + result.limits.join('; ') + '.';
+    }
+    if (result.limits.length) {
+      return result.concept.name + ' возможен при условиях: ' + result.limits.join('; ') + '.';
+    }
+    return result.concept.name + ' допустим: ' + result.positive.join('; ') + '.';
+  }
+
+  function statusLabel(kind) {
+    if (kind === 'allowed')      return 'допустим';
+    if (kind === 'conditional')  return 'возможен при условиях';
+    return 'не рекомендуется';
+  }
+
+  // ─────────────────────────────────────────────
+  // T-06: счётчик сигналов в заголовке карточки
+  // ─────────────────────────────────────────────
+  function signalCounter(item) {
+    const p = item.positive.length;
+    const l = item.limits.length;
+    const b = item.blockers.length;
+    var parts = [];
+    if (p) parts.push('<span style="color:var(--acc)">+' + p + '</span>');
+    if (l) parts.push('<span style="color:var(--text-2)">±' + l + '</span>');
+    if (b) parts.push('<span style="color:var(--text-4)">−' + b + '</span>');
+    return parts.length ? '<span class="concept-chip" style="font-size:.78rem;padding:2px 7px">' + parts.join(' / ') + '</span>' : '';
+  }
+
+  // ─────────────────────────────────────────────
+  // T-09: ссылка на расчётный модуль
+  // ─────────────────────────────────────────────
+  function moduleLink(key) {
+    var href = conceptLinks[key];
+    if (!href) return '';
+    return '<a href="' + href + '" class="concept-chip" style="font-size:.78rem;text-decoration:none">→ расчётный модуль</a>';
+  }
+
+  // ─────────────────────────────────────────────
+  // Рендер списка результатов
+  // ─────────────────────────────────────────────
+  function renderList(node, items, emptyText) {
+    // T-12: дружелюбный пустой текст
+    if (!items.length) {
+      node.innerHTML = '<p class="meta-note">' + emptyText + '</p>';
+      return;
+    }
+    const kind = node.dataset.selectorResult;
+    node.innerHTML = '<div class="selector-result-list">' + items.map(function (item) {
+      const chips = item.positive.concat(item.limits).slice(0, 4).map(function (tag) {
+        return '<span class="concept-chip">' + tag + '</span>';
+      }).join('');
+      return (
+        '<article class="concept-result">' +
+          '<div class="concept-result__head">' +
+            '<span class="concept-result__name">' + item.concept.name + '</span>' +
+            '<span style="display:flex;gap:6px;align-items:center;flex-wrap:wrap">' +
+              signalCounter(item) +
+              (kind !== 'blocked' ? moduleLink(item.concept.key) : '') +
+              '<span class="concept-result__status">' + statusLabel(kind) + '</span>' +
+            '</span>' +
+          '</div>' +
+          '<p>' + sentence(item) + '</p>' +
+          '<div class="concept-tags">' + chips + '</div>' +
+        '</article>'
+      );
+    }).join('') + '</div>';
+  }
+
+  // ─────────────────────────────────────────────
+  // T-07: динамический блок «Что проверить дальше»
+  // ─────────────────────────────────────────────
+  var nextCheckMap = {
+    itSignal:          { priority: 10, text: 'наличие IT-сигнала MES / WMS / broadcast / EDI' },
+    prepZone:          { priority: 9,  text: 'наличие зоны подготовки или супермаркета' },
+    wipCap:            { priority: 8,  text: 'возможность введения WIP-cap' },
+    sequenceStability: { priority: 7,  text: 'стабильность производственной последовательности' },
+    bolCapacity:       { priority: 6,  text: 'доступная BOL-capacity (замер)' },
+    vinRequired:       { priority: 5,  text: 'требования к VIN-привязке и контролю состава' },
+    prepResource:      { priority: 4,  text: 'доступность ресурса на подготовку / kitting / sequencing' }
+  };
+
+  var staticChecks = [
+    { priority: 3, text: 'точность PFEP по упаковке, габаритам и точке использования' },
+    { priority: 2, text: 'Lead Time от сигнала пополнения до BOL' }
+  ];
+
+  function buildNextChecks(evaluated) {
+    var urgent = [];
+
+    evaluated.forEach(function (item) {
+      item.blockers.concat(item.limits).forEach(function (signal) {
+        Object.keys(nextCheckMap).forEach(function (fieldKey) {
+          var lc = signal.toLowerCase();
+          var keywords = {
+            itSignal:          ['it-сигнал', 'mes', 'wms', 'edi', 'broadcast'],
+            prepZone:          ['зона подготовки', 'супермаркет'],
+            wipCap:            ['wip-cap'],
+            sequenceStability: ['sequence нестабил', 'sequence частич'],
+            bolCapacity:       ['bol-capacity'],
+            vinRequired:       ['vin'],
+            prepResource:      ['ресурс на подготовку', 'ресурс подготовки']
+          };
+          if (keywords[fieldKey] && keywords[fieldKey].some(function (kw) { return lc.indexOf(kw) !== -1; })) {
+            if (!urgent.find(function (u) { return u.text === nextCheckMap[fieldKey].text; })) {
+              urgent.push(nextCheckMap[fieldKey]);
+            }
+          }
+        });
       });
+    });
 
-      const resultNodes = {};
-      panel.querySelectorAll('[data-selector-result]').forEach(function (node) {
-        resultNodes[node.dataset.selectorResult] = node;
-      });
-
-      const concepts = [
-        { key: 'lineStocking', name: 'Line Stocking' },
-        { key: 'kanban', name: 'Kanban / Boxed Supply' },
-        { key: 'sequencing', name: 'Sequencing' },
-        { key: 'jis', name: 'JIS' },
-        { key: 'kitting', name: 'Kitting' }
-      ];
-
-      function value(name) {
-        return fields[name].value;
+    // добавляем статические пункты если их нет
+    staticChecks.forEach(function (s) {
+      if (!urgent.find(function (u) { return u.text === s.text; })) {
+        urgent.push(s);
       }
+    });
 
-      function push(target, text) {
-        target.push(text);
+    urgent.sort(function (a, b) { return b.priority - a.priority; });
+    return urgent;
+  }
+
+  // ─────────────────────────────────────────────
+  // T-08: рекомендация гибридного решения
+  // ─────────────────────────────────────────────
+  function buildHybridHint(allowed) {
+    if (allowed.length < 2) return '';
+    var names = allowed.map(function (i) { return i.concept.name; });
+    return (
+      '<div class="callout" style="margin-top:12px">' +
+        '<p><strong>Гибридное решение:</strong> при данном наборе параметров допустимы одновременно ' +
+        names.join(' и ') +
+        '. Это нормальная ситуация — разные классы артикулов на одной линии могут снабжаться разными концептами. ' +
+        'Убедитесь, что PFEP классифицирует артикулы достаточно детально для раздельного назначения концептов.</p>' +
+      '</div>'
+    );
+  }
+
+  // ─────────────────────────────────────────────
+  // Главная функция расчёта
+  // ─────────────────────────────────────────────
+  function calculate() {
+    syncSequenceStabilityVisibility();
+
+    // T-04: показать предупреждения о противоречиях
+    var conflicts = validateInputs();
+    var warningBlock = panel.querySelector('.selector-conflict-warning');
+    if (!warningBlock) {
+      warningBlock = document.createElement('div');
+      warningBlock.className = 'selector-conflict-warning';
+      warningBlock.style.cssText = 'margin:12px 0 0;';
+      var resultsEl = panel.querySelector('.selector-results');
+      resultsEl.parentNode.insertBefore(warningBlock, resultsEl);
+    }
+    if (conflicts.length) {
+      warningBlock.innerHTML = conflicts.map(function (c) {
+        return '<div class="callout" style="border-left:3px solid var(--text-4);margin-bottom:8px"><p>⚠ ' + c + '</p></div>';
+      }).join('');
+    } else {
+      warningBlock.innerHTML = '';
+    }
+
+    const evaluated = concepts.map(evaluateConcept);
+
+    // T-01: три чёткие категории — нейтральные (без сигналов) уходят в conditional
+    const allowed = evaluated.filter(function (item) {
+      return !item.blockers.length && !item.limits.length && item.positive.length;
+    });
+    const neutral = evaluated.filter(function (item) {
+      return !item.blockers.length && !item.limits.length && !item.positive.length;
+    });
+    const conditional = evaluated.filter(function (item) {
+      return !item.blockers.length && (item.limits.length > 0);
+    });
+    const blocked = evaluated.filter(function (item) {
+      return item.blockers.length > 0;
+    });
+
+    renderList(
+      resultNodes.allowed,
+      allowed,
+      'Для текущего набора параметров ни один концепт не применим без дополнительных условий. Это нормально для сложного профиля — смотрите зону «Возможны при условиях».'
+    );
+
+    // T-08: гибридная подсказка
+    var hybridEl = panel.querySelector('.selector-hybrid-hint');
+    if (!hybridEl) {
+      hybridEl = document.createElement('div');
+      hybridEl.className = 'selector-hybrid-hint';
+      resultNodes.allowed.parentNode.appendChild(hybridEl);
+    }
+    hybridEl.innerHTML = buildHybridHint(allowed);
+
+    renderList(
+      resultNodes.conditional,
+      conditional.concat(neutral),
+      'Нет концептов в условной зоне.'
+    );
+    renderList(
+      resultNodes.blocked,
+      blocked,
+      'Нет концептов с жёсткими блокерами.'
+    );
+
+    // T-07: динамический список «Что проверить дальше»
+    var nextChecks = buildNextChecks(evaluated);
+    resultNodes.next.innerHTML = nextChecks.map(function (item) {
+      return '<li>' + item.text + '</li>';
+    }).join('');
+  }
+
+  // ─────────────────────────────────────────────
+  // Подписка на события полей
+  // ─────────────────────────────────────────────
+  Object.keys(fields).forEach(function (key) {
+    fields[key].addEventListener('change', function () {
+      // T-10: сбрасываем флаг преднастройки если юзер сам поменял поле
+      if (key !== 'demandClass') {
+        userOverride[key] = true;
       }
-
-      function evaluateConcept(concept) {
-        const positive = [];
-        const limits = [];
-        const blockers = [];
-        const missing = [];
-
-        if (concept.key === 'lineStocking') {
-          if (value('demandClass') === 'runner') push(positive, 'артикул относится к runner');
-          if (value('variability') === 'low') push(positive, 'низкая вариативность потребления');
-          if (value('bolCapacity') === 'enough') push(positive, 'BOL-capacity достаточна');
-          if (value('huDirect') === 'direct') push(positive, 'HU можно подать напрямую');
-          if (value('errorCost') !== 'high') push(positive, 'цена ошибки низкая или средняя');
-          if (value('variability') === 'medium') push(limits, 'средняя вариативность требует проверки запаса у BOL');
-          if (value('skuVariants') === 'medium') push(limits, 'среднее число вариантов SKU требует ограничения номенклатуры у точки использования');
-          if (value('bolCapacity') === 'limited') push(limits, 'BOL-capacity ограничена');
-          if (value('bolCapacity') === 'critical') push(blockers, 'BOL-capacity критически ограничена');
-          if (value('skuVariants') === 'high') push(blockers, 'количество вариантов SKU у точки использования высокое');
-          if (value('vinRequired') === 'yes') push(blockers, 'VIN-привязка обязательна');
-          if (value('sequenceRequired') === 'mandatory') push(blockers, 'sequence-подача обязательна');
-          if (value('huDirect') === 'impossible') push(blockers, 'HU невозможно подать напрямую');
-        }
-
-        if (concept.key === 'kanban') {
-          if (['runner', 'repeater'].includes(value('demandClass'))) push(positive, 'потребление относится к runner или repeater');
-          if (value('variability') !== 'high') push(positive, 'вариативность низкая или средняя');
-          if (value('prepZone') === 'yes') push(positive, 'есть супермаркет или зона подготовки');
-          if (value('wipCap') === 'yes') push(positive, 'возможен WIP-cap');
-          if (['direct', 'repack'].includes(value('huDirect'))) push(positive, 'HU можно подать напрямую или переупаковать');
-          if (value('variability') === 'high') push(limits, 'высокая вариативность требует расчёта по P90/P95');
-          if (value('itSignal') === 'partial') push(limits, 'IT-сигнал доступен частично');
-          if (value('bolCapacity') === 'limited') push(limits, 'BOL-capacity ограничена');
-          if (value('wipCap') === 'no') push(blockers, 'невозможен WIP-cap');
-          if (value('prepZone') === 'no') push(blockers, 'нет супермаркета или зоны подготовки');
-          if (value('sequenceRequired') === 'mandatory') push(blockers, 'sequence-подача обязательна');
-          if (value('vinRequired') === 'yes') push(blockers, 'VIN-привязка обязательна без дополнительного контроля');
-          if (value('prepZone') === 'no') push(missing, 'точка пополнения / зона подготовки');
-          if (value('wipCap') === 'no') push(missing, 'явный WIP-cap');
-        }
-
-        if (concept.key === 'sequencing') {
-          if (value('skuVariants') === 'high') push(positive, 'много вариантов SKU у точки использования');
-          if (['desired', 'mandatory'].includes(value('sequenceRequired'))) push(positive, 'sequence-подача желательна или обязательна');
-          if (value('prepZone') === 'yes') push(positive, 'есть зона подготовки');
-          if (value('itSignal') === 'yes') push(positive, 'есть устойчивый MES/WMS/broadcast-сигнал');
-          if (value('prepResource') === 'yes') push(positive, 'есть ресурс на подготовку');
-          if (['limited', 'critical'].includes(value('bolCapacity'))) push(positive, 'BOL-capacity ограничена');
-          if (value('errorCost') !== 'low') push(positive, 'цена ошибки средняя или высокая');
-          if (value('sequenceStability') === 'partial') push(limits, 'sequence частично стабильна');
-          if (value('itSignal') === 'partial') push(limits, 'IT-сигнал доступен частично');
-          if (value('prepResource') === 'limited') push(limits, 'ресурс на подготовку ограничен');
-          if (value('sequenceStability') === 'unstable') push(blockers, 'sequence нестабильна в горизонте подготовки');
-          if (value('prepZone') === 'no') push(blockers, 'нет зоны подготовки');
-          if (value('itSignal') === 'no') push(blockers, 'нет IT-сигнала');
-          if (value('prepResource') === 'no') push(blockers, 'нет ресурса на подготовку');
-          if (value('sequenceRequired') === 'no' && value('skuVariants') !== 'high') push(blockers, 'sequence не требуется и высокой вариантности нет');
-        }
-
-        if (concept.key === 'jis') {
-          if (value('vinRequired') === 'yes') push(positive, 'VIN-привязка нужна');
-          if (value('sequenceRequired') === 'mandatory') push(positive, 'sequence-подача обязательна');
-          if (value('sequenceStability') === 'stable') push(positive, 'sequence стабильна');
-          if (value('itSignal') === 'yes') push(positive, 'есть устойчивый MES/broadcast/EDI-сигнал');
-          if (value('errorCost') === 'high') push(positive, 'цена ошибки высокая');
-          if (value('sequenceStability') === 'partial') push(limits, 'sequence частично стабильна');
-          if (value('itSignal') === 'partial') push(limits, 'IT-сигнал доступен частично');
-          if (value('itSignal') === 'no') push(blockers, 'нет IT-сигнала');
-          if (value('sequenceStability') === 'unstable') push(blockers, 'sequence нестабильна');
-          if (value('vinRequired') === 'no' && value('sequenceRequired') === 'no') push(blockers, 'нет VIN-привязки и sequence не требуется');
-          if (value('prepZone') === 'no') push(blockers, 'нет зоны подготовки или внешнего JIS-контура');
-        }
-
-        if (concept.key === 'kitting') {
-          if (value('skuVariants') === 'high') push(positive, 'высокое число вариантов SKU');
-          if (['limited', 'critical'].includes(value('bolCapacity'))) push(positive, 'BOL-capacity ограничена');
-          if (value('vinRequired') === 'yes') push(positive, 'нужна VIN-привязка');
-          if (value('prepResource') === 'yes') push(positive, 'есть ресурс на подготовку');
-          if (value('prepZone') === 'yes') push(positive, 'есть зона подготовки');
-          if (['repack', 'impossible'].includes(value('huDirect'))) push(positive, 'прямая подача HU затруднена');
-          if (value('demandClass') === 'runner') push(limits, 'runner требует отдельного обоснования для kitting');
-          if (value('prepResource') === 'limited') push(limits, 'ресурс подготовки ограничен');
-          if (value('itSignal') === 'partial') push(limits, 'IT-сигнал доступен частично');
-          if (value('errorCost') === 'high' && value('itSignal') !== 'yes') push(limits, 'высокая цена ошибки требует контроля состава');
-          if (value('prepResource') === 'no') push(blockers, 'нет ресурса на подготовку');
-          if (value('prepZone') === 'no') push(blockers, 'нет зоны подготовки');
-          if (value('demandClass') === 'runner' && value('bolCapacity') === 'enough' && value('huDirect') === 'direct' && value('vinRequired') === 'no') push(blockers, 'runner с достаточной BOL-capacity и прямой HU-подачей не требует kitting');
-        }
-
-        return { concept, positive, limits, blockers, missing };
+      if (key === 'demandClass') {
+        userOverride = {};
+        applyPreset(fields[key].value);
       }
-
-      function sentence(result) {
-        if (result.blockers.length) {
-          return result.concept.name + ' не рекомендуется: ' + result.blockers.join('; ') + '.';
-        }
-        if (result.limits.length) {
-          return result.concept.name + ' возможен при условиях: ' + result.limits.join('; ') + '.';
-        }
-        return result.concept.name + ' допустим: ' + result.positive.join('; ') + '.';
-      }
-
-      function statusLabel(kind) {
-        if (kind === 'allowed') return 'допустим';
-        if (kind === 'conditional') return 'возможен при условиях';
-        return 'не рекомендуется';
-      }
-
-      function renderList(node, items, emptyText) {
-        if (!items.length) {
-          node.innerHTML = '<p class="meta-note">' + emptyText + '</p>';
-          return;
-        }
-        const kind = node.dataset.selectorResult;
-        node.innerHTML = '<div class="selector-result-list">' + items.map(function (item) {
-          const chips = item.positive.concat(item.limits).slice(0, 4).map(function (tag) {
-            return '<span class="concept-chip">' + tag + '</span>';
-          }).join('');
-          return '<article class="concept-result"><div class="concept-result__head"><span class="concept-result__name">' + item.concept.name + '</span><span class="concept-result__status">' + statusLabel(kind) + '</span></div><p>' + sentence(item) + '</p><div class="concept-tags">' + chips + '</div></article>';
-        }).join('') + '</div>';
-      }
-
-      function calculate() {
-        const evaluated = concepts.map(evaluateConcept);
-        const allowed = evaluated.filter(function (item) { return !item.blockers.length && !item.limits.length && item.positive.length; });
-        const conditional = evaluated.filter(function (item) { return !item.blockers.length && (item.limits.length || !item.positive.length); });
-        const blocked = evaluated.filter(function (item) { return item.blockers.length; });
-
-        renderList(resultNodes.allowed, allowed, 'Нет концептов без условий. Проверьте ограничения и предусловия.');
-        renderList(resultNodes.conditional, conditional, 'Нет концептов в условной зоне.');
-        renderList(resultNodes.blocked, blocked, 'Нет концептов с жёсткими блокерами.');
-
-        const nextChecks = [
-          'точность PFEP по упаковке, габаритам и точке использования',
-          'стабильность производственной последовательности',
-          'доступную BOL-capacity',
-          'наличие зоны подготовки или супермаркета',
-          'Lead Time от сигнала до BOL',
-          'наличие WIP-cap',
-          'требования к VIN-привязке и контролю состава',
-          'доступность IT-сигнала MES / WMS / broadcast / EDI'
-        ];
-        resultNodes.next.innerHTML = nextChecks.map(function (item) { return '<li>' + item + '</li>'; }).join('');
-      }
-
-      Object.keys(fields).forEach(function (key) {
-        fields[key].addEventListener('change', calculate);
-        fields[key].addEventListener('input', calculate);
-      });
-
       calculate();
-    })();
+    });
+    fields[key].addEventListener('input', calculate);
+  });
+
+  // Начальная инициализация
+  syncSequenceStabilityVisibility();
+  calculate();
+})();
   </script>
 
   <div class="cookie-notice" id="cookieNotice" role="dialog" aria-live="polite" aria-label="Уведомление об использовании cookies">
