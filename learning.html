@@ -67,6 +67,32 @@
     .materials-list .material-card .actions {
       margin-top: auto;
     }
+
+    .learning-card-grid .learning-card-description {
+      min-height: 122px;
+    }
+
+    .learning-card-grid .learning-card-badges {
+      min-height: 78px;
+      align-content: flex-start;
+    }
+
+    .learning-card-grid .status-note {
+      min-height: 58px;
+    }
+
+    .learning-card-grid .actions {
+      margin-top: auto !important;
+      padding-top: 14px;
+    }
+
+    @media (max-width: 980px) {
+      .learning-card-grid .learning-card-description,
+      .learning-card-grid .learning-card-badges,
+      .learning-card-grid .status-note {
+        min-height: 0;
+      }
+    }
   </style>
 </head>
 <body>
@@ -117,15 +143,15 @@
       </div>
 
       <h2>Базовая логика потока</h2>
-      <div class="materials-list">
+      <div class="materials-list learning-card-grid">
         <article class="material-card">
           <div class="material-meta">
             <span class="card-type">Модуль 1</span>
             <span class="card-status card-status--live">Доступен</span>
           </div>
           <h3>Распределения, вариативность и ошибка среднего</h3>
-          <p>Почему логистическая система не работает «в среднем», и как анализ распределения помогает проектировать буферы, маршруты и концепты снабжения без скрытых дефицитов.</p>
-          <div class="material-meta">
+          <p class="learning-card-description">Почему логистическая система не работает «в среднем», и как анализ распределения помогает проектировать буферы, маршруты и концепты снабжения без скрытых дефицитов.</p>
+          <div class="material-meta learning-card-badges">
             <span class="badge">Слой 2</span>
             <span class="badge">Вариативность</span>
             <span class="badge">P90 / P95</span>
@@ -143,8 +169,8 @@
             <span class="card-status card-status--live">Доступен</span>
           </div>
           <h3>Push, Pull и Канбан: логика авторизации движения</h3>
-          <p>Почему наличие канбан-карточек не означает Pull, чем отличается логика авторизации движения от носителя сигнала и почему WIP-cap является ключевым ограничением.</p>
-          <div class="material-meta">
+          <p class="learning-card-description">Почему наличие канбан-карточек не означает Pull, чем отличается логика авторизации движения от носителя сигнала и почему WIP-cap является ключевым ограничением.</p>
+          <div class="material-meta learning-card-badges">
             <span class="badge">Слой 6</span>
             <span class="badge">Pull</span>
             <span class="badge">Kanban</span>
@@ -163,8 +189,8 @@
             <span class="card-status card-status--live">Доступен</span>
           </div>
           <h3>Выбор концепта снабжения линии</h3>
-          <p>Как выбирать Line Stocking, Kanban / Boxed Supply, Sequencing, JIS и Kitting не для линии целиком, а для артикула или класса артикулов с учётом PFEP, BOL, вариативности, sequence и инфраструктуры.</p>
-          <div class="material-meta">
+          <p class="learning-card-description">Как выбирать Line Stocking, Kanban / Boxed Supply, Sequencing, JIS и Kitting не для линии целиком, а для артикула или класса артикулов с учётом PFEP, BOL, вариативности, sequence и инфраструктуры.</p>
+          <div class="material-meta learning-card-badges">
             <span class="badge">Слой 6</span>
             <span class="badge">Line Feeding</span>
             <span class="badge">BOL</span>
