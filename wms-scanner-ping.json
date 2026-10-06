@@ -1,0 +1,5 @@
+{
+  "ok": true,
+  "service": "github-pages-static-probe",
+  "message": "HTTPS round-trip PASS"
+}
