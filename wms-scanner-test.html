@@ -48,6 +48,13 @@
     .row { margin: 7px 0; font-size: 17px; word-break: break-word; }
     .value { font-weight: bold; color: #17324D; }
     .chars { font-family: monospace; font-size: 14px; color: #39434a; }
+    .net {
+      margin-top: 16px;
+      padding: 12px;
+      border: 1px solid #d7dde2;
+      border-radius: 8px;
+      background: #fff;
+    }
     .footer {
       margin-top: 18px;
       padding-top: 12px;
@@ -60,7 +67,7 @@
 <body>
   <main class="card">
     <h1>WMS TC51 Scanner Test</h1>
-    <p class="sub">DataWedge → браузер → JavaScript</p>
+    <p class="sub">DataWedge → браузер → JavaScript → HTTPS</p>
 
     <label for="scanner">Отсканируйте адрес ячейки</label>
     <input id="scanner" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" autofocus>
@@ -73,6 +80,10 @@
       <div class="row">Скан №: <span id="count" class="value">0</span></div>
       <div class="row">Время: <span id="time" class="value">—</span></div>
       <div class="row">Коды символов: <span id="chars" class="chars">—</span></div>
+
+      <div class="net">
+        <div class="row">HTTPS round-trip: <span id="network" class="value">не проверен</span></div>
+      </div>
     </section>
 
     <div class="footer">Тестовая страница WMS. Ничего не записывает в SQL и не выполняет складских операций.</div>
@@ -87,10 +98,39 @@
   var countEl = document.getElementById('count');
   var timeEl = document.getElementById('time');
   var charsEl = document.getElementById('chars');
+  var networkEl = document.getElementById('network');
   var scanCount = 0;
 
   function focusScanner() {
     try { scanner.focus(); } catch (e) {}
+  }
+
+  function testHttpsRoundTrip(code) {
+    networkEl.textContent = 'проверка...';
+
+    var url = '/wms-scanner-ping.json?code=' +
+      encodeURIComponent(code) +
+      '&ts=' + String(new Date().getTime());
+
+    fetch(url, { cache: 'no-store' })
+      .then(function (response) {
+        if (!response.ok) {
+          throw new Error('HTTP ' + response.status);
+        }
+        return response.json();
+      })
+      .then(function (data) {
+        if (data && data.ok === true) {
+          networkEl.textContent = 'PASS';
+        } else {
+          networkEl.textContent = 'FAIL: неожиданный ответ';
+        }
+        focusScanner();
+      })
+      .catch(function (error) {
+        networkEl.textContent = 'FAIL: ' + error.message;
+        focusScanner();
+      });
   }
 
   function showScan(rawValue) {
@@ -121,6 +161,7 @@
 
     scanner.value = '';
     focusScanner();
+    testHttpsRoundTrip(code);
   }
 
   scanner.addEventListener('keydown', function (event) {
