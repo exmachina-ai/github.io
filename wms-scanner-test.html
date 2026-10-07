@@ -21,7 +21,6 @@
     .wait { color: #52738A; }
     .ok { color: #2E7D78; }
     .bad { color: #B5524D; }
-    .warn { color: #C9862B; }
     .row { margin: 7px 0; font-size: 17px; word-break: break-word; }
     .value { font-weight: bold; color: #17324D; }
     .chars { font-family: monospace; font-size: 14px; color: #39434a; }
@@ -32,11 +31,11 @@
 <body>
   <main class="card">
     <h1>WMS TC51 Scanner Test</h1>
-    <p class="sub">DataWedge → браузер → JavaScript → HTTPS → mock WMS lookup</p>
+    <p class="sub">DataWedge → браузер → HTTPS → WMS API → SQL Server</p>
 
     <label for="scanner">Отсканируйте адрес ячейки</label>
     <input id="scanner" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" autofocus>
-    <div class="hint">Для mock lookup сейчас заведены 128-16A и 122-14A. Остальные коды должны вернуть «не найден».</div>
+    <div class="hint">Реальный read-only запрос в AZM_INTRALOG. Складские операции не выполняются.</div>
 
     <section class="result" aria-live="polite">
       <div id="status" class="status wait">Ожидание сканирования…</div>
@@ -47,17 +46,23 @@
       <div class="row">Коды символов: <span id="chars" class="chars">—</span></div>
 
       <div class="net">
-        <div class="row">HTTPS round-trip: <span id="network" class="value">не проверен</span></div>
+        <div class="row">HTTPS / API: <span id="network" class="value">не проверен</span></div>
         <div class="row">WMS lookup: <span id="lookup" class="value">не проверен</span></div>
+        <div class="row">Location_ID: <span id="locationId" class="value">—</span></div>
+        <div class="row">Zone: <span id="zone" class="value">—</span></div>
+        <div class="row">Storage type: <span id="storageType" class="value">—</span></div>
+        <div class="row">Picking bin: <span id="pickingBin" class="value">—</span></div>
         <div class="row">Источник: <span id="source" class="value">—</span></div>
       </div>
     </section>
 
-    <div class="footer">Это пока MOCK. SQL не используется, складские операции не выполняются.</div>
+    <div class="footer">REAL SQL READ ONLY. Никаких INSERT / UPDATE / DELETE / MOVE / RECEIVE.</div>
   </main>
 
 <script>
 (function () {
+  var API_BASE = 'https://860414.cloud4box.ru';
+
   var scanner = document.getElementById('scanner');
   var statusEl = document.getElementById('status');
   var codeEl = document.getElementById('code');
@@ -67,61 +72,74 @@
   var charsEl = document.getElementById('chars');
   var networkEl = document.getElementById('network');
   var lookupEl = document.getElementById('lookup');
+  var locationIdEl = document.getElementById('locationId');
+  var zoneEl = document.getElementById('zone');
+  var storageTypeEl = document.getElementById('storageType');
+  var pickingBinEl = document.getElementById('pickingBin');
   var sourceEl = document.getElementById('source');
+
   var scanCount = 0;
 
   function focusScanner() {
     try { scanner.focus(); } catch (e) {}
   }
 
-  function setLookup(text, cssClass, source) {
-    lookupEl.textContent = text;
-    lookupEl.className = 'value ' + (cssClass || '');
-    sourceEl.textContent = source || '—';
+  function resetServerFields() {
+    locationIdEl.textContent = '—';
+    zoneEl.textContent = '—';
+    storageTypeEl.textContent = '—';
+    pickingBinEl.textContent = '—';
+    sourceEl.textContent = '—';
   }
 
   function lookupLocation(code) {
-    networkEl.textContent = 'проверка...';
-    setLookup('поиск...', 'wait', '—');
+    networkEl.textContent = 'запрос...';
+    lookupEl.textContent = 'поиск...';
+    lookupEl.className = 'value';
+    resetServerFields();
 
-    var pingUrl = '/wms-scanner-ping.json?code=' +
-      encodeURIComponent(code) +
-      '&ts=' + String(new Date().getTime());
+    var url = API_BASE + '/api/location/' + encodeURIComponent(code);
 
-    fetch(pingUrl, { cache: 'no-store' })
+    fetch(url, { cache: 'no-store' })
       .then(function (response) {
-        if (!response.ok) throw new Error('HTTP ' + response.status);
-        return response.json();
-      })
-      .then(function (data) {
-        if (!data || data.ok !== true) throw new Error('неожиданный ping');
-        networkEl.textContent = 'PASS';
+        networkEl.textContent = 'PASS (HTTP ' + response.status + ')';
 
-        var locationUrl = '/wms-api/location/' +
-          encodeURIComponent(code) +
-          '.json?ts=' + String(new Date().getTime());
-
-        return fetch(locationUrl, { cache: 'no-store' });
-      })
-      .then(function (response) {
         if (response.status === 404) {
-          setLookup('НЕ НАЙДЕН', 'bad', 'GitHub Pages MOCK');
-          return null;
+          return response.json().then(function () {
+            lookupEl.textContent = 'НЕ НАЙДЕН';
+            lookupEl.className = 'value bad';
+            sourceEl.textContent = 'AZM_INTRALOG / dbo.v_ActiveLocation';
+            return null;
+          });
         }
-        if (!response.ok) throw new Error('lookup HTTP ' + response.status);
+
+        if (!response.ok) {
+          throw new Error('HTTP ' + response.status);
+        }
+
         return response.json();
       })
       .then(function (data) {
         if (!data) return;
+
         if (data.found === true && data.locationCode === code) {
-          setLookup('НАЙДЕН: ' + data.locationCode, 'ok', data.mode + ' / GitHub Pages');
+          lookupEl.textContent = 'НАЙДЕН: ' + data.locationCode;
+          lookupEl.className = 'value ok';
+          locationIdEl.textContent = String(data.locationId);
+          zoneEl.textContent = data.zoneCode || '—';
+          storageTypeEl.textContent = data.storageTypeCode || '—';
+          pickingBinEl.textContent = data.isPickingBin ? 'Да' : 'Нет';
+          sourceEl.textContent = 'AZM_INTRALOG / dbo.v_ActiveLocation';
         } else {
-          setLookup('ОШИБКА ОТВЕТА', 'bad', 'GitHub Pages MOCK');
+          lookupEl.textContent = 'ОШИБКА ОТВЕТА';
+          lookupEl.className = 'value bad';
         }
       })
       .catch(function (error) {
         networkEl.textContent = 'FAIL';
-        setLookup('FAIL: ' + error.message, 'bad', '—');
+        lookupEl.textContent = 'FAIL: ' + error.message;
+        lookupEl.className = 'value bad';
+        resetServerFields();
       })
       .then(function () {
         focusScanner();
@@ -140,8 +158,11 @@
     }
 
     scanCount += 1;
+
     var charCodes = [];
-    for (var i = 0; i < code.length; i++) charCodes.push(code.charCodeAt(i));
+    for (var i = 0; i < code.length; i++) {
+      charCodes.push(code.charCodeAt(i));
+    }
 
     statusEl.textContent = 'СКАН ПОЛУЧЕН';
     statusEl.className = 'status ok';
